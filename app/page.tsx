@@ -7,14 +7,32 @@ import { useState } from "react";
 import { CheckpointForm } from "./components/checkpoint-form";
 import { LatLngTuple } from "leaflet";
 
+export interface Checkpoint {
+  id: number;
+  coords: LatLngTuple;
+  name: string;
+}
+
 export default function Page() {
   const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(true);
 
-  const checkpoints: LatLngTuple[] = [
-    [60.1841, 24.8301],
-    [60.2417, 24.8854],
-    [60.2108, 25.0805],
+  const checkpoints: Checkpoint[] = [
+    {
+      id: 1,
+      coords: [60.1841, 24.8301],
+      name: "Otaniemi",
+    },
+    {
+      id: 2,
+      coords: [60.2417, 24.8854],
+      name: "Kannelmäki",
+    },
+    {
+      id: 3,
+      coords: [60.2108, 25.0805],
+      name: "Itäkeskus",
+    },
   ];
 
   return (
@@ -36,7 +54,7 @@ export default function Page() {
         {(showForm || showList) && (
           <aside className="w-1/4 bg-gray-100 p-4">
             {showForm && <CheckpointForm onBack={() => setShowForm(false)} />}
-            {showList && <CheckpointList />}
+            {showList && <CheckpointList checkpoints={checkpoints} />}
           </aside>
         )}
       </div>

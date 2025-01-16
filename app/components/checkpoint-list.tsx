@@ -1,18 +1,15 @@
 import { MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TbLayoutSidebarLeftExpandFilled } from "react-icons/tb";
-
-const checkpoints = [
-  { id: 1, name: "Checkpoint name" },
-  { id: 2, name: "Checkpoint name" },
-  { id: 3, name: "Checkpoint name" },
-];
+import { LatLngTuple } from "leaflet";
+import { Checkpoint } from "../page";
 
 interface CheckpointListProps {
   onClose?: () => void;
+  checkpoints: Checkpoint[];
 }
 
-export function CheckpointList({ onClose }: CheckpointListProps) {
+export function CheckpointList({ onClose, checkpoints }: CheckpointListProps) {
   return (
     <div className="space-y-4 p-4">
       <div className="flex items-center justify-between">

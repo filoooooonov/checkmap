@@ -6,10 +6,11 @@ import { LatLngExpression, LatLngTuple } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
+import { Checkpoint } from "../page";
 
 interface MapProps {
   center: LatLngExpression | LatLngTuple;
-  checkpoints: LatLngTuple[];
+  checkpoints: Checkpoint[];
   zoom?: number;
 }
 
@@ -27,10 +28,14 @@ const Map = (Map: MapProps) => {
       scrollWheelZoom={true}
       className="map"
     >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {checkpoints.map((coords) => (
-        <Marker position={coords} draggable={false}>
-          <Popup>Checkpoint name</Popup>
+      <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      {checkpoints.map((checkpoint) => (
+        <Marker
+          key={checkpoint.id}
+          position={checkpoint.coords}
+          draggable={false}
+        >
+          <Popup>{checkpoint.name}</Popup>
         </Marker>
       ))}
     </MapContainer>

@@ -3,6 +3,7 @@
 import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { LatLngExpression, LatLngTuple } from "leaflet";
+import { Checkpoint } from "../page";
 
 const Map = dynamic(() => import("./map"), {
   loading: () => (
@@ -15,7 +16,7 @@ const Map = dynamic(() => import("./map"), {
 
 interface MapLoaderProps {
   center: LatLngExpression | LatLngTuple;
-  checkpoints: LatLngTuple[];
+  checkpoints: Checkpoint[];
 }
 
 const MapLoader = ({ center, checkpoints }: MapLoaderProps) => {
