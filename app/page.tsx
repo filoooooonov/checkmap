@@ -2,16 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import { CheckpointList } from "./components/checkpoint-list";
-import { Header } from "./components/header";
 import MapLoader from "./components/MapLoader";
 import { useState } from "react";
 import { CheckpointForm } from "./components/checkpoint-form";
+import { LatLngTuple } from "leaflet";
 
 export default function Page() {
   const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(true);
 
-  const checkpoints = [
+  const checkpoints: LatLngTuple[] = [
     [60.1841, 24.8301],
     [60.2417, 24.8854],
     [60.2108, 25.0805],
@@ -25,10 +25,7 @@ export default function Page() {
             !(showForm || showList) ? "w-full" : ""
           }`}
         >
-          <MapLoader
-            center={[60.1699, 24.9384]}
-            checkpoint={[60.1841, 24.8301]}
-          />
+          <MapLoader center={[60.1699, 24.9384]} checkpoints={checkpoints} />
           <Button
             className="absolute top-4 right-4 z-10"
             onClick={() => setShowForm(true)}

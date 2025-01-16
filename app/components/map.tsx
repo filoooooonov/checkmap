@@ -9,7 +9,7 @@ import "leaflet-defaulticon-compatibility";
 
 interface MapProps {
   center: LatLngExpression | LatLngTuple;
-  checkpoint: LatLngExpression | LatLngTuple;
+  checkpoints: LatLngTuple[];
   zoom?: number;
 }
 
@@ -18,7 +18,7 @@ const defaults = {
 };
 
 const Map = (Map: MapProps) => {
-  const { zoom = defaults.zoom, checkpoint, center } = Map;
+  const { zoom = defaults.zoom, checkpoints, center } = Map;
 
   return (
     <MapContainer
@@ -28,9 +28,11 @@ const Map = (Map: MapProps) => {
       className="map"
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <Marker position={checkpoint} draggable={false}>
-        <Popup>Checkpoint name</Popup>
-      </Marker>
+      {checkpoints.map((coords) => (
+        <Marker position={coords} draggable={false}>
+          <Popup>Checkpoint name</Popup>
+        </Marker>
+      ))}
     </MapContainer>
   );
 };

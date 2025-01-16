@@ -15,11 +15,11 @@ const Map = dynamic(() => import("./map"), {
 
 interface MapLoaderProps {
   center: LatLngExpression | LatLngTuple;
-  checkpoint: LatLngExpression | LatLngTuple;
+  checkpoints: LatLngTuple[];
 }
 
-const MapLoader = ({ center, checkpoint }: MapLoaderProps) => {
-  return <Map center={center} checkpoint={checkpoint} />;
+const MapLoader = ({ center, checkpoints }: MapLoaderProps) => {
+  return <Map center={center} checkpoints={checkpoints} />;
 };
 
 export default MapLoader;
