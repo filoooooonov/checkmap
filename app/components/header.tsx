@@ -7,8 +7,8 @@ export function Header() {
     <header className="flex items-center justify-between border-b p-4">
       <div className="flex items-center gap-8">
         <h1 className="text-xl font-bold">Logo</h1>
-        <h2 className="text-lg">Event name</h2>
       </div>
+      <h2 className="text-lg font-semibold">Event name</h2>
       <div className="flex items-center gap-2">
         <Button variant="default" size="sm" className="gap-2">
           <Share2 className="h-4 w-4" />

@@ -1,14 +1,25 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
+import { LatLngExpression, LatLngTuple } from "leaflet";
 
 const Map = dynamic(() => import("./map"), {
-  loading: () => <p>A map is loading</p>,
+  loading: () => (
+    <div className="w-full h-screen flex items-center justify-center">
+      <Loader2 className="animate-spin" />
+    </div>
+  ),
   ssr: false,
 });
 
-const MapLoader = ({ posix }: { posix: any }) => {
-  return <Map posix={posix} />;
+interface MapLoaderProps {
+  center: LatLngExpression | LatLngTuple;
+  checkpoint: LatLngExpression | LatLngTuple;
+}
+
+const MapLoader = ({ center, checkpoint }: MapLoaderProps) => {
+  return <Map center={center} checkpoint={checkpoint} />;
 };
 
 export default MapLoader;

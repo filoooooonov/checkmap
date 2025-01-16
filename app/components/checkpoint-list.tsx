@@ -1,5 +1,6 @@
 import { MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { TbLayoutSidebarLeftExpandFilled } from "react-icons/tb";
 
 const checkpoints = [
   { id: 1, name: "Checkpoint name" },
@@ -7,11 +8,22 @@ const checkpoints = [
   { id: 3, name: "Checkpoint name" },
 ];
 
-export function CheckpointList() {
+interface CheckpointListProps {
+  onClose?: () => void;
+}
+
+export function CheckpointList({ onClose }: CheckpointListProps) {
   return (
     <div className="space-y-4 p-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Your checkpoints</h3>
+        <div className="flex items-center gap-4">
+          {/* <TbLayoutSidebarLeftExpandFilled
+            size={20}
+            className="text-neutral-500 hover:text-black duration-300 cursor-pointer"
+            onClick={onClose}
+          /> */}
+          <h2 className="text-2xl font-bold">Your checkpoints</h2>
+        </div>
         <Button variant="link" className="text-blue-500">
           View all
         </Button>
