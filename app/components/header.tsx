@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export function Header() {
   return (
-    <header className="flex items-center justify-between border-b p-4">
+    <header className="flex items-center justify-between border-b p-1">
       <div className="flex items-center gap-8">
         <h1 className="text-xl font-bold">Logo</h1>
       </div>
