@@ -14,14 +14,9 @@ export function CheckpointForm({ onBack }: CheckpointFormProps) {
   return (
     <div className="p-4 space-y-6">
       <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onBack}
-          className="hover:bg-neutral-200 size-8 rounded-full"
-        >
+        <button onClick={onBack} className="icon-btn">
           <ChevronLeft size={20} />
-        </Button>
+        </button>
         <h2 className="text-2xl font-bold">New checkpoint</h2>
       </div>
       <div className="space-y-2">

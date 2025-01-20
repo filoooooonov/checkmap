@@ -17,3 +17,7 @@ body {
   height: 100vh;
   z-index: 1;
 }
+
+.icon-btn {
+  @apply hover:bg-neutral-200 size-8 rounded-full flex items-center justify-center;
+}
