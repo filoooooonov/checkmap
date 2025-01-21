@@ -1,11 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { CheckpointList } from "./components/checkpoint-list";
-import MapLoader from "./components/MapLoader";
 import { useState } from "react";
-import { CheckpointForm } from "./components/checkpoint-form";
 import { LatLngTuple } from "leaflet";
+import MapLoader from "@/components/MapLoader";
+import { CheckpointForm } from "@/components/checkpoint-form";
+import { CheckpointList } from "@/components/checkpoint-list";
 
 export interface Checkpoint {
   id: number;
