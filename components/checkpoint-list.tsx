@@ -1,8 +1,6 @@
 import { MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { TbLayoutSidebarLeftExpandFilled } from "react-icons/tb";
-import { LatLngTuple } from "leaflet";
-import { Checkpoint } from "@/app/page";
+import { Checkpoint } from "@/app/[eventCode]/page";
 
 interface CheckpointListProps {
   onClose?: () => void;

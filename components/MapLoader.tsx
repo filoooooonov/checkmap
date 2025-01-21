@@ -3,7 +3,7 @@
 import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { LatLngExpression, LatLngTuple } from "leaflet";
-import { Checkpoint } from "@/app/page";
+import { Checkpoint } from "@/app/[eventCode]/page";
 
 const Map = dynamic(() => import("./map"), {
   loading: () => (

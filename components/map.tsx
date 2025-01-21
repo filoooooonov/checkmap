@@ -8,7 +8,7 @@ import CheckpointData from "./checkpoint-data";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
-import { Checkpoint } from "@/app/page";
+import { Checkpoint } from "@/app/[eventCode]/page";
 
 interface MapProps {
   center: LatLngExpression | LatLngTuple;

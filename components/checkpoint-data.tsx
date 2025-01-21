@@ -1,4 +1,4 @@
-import { Checkpoint } from "@/app/page";
+import { Checkpoint } from "@/app/[eventCode]/page";
 import { ChevronLeft } from "lucide-react";
 
 interface SidebarProps {

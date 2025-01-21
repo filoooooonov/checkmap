@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import MapLoader from "@/components/MapLoader";
 import { CheckpointForm } from "@/components/checkpoint-form";
 import { CheckpointList } from "@/components/checkpoint-list";
-import { Checkpoint } from "../page";
+import { Checkpoint } from "./page";
 
 export default function MapView() {
   const [showForm, setShowForm] = useState(false);
