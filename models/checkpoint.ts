@@ -7,6 +7,10 @@ const Checkpoint = new Schema(
       type: String,
       required: true,
     },
+    description: {
+      type: String,
+      required: false,
+    },
     location: {
       // TODO: Define proper type
       type: String,
