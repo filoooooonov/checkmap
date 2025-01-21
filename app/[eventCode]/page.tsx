@@ -1,5 +1,25 @@
+import { LatLngTuple } from "leaflet";
 import { Header } from "@/components/header";
-import React from "react";
+import MapView from "./MapView";
+import { connectMongoDB } from "@/utils/mongo";
+import Event from "@/models/event";
+
+export interface Checkpoint {
+  id: number;
+  coords: LatLngTuple;
+  name: string;
+}
+
+async function getEventData(eventCode: string) {
+  await connectMongoDB();
+
+  const event = await Event.findOne({ eventCode })
+    .populate("creatorId")
+    .populate("checkpoints");
+
+  if (!event) return null;
+  else return event;
+}
 
 export default async function Page({
   params,
@@ -8,9 +28,16 @@ export default async function Page({
 }) {
   const eventCode = (await params).eventCode;
 
+  const eventData = await getEventData(eventCode);
+
+  console.log("EVENT DATA ", eventData);
+
   return (
-    <div>
-      <Header />
-    </div>
+    <>
+      <div>
+        <Header eventData={eventData} />
+        <MapView />
+      </div>
+    </>
   );
 }

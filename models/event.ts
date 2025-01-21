@@ -2,6 +2,12 @@ import mongoose, { models, Schema } from "mongoose";
 import User from "@/models/user";
 import Checkpoint from "@/models/checkpoint";
 
+export interface IEvent extends Document {
+  name: string;
+  creatorId: mongoose.Types.ObjectId;
+  checkpoints: mongoose.Types.ObjectId[];
+}
+
 const eventSchema = new Schema(
   {
     name: {
@@ -22,5 +28,5 @@ const eventSchema = new Schema(
   { timestamps: true }
 );
 
-const Event = models.Event || mongoose.model("Event", userSchema);
+const Event = models.Event || mongoose.model("Event", eventSchema);
 export default Event;
