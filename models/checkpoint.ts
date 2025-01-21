@@ -1,7 +1,7 @@
 import mongoose, { models, Schema } from "mongoose";
 import Event from "@/models/event";
 
-const Checkpoint = new Schema(
+const checkpointSchema = new Schema(
   {
     name: {
       type: String,
@@ -25,5 +25,5 @@ const Checkpoint = new Schema(
 );
 
 const Checkpoint =
-  models.Checkpoint || mongoose.model("Checkpoint", userSchema);
+  models.Checkpoint || mongoose.model("Checkpoint", checkpointSchema);
 export default Checkpoint;
