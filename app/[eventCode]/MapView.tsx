@@ -27,6 +27,21 @@ export default function MapView() {
       coords: [60.2108, 25.0805],
       name: "Itäkeskus",
     },
+    {
+      id: 4,
+      coords: [60.18587105372319, 24.83476776131922],
+      name: "Otaniemi Sports Park",
+    },
+    {
+      id: 5,
+      coords: [60.187556632736374, 24.835025253385037],
+      name: "Otaniemi JMT1",
+    },
+    {
+      id: 6,
+      coords: [60.18975414452264, 24.83719152849063],
+      name: "Otaniemi Chapel",
+    },
   ];
 
   const [userLocation, setUserLocation] = useState<Checkpoint>({
