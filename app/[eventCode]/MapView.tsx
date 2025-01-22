@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import MapLoader from "@/components/MapLoader";
 import { CheckpointForm } from "@/components/checkpoint-form";
@@ -29,11 +29,31 @@ export default function MapView() {
     },
   ];
 
-  const userLocation: Checkpoint = {
+  const [userLocation, setUserLocation] = useState<Checkpoint>({
     id: 0,
     coords: [60.1699, 24.9384],
     name: "Your location",
-  }
+  });
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({
+            id: 0,
+            coords: [latitude, longitude],
+            name: "Your location",
+          });
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, []);
 
   return (
     <div className="flex">
