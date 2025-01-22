@@ -23,6 +23,14 @@ const defaults = {
   zoom: 12,
 };
 
+const createNumberedIcon = (number: Number) =>
+  L.divIcon({
+    className: "custom-div-icon",
+    html: `<div class="marker-number">${number}</div>`,
+    iconSize: [30, 42],
+    iconAnchor: [15, 42],
+  });
+
 const Map = ({ zoom = defaults.zoom, checkpoints, center, userLocation }: MapProps) => {
   const [selectedCheckpoint, setSelectedCheckpoint] =
     useState<Checkpoint | null>(null);
@@ -42,6 +50,7 @@ const Map = ({ zoom = defaults.zoom, checkpoints, center, userLocation }: MapPro
         <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {checkpoints.map((checkpoint) => (
           <Marker
+            icon={createNumberedIcon(checkpoint.id)}
             key={checkpoint.id}
             position={checkpoint.coords}
             eventHandlers={{
