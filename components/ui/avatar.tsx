@@ -2,8 +2,9 @@
 
 import * as React from "react"
 import * as AvatarPrimitive from "@radix-ui/react-avatar"
-
+import Link from "next/link";
 import { cn } from "@/lib/utils"
+import { User2 } from "lucide-react";
 
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
@@ -46,5 +47,49 @@ const AvatarFallback = React.forwardRef<
   />
 ))
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
+const AvatarWithDropdown = () => {
+  const [isOpen, setIsOpen] = React.useState(false)
+  const dropdownRef = React.useRef<HTMLDivElement>(null)
 
-export { Avatar, AvatarImage, AvatarFallback }
+  // Close dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
+
+  return (
+    <div className="relative inline-block">
+      {/* Avatar */}
+      <div
+        className="cursor-pointer"
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
+        <Avatar>
+          <AvatarImage src="/path-to-image.jpg" alt="User Avatar" />
+          <AvatarFallback>
+            <User2 className="h-4 w-4" />
+          </AvatarFallback>
+        </Avatar>
+      </div>
+
+      {/* Dropdown */}
+      {isOpen && (
+        <div className="absolute top-0 right-0 mt-10 w-48 bg-white rounded-md shadow-lg">
+          <a href ="\login" className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">Login</a>
+          <a href ="\register" className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">Register</a>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export { Avatar, AvatarImage, AvatarFallback, AvatarWithDropdown };
