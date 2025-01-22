@@ -88,7 +88,10 @@ const Routing = ({ start, end }: { start: LatLngTuple; end: LatLngTuple }) => {
       waypoints: [L.latLng(start[0], start[1]), L.latLng(end[0], end[1])],
       show: false, // disable itinerary (but it doesn't work)
       createMarker: () => null, // it does exists, the types is just not there
-      addWaypoints: false // can't add waypoints along the route
+      addWaypoints: false, // can't add waypoints along the route
+      router: L.Routing.osrmv1({
+        profile: 'foot', // Use the "foot" profile for walking routes
+      }),
     }).addTo(map);
 
     // hide the itinerary control explicitly if `show: false` doesn't work
