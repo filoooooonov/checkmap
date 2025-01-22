@@ -30,6 +30,19 @@ const defaults = {
   zoom: 12,
 };
 
+const createNumberedIcon = (number: Number) =>
+  L.divIcon({
+    className: "custom-div-icon",
+    html: `
+      <div class="icon-wrapper">
+        <img class="marker-background" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png" alt="marker-background"/>
+        <div class="marker-number">${number}</div>
+      </div>
+    `,
+    iconSize: [30, 42],
+    iconAnchor: [15, 42],
+  });
+
 const Map = ({
   zoom = defaults.zoom,
   checkpoints,
@@ -51,9 +64,10 @@ const Map = ({
         scrollWheelZoom={true}
         className="map"
       >
-        <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <TileLayer url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png" />
         {checkpoints.map((checkpoint) => (
           <Marker
+            icon={createNumberedIcon(checkpoint.id)}
             key={checkpoint.id}
             position={checkpoint.coords}
             eventHandlers={{
