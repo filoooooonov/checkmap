@@ -1,6 +1,6 @@
 import { Share2, User2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarWithDropdown } from "@/components/ui/avatar";
 import { IEvent } from "@/models/event";
 
 export function Header({ eventData }: { eventData?: IEvent }) {
@@ -19,11 +19,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
           </Button>
         )}
 
-        <Avatar>
-          <AvatarFallback>
-            <User2 className="h-4 w-4" />
-          </AvatarFallback>
-        </Avatar>
+        <AvatarWithDropdown/>
       </div>
     </header>
   );
