@@ -8,7 +8,7 @@ export default function Map() {
   const map = useRef<maptilersdk.Map | null>(null);
   const center = { lng: 24.9384, lat: 60.1699 };
   const zoom = 14;
-  maptilersdk.config.apiKey = process.env.MAPTILER_API_KEY as string;
+  maptilersdk.config.apiKey = "MiY3IELT9Mq2Lo4qUgnd";
 
   useEffect(() => {
     if (map.current) return; // stops map from initializing more than once
@@ -20,11 +20,13 @@ export default function Map() {
         center: [center.lng, center.lat],
         zoom: zoom,
       });
-    }
 
-    new maptilersdk.Marker({ color: "#FF0000" })
-      .setLngLat([24.9, 60.2])
-      .addTo(map.current);
+      if (map.current) {
+        new maptilersdk.Marker({ color: "#FF0000" })
+          .setLngLat([24.9, 60.2])
+          .addTo(map.current);
+      }
+    }
   }, [center.lng, center.lat, zoom]);
 
   return (
