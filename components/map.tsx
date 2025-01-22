@@ -1,10 +1,9 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from "react-leaflet";
 import { LatLngExpression, LatLngTuple } from "leaflet";
 import { useState } from "react";
 import CheckpointData from "./checkpoint-data";
-import L from "leaflet";
 
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
@@ -50,22 +49,19 @@ const Map = ({ zoom = defaults.zoom, checkpoints, center, userLocation }: MapPro
             <Popup>{checkpoint.name}</Popup>
           </Marker>
         ))}
-        <Marker
+        <CircleMarker
           key={userLocation.id}
-          position={userLocation.coords}
-          icon={L.icon({
-            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-          })}
+          center={userLocation.coords}
+          radius={5}
+          color="#3274A3"
+          fillColor="#2A81CB"
+          fillOpacity={0.7}
           eventHandlers={{
             click: () => handleMarkerClick(userLocation),
           }}
         >
           <Popup>{userLocation.name}</Popup>
-        </Marker>
+        </CircleMarker>
       </MapContainer>
       {selectedCheckpoint && (
         <CheckpointData
