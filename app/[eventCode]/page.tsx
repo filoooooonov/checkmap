@@ -18,7 +18,13 @@ async function getEventData(eventCode: string) {
     .populate("checkpoints");
 
   if (!event) return null;
-  else return event;
+  else {
+    // Convert the event to objects to avoid Next.js errors
+    const eventObject = event.toObject();
+    eventObject._id = eventObject._id.toString();
+
+    return eventObject;
+  }
 }
 
 export default async function Page({
