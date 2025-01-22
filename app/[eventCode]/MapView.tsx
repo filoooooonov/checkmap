@@ -28,6 +28,13 @@ export default function MapView() {
       name: "Itäkeskus",
     },
   ];
+
+  const userLocation: Checkpoint = {
+    id: 0,
+    coords: [60.1699, 24.9384],
+    name: "Your location",
+  }
+
   return (
     <div className="flex">
       <main
@@ -35,7 +42,7 @@ export default function MapView() {
           !(showForm || showList) ? "w-full" : ""
         }`}
       >
-        <MapLoader center={[60.1699, 24.9384]} checkpoints={checkpoints} />
+        <MapLoader center={[60.1699, 24.9384]} checkpoints={checkpoints} userLocation={userLocation}/>
         <Button
           className="absolute top-4 right-4 z-10"
           onClick={() => setShowForm(true)}
