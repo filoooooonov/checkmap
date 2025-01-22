@@ -51,7 +51,7 @@ const Map = ({
         scrollWheelZoom={true}
         className="map"
       >
-        <TileLayer url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.pngl" />
+        <TileLayer url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png" />
         {checkpoints.map((checkpoint) => (
           <Marker
             key={checkpoint.id}
