@@ -18,6 +18,7 @@
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
     "leaflet-geosearch": "^4.0.0",
+    "leaflet-routing-machine": "^3.2.12",
     "lucide-react": "^0.471.1",
     "mapbox-gl": "^3.9.3",
     "maplibre-gl": "^5.0.1",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.16",
+    "@types/leaflet-routing-machine": "^3.2.8",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
