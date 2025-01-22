@@ -63,6 +63,10 @@ export default function MapView() {
         },
         (error) => {
           console.error("Error getting user location:", error);
+        },
+        {
+          enableHighAccuracy: true, // Use high-accuracy mode
+          maximumAge: 0, // Prevent caching old positions
         }
       );
     } else {
