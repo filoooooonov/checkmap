@@ -36,12 +36,9 @@ export function Header({ eventData }: { eventData?: IEvent }) {
             </Button>
           )}
 
-        <Avatar>
-          <AvatarFallback>
-            <User2 className="h-4 w-4" />
-          </AvatarFallback>
-        </Avatar>
+        <AvatarWithDropdown/>
       </div>
     </header>
+    </>
   );
 }
