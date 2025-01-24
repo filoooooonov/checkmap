@@ -12,7 +12,7 @@ interface CheckpointFormProps {
 
 export function CheckpointForm({ onBack }: CheckpointFormProps) {
   return (
-    <div className="p-4 space-y-6">
+    <div className="p-2 space-y-6">
       <div className="flex items-center gap-2">
         <button onClick={onBack} className="icon-btn">
           <ChevronRight size={20} />

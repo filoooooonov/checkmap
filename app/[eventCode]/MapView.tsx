@@ -7,6 +7,7 @@ import { CheckpointForm } from "@/components/checkpoint-form";
 import { CheckpointList } from "@/components/checkpoint-list";
 import { Checkpoint } from "./page";
 import { Menu } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 
 export default function MapView() {
   const [showForm, setShowForm] = useState(false);
@@ -77,42 +78,45 @@ export default function MapView() {
   }, []);
 
   return (
-    <div className="flex">
-      <main
-        className={`relative w-full flex-1  bg-white-700 mx-auto overflow-hidden ${
-          !(showForm || showList) ? "w-full" : ""
-        }`}
-      >
-        <MapLoader
-          center={[60.1699, 24.9384]}
-          checkpoints={checkpoints}
-          userLocation={userLocation}
-        />
-        <div className="absolute top-4 right-4 z-10 flex gap-6">
-          <Button className="" onClick={() => setShowForm(true)}>
-            New checkpoint
+    <main className="relative h-full">
+      <MapLoader
+        center={[60.1699, 24.9384]}
+        checkpoints={checkpoints}
+        userLocation={userLocation}
+      />
+      <div className="absolute top-4 right-4 z-10 flex gap-6">
+        {!showList && (
+          <Button
+            className="shadow-md shadow-neutral-300 bg-white border-2 border-neutral-200 hover:bg-neutral-100 duration-300 rounded-full aspect-square p-2"
+            onClick={() => setShowList(true)}
+          >
+            <Menu size={24} className="text-black" />
           </Button>
-          {!showList && (
-            <Button
-              className="shadow-md shadow-neutral-300 bg-white border-2 border-neutral-200 hover:bg-neutral-200 duration-300 rounded-full aspect-square p-2"
-              onClick={() => setShowList(true)}
-            >
-              <Menu size={24} className="text-black" />
-            </Button>
-          )}
-        </div>
-      </main>
-      {(showForm || showList) && (
-        <aside className="w-1/4 bg-gray-100 p-4">
-          {showForm && <CheckpointForm onBack={() => setShowForm(false)} />}
-          {showList && (
-            <CheckpointList
-              onClose={() => setShowList(false)}
-              checkpoints={checkpoints}
-            />
-          )}
-        </aside>
-      )}
-    </div>
+        )}
+      </div>
+      <AnimatePresence>
+        {(showForm || showList) && (
+          <motion.aside
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-0 right-0 h-full w-1/4 bg-white shadow-lg z-20 p-4"
+          >
+            {showForm && <CheckpointForm onBack={() => setShowForm(false)} />}
+            {showList && (
+              <CheckpointList
+                onClose={() => setShowList(false)}
+                setShowForm={() => {
+                  setShowForm(true);
+                  setShowList(false);
+                }}
+                checkpoints={checkpoints}
+              />
+            )}
+          </motion.aside>
+        )}
+      </AnimatePresence>
+    </main>
   );
 }

@@ -19,7 +19,7 @@ body {
 }
 
 .icon-btn {
-  @apply hover:bg-neutral-200 size-8 rounded-full flex items-center justify-center;
+  @apply hover:bg-neutral-100 duration-300 cursor-pointer text-neutral-500 size-10 p-2 rounded-full flex items-center justify-center;
 }
 
 .custom-div-icon .icon-wrapper {
