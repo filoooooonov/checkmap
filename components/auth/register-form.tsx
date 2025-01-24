@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Link from 'next/link'
+import Link from "next/link";
 import { useState } from "react";
 export function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -52,7 +52,12 @@ export function RegisterForm() {
         setResponseMessage(data.error || "Failed to register");
       } else {
         setResponseMessage("Registration successful!");
-        setFormData({ email: "", name: "", password: "", confirm_password: "" }); // Clear the form
+        setFormData({
+          email: "",
+          name: "",
+          password: "",
+          confirm_password: "",
+        }); // Clear the form
       }
     } catch (error) {
       setResponseMessage("An error occurred. Please try again.");
@@ -64,11 +69,22 @@ export function RegisterForm() {
     <form onSubmit={handleSubmit}>
       <div className="p-1 space-y-8">
         <div className="flex flex-col space-y-5 items-center justify-center gap-15">
-          <h2 className="text-6xl font-bold text-center">Register</h2>
-          <h3 className="text-2xl">
-            If you already have an account, login{" "}
-            <Link href="/login">here</Link>
+          <h2 className="text-4xl font-bold text-center">Register</h2>
+          <h3 className="text-sm">
+            Already have an account? Login{" "}
+            <Link href="/login" className="font-bold">
+              here
+            </Link>
           </h3>
+        </div>
+        <div className="space-y-2">
+          <Input
+            id="name"
+            placeholder="Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
         </div>
         <div className="space-y-2">
           <Input
@@ -79,15 +95,7 @@ export function RegisterForm() {
             required
           />
         </div>
-        <div className="space-y-2">
-          <Input
-            id="name"
-            placeholder="Username"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
+
         <div className="space-y-2">
           <Input
             id="password"
@@ -109,7 +117,7 @@ export function RegisterForm() {
           />
         </div>
         <div className="flex justify-center">
-          <Button type="submit" className="text-lg w-204" disabled={loading}>
+          <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Registering..." : "Register"}
           </Button>
         </div>

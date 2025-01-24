@@ -20,8 +20,6 @@ export default async function Page({
 
   const eventData = await getEventData(eventCode);
 
-  console.log("EVENT DATA ", eventData);
-
   return (
     <>
       <div>

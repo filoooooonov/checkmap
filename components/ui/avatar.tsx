@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import * as AvatarPrimitive from "@radix-ui/react-avatar"
+import * as React from "react";
+import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import Link from "next/link";
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 import { User2 } from "lucide-react";
 
 const Avatar = React.forwardRef<
@@ -18,8 +18,8 @@ const Avatar = React.forwardRef<
     )}
     {...props}
   />
-))
-Avatar.displayName = AvatarPrimitive.Root.displayName
+));
+Avatar.displayName = AvatarPrimitive.Root.displayName;
 
 const AvatarImage = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Image>,
@@ -30,8 +30,8 @@ const AvatarImage = React.forwardRef<
     className={cn("aspect-square h-full w-full", className)}
     {...props}
   />
-))
-AvatarImage.displayName = AvatarPrimitive.Image.displayName
+));
+AvatarImage.displayName = AvatarPrimitive.Image.displayName;
 
 const AvatarFallback = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Fallback>,
@@ -45,26 +45,29 @@ const AvatarFallback = React.forwardRef<
     )}
     {...props}
   />
-))
-AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
+));
+AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
 const AvatarWithDropdown = () => {
-  const [isOpen, setIsOpen] = React.useState(false)
-  const dropdownRef = React.useRef<HTMLDivElement>(null)
+  const [isOpen, setIsOpen] = React.useState(false);
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false)
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
       }
-    }
+    };
 
-    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [])
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="relative inline-block">
@@ -83,9 +86,25 @@ const AvatarWithDropdown = () => {
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute top-0 right-0 mt-10 w-48 bg-white rounded-md shadow-lg">
-          <a href ="\login" className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">Login</a>
-          <a href ="\register" className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">Register</a>
+        <div className="absolute top-0 right-0 z-10 p-1 mt-10 w-48 bg-white border-2 border-neutral-100 rounded-lg shadow-lg">
+          <Link
+            href="\dashboard"
+            className="block px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
+          >
+            Dashboard
+          </Link>
+          <Link
+            href="\login"
+            className="block px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
+          >
+            Login
+          </Link>
+          <Link
+            href="\register"
+            className="block px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
+          >
+            Register
+          </Link>
         </div>
       )}
     </div>

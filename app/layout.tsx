@@ -8,7 +8,10 @@ const font = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Checkmap",
+  title: {
+    default: "Checkmap",
+    template: "%s · Checkmap",
+  },
   description: "Create interactive checkpoint crawl maps",
 };
 

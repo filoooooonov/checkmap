@@ -1,7 +1,8 @@
+import { Header } from "@/components/header";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Event Name",
+  title: "Dashboard",
   description: "Create interactive checkpoint crawl maps",
 };
 
@@ -12,7 +13,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>{children}</body>
+      <body className={`antialiased`}>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
