@@ -1,5 +1,6 @@
 import { Checkpoint } from "@/app/[eventCode]/page";
 import { ChevronLeft } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 
 interface SidebarProps {
   checkpoint: Checkpoint;
@@ -8,7 +9,13 @@ interface SidebarProps {
 
 export default function CheckpointData({ checkpoint, onClose }: SidebarProps) {
   return (
-    <aside className="absolute top-0 left-0 max-w-[30%] h-full bg-white p-2 shadow-lg z-10">
+    <motion.aside
+      initial={{ x: "-100%" }}
+      animate={{ x: 0 }}
+      exit={{ x: "-100%" }}
+      transition={{ duration: 0.3 }}
+      className="absolute top-0 left-0 max-w-[20%] h-full bg-white p-4 shadow-lg z-10"
+    >
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold">{checkpoint.name}</h2>
         <button onClick={onClose} className="icon-btn">
@@ -17,6 +24,6 @@ export default function CheckpointData({ checkpoint, onClose }: SidebarProps) {
       </div>
 
       <p>Coordinates: {checkpoint.coords.join(", ")}</p>
-    </aside>
+    </motion.aside>
   );
 }

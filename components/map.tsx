@@ -18,6 +18,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
 import { Checkpoint } from "@/app/[eventCode]/page";
+import { AnimatePresence } from "motion/react";
 
 interface MapProps {
   center: LatLngExpression | LatLngTuple;
@@ -36,8 +37,18 @@ const Map = ({
   center,
   userLocation,
 }: MapProps) => {
+  const [showCheckpointData, setShowCheckpointData] = useState(false);
   const [selectedCheckpoint, setSelectedCheckpoint] =
     useState<Checkpoint | null>(null);
+
+  const handleOpenCheckpointData = (checkpoint: Checkpoint) => {
+    setSelectedCheckpoint(checkpoint);
+    setShowCheckpointData(true);
+  };
+
+  const handleCloseCheckpointData = () => {
+    setShowCheckpointData(false);
+  };
 
   const handleMarkerClick = (checkpoint: Checkpoint) => {
     setSelectedCheckpoint(checkpoint);
@@ -57,7 +68,7 @@ const Map = ({
             key={checkpoint.id}
             position={checkpoint.coords}
             eventHandlers={{
-              click: () => handleMarkerClick(checkpoint),
+              click: () => handleOpenCheckpointData(checkpoint),
             }}
           >
             <Popup>{checkpoint.name}</Popup>
@@ -85,12 +96,14 @@ const Map = ({
           />
         )}
       </MapContainer>
-      {selectedCheckpoint && (
-        <CheckpointData
-          checkpoint={selectedCheckpoint}
-          onClose={() => setSelectedCheckpoint(null)}
-        />
-      )}
+      <AnimatePresence>
+        {showCheckpointData && selectedCheckpoint && (
+          <CheckpointData
+            checkpoint={selectedCheckpoint}
+            onClose={handleCloseCheckpointData}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
