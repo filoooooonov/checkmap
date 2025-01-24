@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/avatar";
 import { IEvent } from "@/models/event";
 import { toast, Toaster } from "sonner";
+import Link from "next/link";
 
 export function Header({ eventData }: { eventData?: IEvent }) {
   function CopyLink() {
@@ -19,10 +20,10 @@ export function Header({ eventData }: { eventData?: IEvent }) {
   return (
     <>
       <Toaster position="bottom-center" />
-      <header className="flex items-center justify-between p-2 px-8">
-        <div className="flex items-center gap-8">
+      <header className="flex items-center justify-between p-2 max-h-16 px-8">
+        <Link href="/" className="flex items-center gap-8">
           <h1 className="text-xl font-bold">Checkmap</h1>
-        </div>
+        </Link>
         {eventData && (
           <h2 className="text-lg font-semibold">{eventData.name}</h2>
         )}

@@ -78,7 +78,7 @@ export default function MapView() {
   }, []);
 
   return (
-    <main className="relative h-full">
+    <main className="relative">
       <MapLoader
         center={[60.1699, 24.9384]}
         checkpoints={checkpoints}

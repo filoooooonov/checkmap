@@ -55,7 +55,7 @@ const Map = ({
   };
 
   return (
-    <div className="relative">
+    <div className="relative map-wrap">
       <MapContainer
         center={center}
         zoom={zoom}
