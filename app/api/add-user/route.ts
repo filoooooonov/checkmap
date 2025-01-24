@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import User from "@/models/user";
 import { connectMongoDB } from "@/utils/mongo";
-
+import bcrypt from "bcrypt";
 export async function POST(request: NextRequest) {
   try {
     // Parse the request body
@@ -30,10 +30,12 @@ export async function POST(request: NextRequest) {
       );
     }
     // Create a new event instance
+    const saltRounds = 10; // Number of salt rounds for bcrypt
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
     const newUser = new User({
       name,
       email,
-      password,
+      password: hashedPassword,
       events: [],
     });
 
@@ -41,7 +43,9 @@ export async function POST(request: NextRequest) {
     await newUser.save();
 
     // Respond with the created event
-    return NextResponse.json(newUser, { status: 201 });
+    const { password: _, ...userWithoutPassword } = newUser.toObject();
+
+    return NextResponse.json(userWithoutPassword, { status: 201 });
   } catch (error) {
     // Explicitly cast the error to `Error`
     const err = error as Error;
