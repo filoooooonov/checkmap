@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ChevronLeft } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 interface CheckpointFormProps {
   onBack: () => void;
@@ -15,7 +15,7 @@ export function CheckpointForm({ onBack }: CheckpointFormProps) {
     <div className="p-4 space-y-6">
       <div className="flex items-center gap-2">
         <button onClick={onBack} className="icon-btn">
-          <ChevronLeft size={20} />
+          <ChevronRight size={20} />
         </button>
         <h2 className="text-2xl font-bold">New checkpoint</h2>
       </div>
