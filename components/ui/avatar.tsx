@@ -5,6 +5,7 @@ import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { User2 } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
@@ -50,6 +51,7 @@ AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
 const AvatarWithDropdown = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
+  const { data: session } = useSession();
 
   // Close dropdown when clicking outside
   React.useEffect(() => {
@@ -86,25 +88,28 @@ const AvatarWithDropdown = () => {
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute top-0 right-0 z-10 p-1 mt-10 w-48 bg-white border-2 border-neutral-100 rounded-lg shadow-lg">
-          <Link
-            href="\dashboard"
-            className="block px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="\login"
-            className="block px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
-          >
-            Login
-          </Link>
-          <Link
-            href="\register"
-            className="block px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
-          >
-            Register
-          </Link>
+        <div
+          ref={dropdownRef}
+          className="absolute top-0 right-0 z-10 p-1 mt-10 w-48 bg-white border-2 border-neutral-100 rounded-lg shadow-lg"
+        >
+          {session && (
+            <>
+              <Link
+                href="\dashboard"
+                className="block px-4 py-2 hover:bg-gray-100 duration-300 font-medium text-sm rounded-md cursor-pointer"
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={() => {
+                  signOut({ callbackUrl: "/" });
+                }}
+                className="w-full text-left block px-4 py-2 hover:bg-gray-100 duration-300 font-medium text-sm rounded-md cursor-pointer"
+              >
+                Sign out
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>

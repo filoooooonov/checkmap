@@ -35,8 +35,8 @@ export function LoginForm() {
     if (res?.error) {
       setError("Invalid email or password");
       setLoading(false);
-      if (res?.url) router.replace("/dashboard");
     } else {
+      router.replace("/dashboard");
       setError(null);
     }
   };
@@ -68,6 +68,7 @@ export function LoginForm() {
             {loading ? "Loading..." : "Login"}
           </Button>
         </div>
+        <p className="text-red-500 mt-2">{error}</p>
       </div>
     </form>
   );

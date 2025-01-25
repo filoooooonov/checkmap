@@ -10,8 +10,11 @@ import {
 import { IEvent } from "@/models/event";
 import { toast, Toaster } from "sonner";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export function Header({ eventData }: { eventData?: IEvent }) {
+  const { data: session } = useSession();
+
   function CopyLink() {
     navigator.clipboard.writeText(window.location.href);
     toast.success("Link copied to clipboard");
@@ -29,7 +32,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
         )}
 
         <div className="flex items-center gap-4">
-          {eventData ? (
+          {eventData && (
             <Button
               onClick={CopyLink}
               variant="default"
@@ -39,7 +42,9 @@ export function Header({ eventData }: { eventData?: IEvent }) {
               <Share2 className="h-4 w-4" />
               Share
             </Button>
-          ) : (
+          )}
+
+          {!eventData && session && (
             // TODO: onClick to new event page
             <Button variant="default" size="sm" className="gap-2">
               <Plus className="h-4 w-4" />
@@ -47,7 +52,23 @@ export function Header({ eventData }: { eventData?: IEvent }) {
             </Button>
           )}
 
-          <AvatarWithDropdown />
+          {session ? (
+            <AvatarWithDropdown />
+          ) : (
+            <>
+              <Link
+                href="\login"
+                className="block px-4 py-2 bg-neutral-100 hover:bg-neutral-200 duration-300 font-medium text-sm rounded-md cursor-pointer"
+              >
+                Login
+              </Link>
+              <Link href="\register">
+                <Button className="block px-4 py-2 duration-300 font-medium text-sm rounded-md cursor-pointer">
+                  Register
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
       </header>
     </>
