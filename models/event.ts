@@ -4,6 +4,7 @@ import Checkpoint from "@/models/checkpoint";
 
 export interface IEvent extends Document {
   name: string;
+  description: string;
   eventCode: string;
   creatorId: mongoose.Types.ObjectId;
   checkpoints: mongoose.Types.ObjectId[];
@@ -14,6 +15,10 @@ const eventSchema = new Schema(
     name: {
       type: String,
       required: true,
+    },
+    description: {
+      type: String,
+      required: false,
     },
     eventCode: {
       type: String,
