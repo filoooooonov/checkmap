@@ -4,19 +4,20 @@ import Image from "next/image";
 import React from "react";
 import img from "@/public/placeholder-user.png";
 import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function Page() {
   // TODO: get user from session, redirect if the user is unauthenticated
 
   const { data: session, status } = useSession();
 
-  // if (status !== "authenticated" && status !== "loading") {
-  //     redirect("/");
-  // }
+  if (status !== "authenticated" && status !== "loading") {
+    redirect("/");
+  }
 
-  // if (!session?.user.id) {
-  //     return <div className="text-center mt-80">Loading...</div>;
-  // }
+  if (!session?.user?.id) {
+    return <div className="text-center mt-80">Loading...</div>;
+  }
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -25,8 +26,8 @@ export default function Page() {
         <div className="flex items-center p-4 pb-6 border-b">
           <Image src={img} alt="User" className="size-24 rounded-full" />
           <div className="ml-4">
-            <h2 className="text-xl font-bold">Username</h2>
-            <p className="text-neutral-500">user@example.com</p>
+            <h2 className="text-xl font-bold">{session.user.name}</h2>
+            <p className="text-neutral-500">{session.user.email}</p>
           </div>
         </div>
       )}

@@ -37,36 +37,14 @@ export const authOptions: NextAuthOptions = {
       // Attach user ID to token object
       if (user) {
         token.id = user.id; // Use MongoDB user ID
-        token.isVerified = user.isVerified;
       }
       return token;
     },
     async session({ session, token }) {
-      // console.log("TOKEN:", token);
-
-      // session.user.id = token.id as string; // Cast token.id to string
-      // session.user.isVerified = token.isVerified as boolean;
-      // console.log("TOKEN", token);
-      // console.log(session);
-      return session;
-    },
-
-    async signIn({ user, account, profile }) {
-      if (account?.provider === "google") {
-        await connectMongoDB();
-        const existingUser = await User.findOne({ email: user.email });
-        if (!existingUser) {
-          const newUser = await User.create({
-            name: user.name,
-            email: user.email,
-          });
-          user.id = newUser._id; // Assign new user's MongoDB ID to user object
-        } else {
-          user.id = existingUser._id; // Assign existing user's MongoDB ID to user object
-          user.name = existingUser.name;
-        }
+      if (session.user) {
+        session.user.id = token.id as string;
       }
-      return true;
+      return session;
     },
   },
 
