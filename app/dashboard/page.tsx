@@ -24,7 +24,11 @@ export default function Page() {
       {/* Account info */}
       {session && (
         <div className="flex items-center p-4 pb-6 border-b">
-          <Image src={img} alt="User" className="size-24 rounded-full" />
+          <Image
+            src={session.user.image || img}
+            alt="User"
+            className="size-24 rounded-full"
+          />
           <div className="ml-4">
             <h2 className="text-xl font-bold">{session.user.name}</h2>
             <p className="text-neutral-500">{session.user.email}</p>

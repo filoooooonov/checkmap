@@ -1,19 +1,27 @@
 "use client";
 
-import { Plus, Share2, User2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarWithDropdown,
-} from "@/components/ui/avatar";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Plus, Share2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { AvatarWithDropdown } from "@/components/ui/avatar";
 import { IEvent } from "@/models/event";
 import { toast, Toaster } from "sonner";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { MdEdit } from "react-icons/md";
+import EditEventForm from "./editEventForm";
+import { useState } from "react";
 
 export function Header({ eventData }: { eventData?: IEvent }) {
   const { data: session } = useSession();
+  const [editNameDialog, setEditNameDialog] = useState(false);
 
   function CopyLink() {
     navigator.clipboard.writeText(window.location.href);
@@ -28,7 +36,30 @@ export function Header({ eventData }: { eventData?: IEvent }) {
           <h1 className="text-xl font-bold">Checkmap</h1>
         </Link>
         {eventData && (
-          <h2 className="text-lg font-semibold">{eventData.name}</h2>
+          <h2 className="text-lg font-semibold flex items-center gap-2">
+            {eventData.name}
+            {session?.user?.id === eventData.creatorId._id.toString() && (
+              <Dialog open={editNameDialog} onOpenChange={setEditNameDialog}>
+                <DialogTrigger>
+                  <MdEdit
+                    size={30}
+                    onClick={() => setEditNameDialog(!editNameDialog)}
+                    className="text-neutral-500 p-2 rounded-full cursor-pointer duration-300 hover:bg-neutral-100"
+                  />
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Edit event name</DialogTitle>
+                    <EditEventForm
+                      setOpen={setEditNameDialog}
+                      eventCode={eventData.eventCode}
+                      currentName={eventData.name}
+                    />
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            )}
+          </h2>
         )}
 
         <div className="flex items-center gap-4">
