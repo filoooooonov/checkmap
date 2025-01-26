@@ -17,12 +17,12 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { MdEdit } from "react-icons/md";
 import EditEventForm from "./editEventForm";
+import AddEventForm from "./addEvent-form";
 import { useState } from "react";
-
 export function Header({ eventData }: { eventData?: IEvent }) {
   const { data: session } = useSession();
   const [editNameDialog, setEditNameDialog] = useState(false);
-
+  const [createEvenetDialog, setCreateEvenetDialog] = useState(false);
   function CopyLink() {
     navigator.clipboard.writeText(window.location.href);
     toast.success("Link copied to clipboard");
@@ -31,7 +31,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
   return (
     <>
       <Toaster position="bottom-center" />
-      <header className="flex items-center justify-between p-2 max-h-16 px-8">
+      <header className="flex items-center justify-between p-2 max-h-16 px-8 gap-2">
         <Link href="/" className="flex items-center gap-8">
           <h1 className="text-xl font-bold">Checkmap</h1>
         </Link>
@@ -77,12 +77,29 @@ export function Header({ eventData }: { eventData?: IEvent }) {
 
           {!eventData && session && (
             // TODO: onClick to new event page
-            <Button variant="default" size="sm" className="gap-2">
+            /*<Button variant="default" size="sm" className="gap-2">
               <Plus className="h-4 w-4" />
               Create event
-            </Button>
+            </Button>*/
+            <h3>
+              <Dialog open={createEvenetDialog} onOpenChange={setCreateEvenetDialog}>
+                <DialogTrigger asChild>
+                <Button variant="default" size="sm" className="gap-2"
+                 onClick={() => setCreateEvenetDialog(!createEvenetDialog)}>
+                  <Plus className="h-4 w-4" />
+                  Create event
+                  </Button>
+                </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Yo mama</DialogTitle>
+                </DialogHeader>
+                <AddEventForm
+                />
+              </DialogContent>
+          </Dialog>
+            </h3>
           )}
-
           {session ? (
             <AvatarWithDropdown />
           ) : (
