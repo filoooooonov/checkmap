@@ -33,6 +33,7 @@ const eventSchema = new Schema(
       {
         type: Schema.Types.ObjectId,
         ref: "Checkpoint",
+        default: [],
       },
     ],
   },
