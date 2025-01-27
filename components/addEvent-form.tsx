@@ -24,7 +24,7 @@ export default function AddEventForm() {
     e.preventDefault(); // Prevent default form submission behavior
     setLoading(true);
 
-  const generatedEventCode = Math.random().toString(36).slice(2).slice(0, 6);
+    const generatedEventCode = Math.random().toString(36).slice(2).slice(0, 8);
     try {
       const response = await fetch("/api/add-event", {
         method: "POST",
@@ -35,7 +35,7 @@ export default function AddEventForm() {
           name: formData.name,
           description: formData.description,
           eventCode: generatedEventCode,
-          creatorId: session?.user?.id
+          creatorId: session?.user?.id,
         }),
       });
 
@@ -57,26 +57,26 @@ export default function AddEventForm() {
     }
   };
   return (
-        <div>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
-          <Input
-            id="name"
-            placeholder="Event Name"
-            value={formData.name}
-            onChange={handleChange}
-            className="max-w-[60%] mx-auto"
-          ></Input>
-          <Input
-            id="description"
-            placeholder="Description"
-            value={formData.description}
-            onChange={handleChange}
-            className="max-w-[60%] mx-auto"
-          ></Input>
-          <Button  type="submit" className="w-max mx-auto" disabled={loading}>
-            {loading ? "Saving..." : "Save"}
-          </Button>
-        </form>
-      </div>
-    );
-  }
+    <div>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
+        <Input
+          id="name"
+          placeholder="Event Name"
+          value={formData.name}
+          onChange={handleChange}
+          className="max-w-[60%] mx-auto"
+        ></Input>
+        <Input
+          id="description"
+          placeholder="Description"
+          value={formData.description}
+          onChange={handleChange}
+          className="max-w-[60%] mx-auto"
+        ></Input>
+        <Button type="submit" className="w-max mx-auto" disabled={loading}>
+          {loading ? "Saving..." : "Save"}
+        </Button>
+      </form>
+    </div>
+  );
+}
