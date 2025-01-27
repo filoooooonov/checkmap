@@ -2,6 +2,7 @@
 
 import Event from "@/models/event";
 import { connectMongoDB } from "@/utils/mongo";
+import User from "@/models/user";
 
 export async function getEventData(eventCode: string) {
   await connectMongoDB();
@@ -11,11 +12,18 @@ export async function getEventData(eventCode: string) {
     .populate("checkpoints");
 
   if (!event) return null;
-  else {
-    // Convert the event to objects to avoid Next.js errors
-    const eventObject = event.toObject();
-    eventObject._id = eventObject._id.toString();
 
-    return eventObject;
+  const eventObject = event.toObject();
+  eventObject._id = eventObject._id.toString();
+  eventObject.creatorId._id = eventObject.creatorId._id.toString();
+
+  if (Array.isArray(eventObject.checkpoints)) {
+    eventObject.checkpoints = eventObject.checkpoints.map((checkpoint: any) => {
+      checkpoint._id = checkpoint._id.toString();
+      return checkpoint;
+    });
+  } else {
+    eventObject.checkpoints = [];
   }
+  return eventObject;
 }
