@@ -6,7 +6,8 @@ import Link from "next/link";
 import img from "@/public/placeholder-user.png";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { getListOfEvents } from "@/actions/getListOfEvents";
+import { getListOfEvents } from "@/actions/getListOfEvents";import MapView from "../[eventCode]/MapView";
+
 export default function Page() {
   // TODO: get user from session, redirect if the user is unauthenticated
 

@@ -82,22 +82,28 @@ export function Header({ eventData }: { eventData?: IEvent }) {
               Create event
             </Button>*/
             <h3>
-              <Dialog open={createEvenetDialog} onOpenChange={setCreateEvenetDialog}>
+              <Dialog
+                open={createEvenetDialog}
+                onOpenChange={setCreateEvenetDialog}
+              >
                 <DialogTrigger asChild>
-                <Button variant="default" size="sm" className="gap-2"
-                 onClick={() => setCreateEvenetDialog(!createEvenetDialog)}>
-                  <Plus className="h-4 w-4" />
-                  Create event
+                  <Button
+                    variant="default"
+                    size="sm"
+                    className="gap-2"
+                    onClick={() => setCreateEvenetDialog(!createEvenetDialog)}
+                  >
+                    <Plus className="h-4 w-4" />
+                    Create event
                   </Button>
                 </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Yo mama</DialogTitle>
-                </DialogHeader>
-                <AddEventForm
-                />
-              </DialogContent>
-          </Dialog>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Create new event</DialogTitle>
+                  </DialogHeader>
+                  <AddEventForm />
+                </DialogContent>
+              </Dialog>
             </h3>
           )}
           {session ? (

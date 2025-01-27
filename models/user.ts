@@ -1,6 +1,13 @@
 import mongoose, { models, Schema } from "mongoose";
 import Event from "@/models/event";
 
+export interface IUser extends Document {
+  name: string;
+  email: string;
+  password: string;
+  events: mongoose.Types.ObjectId[];
+}
+
 const userSchema = new Schema(
   {
     name: {
