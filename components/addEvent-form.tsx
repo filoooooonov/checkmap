@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-export default function AddEventForm() {
+import { addEvent } from "@/actions/addEvent";
+export default function AddEventForm({setOpen}: {setOpen: (open: boolean) => void;}) {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -23,9 +24,33 @@ export default function AddEventForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent default form submission behavior
     setLoading(true);
-
+    
     const generatedEventCode = Math.random().toString(36).slice(2).slice(0, 8);
-    try {
+    if(session?.user.id){
+        const eventData = {
+            name: formData.name,
+            description: formData.description,
+            eventCode: generatedEventCode,
+            creatorId: session.user.id,
+          };
+          try {
+            const newEvent = await addEvent(eventData);
+            setResponseMessage("New event created successfuly!");
+            setLoading(false);
+            setOpen(false);
+        } catch (error: any) {
+            setResponseMessage(error || "Failed to create event");
+            setFormData({
+                name: "",
+                description: "",
+              });
+          }
+          
+    }
+    else{
+        setResponseMessage("please login or register");
+    }
+    /*try {
       const response = await fetch("/api/add-event", {
         method: "POST",
         headers: {
@@ -54,7 +79,7 @@ export default function AddEventForm() {
       setResponseMessage("An error occurred. Please try again.");
     } finally {
       setLoading(false);
-    }
+    }*/
   };
   return (
     <div>
