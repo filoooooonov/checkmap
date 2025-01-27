@@ -59,6 +59,11 @@ const Map = ({ center, checkpoints, userLocation }: MapProps) => {
             .setLngLat([checkpoint.coords[1], checkpoint.coords[0]]) // Adjusted to match [lng, lat]
             .addTo(map.current!);
 
+          const markerElement = marker.getElement();
+          if (markerElement) {
+            markerElement.classList.add("cursor-pointer");
+          }
+
           marker.getElement().addEventListener("click", () => {
             setSelectedCheckpoint(checkpoint);
           });
