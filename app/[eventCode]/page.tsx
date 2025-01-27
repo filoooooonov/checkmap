@@ -12,6 +12,7 @@ export interface Checkpoint {
   id: number;
   coords: LatLngTuple;
   name: string;
+  description?: string;
 }
 
 export default async function Page({
