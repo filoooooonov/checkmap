@@ -6,12 +6,11 @@ import Checkpoint from "@/models/checkpoint";
 import User from "@/models/user";
 export async function getListOfEvents(userId: string) {
   await connectMongoDB();
-
-  const events = await Event.find({ creatorId: userId });
-  if (!events || events.length === 0) return [];
+  if(userId === "")return //TODO: FIX
+  const user = await User.findById(userId).populate("events");
+  if (!user || user.events.length === 0) return [];
   else {
-    // Convert the event to objects to avoid Next.js errors
-    const serializedEvents = events.map((event) =>
+    const serializedEvents = user.events.map((event: any) =>
       JSON.parse(
         JSON.stringify({
           ...event.toObject(),

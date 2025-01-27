@@ -2,7 +2,7 @@
 
 import Event from "@/models/event";
 import { connectMongoDB } from "@/utils/mongo";
-
+import User from "@/models/user";
 export async function addEvent(eventData: {
   name: string;
   description?: string;
@@ -20,12 +20,24 @@ export async function addEvent(eventData: {
     if (!newEvent) {
       throw new Error("Failed to create the event");
     }
-
+    const userUpdateResult = await User.findByIdAndUpdate(
+        eventData.creatorId, // The ID of the user to update
+        { $push: { events: newEvent._id } }, // Add the event ID to the `events` array
+        { new: true } // Return the updated user document
+      );
+  
+      if (!userUpdateResult) {
+        throw new Error("Failed to associate the event with the user");
+      }
     // Convert the event to a plain object and serialize `_id`
-    const serializedEvent = {
-      ...newEvent.toObject(),
-      _id: newEvent._id.toString(),
-    };
+    const serializedEvent = (
+      JSON.parse(
+        JSON.stringify({
+            ...newEvent.toObject(),
+            _id: newEvent._id.toString(),
+        })
+      )
+    );
 
     return serializedEvent;
   } catch (error: any) {

@@ -8,12 +8,19 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import MapView from "../[eventCode]/MapView";
 import { useGetListOfEvents } from "@/utils/hooks/useGetListOfEvents";
+import IEvent from "@/models/event"
 export default function Page() {
   // TODO: get user from session, redirect if the user is unauthenticated
 
   const { data: session, status } = useSession();
-  const { data } = useGetListOfEvents(session?.user?.id || "");
+  const [userId, setUserId] = useState<string>("");
+  const { data } = useGetListOfEvents(userId);
 
+  useEffect(() => {
+    if (session?.user?.id) {
+      setUserId(session.user.id);
+    }
+  }, [session]);
   if (status !== "authenticated" && status !== "loading") {
     redirect("/");
   }
@@ -44,7 +51,7 @@ export default function Page() {
         <h2 className="text-xl font-bold">Your events</h2>
         {data ? (
           <ul>
-            {data.map((event) => (
+            {data.map((event: any) => (
               <li key={event._id}>
                 <Link href={`/${event.eventCode}`}>{event.name}</Link>
               </li>

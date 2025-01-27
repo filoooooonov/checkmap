@@ -24,7 +24,7 @@ export default function AddEventForm({setOpen}: {setOpen: (open: boolean) => voi
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent default form submission behavior
     setLoading(true);
-    
+
     const generatedEventCode = Math.random().toString(36).slice(2).slice(0, 8);
     if(session?.user.id){
         const eventData = {
