@@ -12,7 +12,8 @@ export default function Page() {
   // TODO: get user from session, redirect if the user is unauthenticated
 
   const { data: session, status } = useSession();
-  const [loading, setLoading] = useState(true);
+  const { data } = useGetListOfEvents(session?.user?.id || "");
+
   if (status !== "authenticated" && status !== "loading") {
     redirect("/");
   }
@@ -20,8 +21,6 @@ export default function Page() {
   if (!session?.user?.id) {
     return <div className="text-center mt-80">Loading...</div>;
   }
-
-  const { data } = useGetListOfEvents(session.user.id);
 
   return (
     <div className="max-w-2xl mx-auto">
