@@ -28,7 +28,7 @@ export default async function Page({
     <>
       <div className="max-h-screen">
         <Header eventData={eventData} />
-        <div className="">
+        <div>
           {eventData ? (
             <MapView />
           ) : (

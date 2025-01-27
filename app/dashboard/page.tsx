@@ -6,13 +6,12 @@ import Link from "next/link";
 import img from "@/public/placeholder-user.png";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { getListOfEvents } from "@/actions/getListOfEvents";
 import MapView from "../[eventCode]/MapView";
+import { useGetListOfEvents } from "@/utils/hooks/useGetListOfEvents";
 export default function Page() {
   // TODO: get user from session, redirect if the user is unauthenticated
 
   const { data: session, status } = useSession();
-  const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   if (status !== "authenticated" && status !== "loading") {
     redirect("/");
@@ -21,20 +20,13 @@ export default function Page() {
   if (!session?.user?.id) {
     return <div className="text-center mt-80">Loading...</div>;
   }
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const data = await getListOfEvents(session.user.id);
-        if (data) setEvents(data);
-      } catch (error) {
-        console.error("Failed to fetch events:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchEvents(); // Call the async function
-  }, []);
+  const { data } = useGetListOfEvents(session.user.id);
+
+  if (!data) {
+    return <div className="text-center mt-80">No data</div>;
+  }
+
   return (
     <div className="max-w-2xl mx-auto">
       {/* Account info */}
@@ -55,9 +47,9 @@ export default function Page() {
       {/* Event data */}
       <div className="p-4 pt-6">
         <h2 className="text-xl font-bold">Your events</h2>
-        {events.length > 0 ? (
+        {data.length > 0 ? (
           <ul>
-            {events.map((event) => (
+            {data.map((event) => (
               <li key={event._id}>
                 <Link href={`/${event.eventCode}`}>{event.name}</Link>
               </li>
