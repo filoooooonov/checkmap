@@ -20,8 +20,8 @@ import "leaflet-defaulticon-compatibility";
 import { Checkpoint } from "@/app/[eventCode]/page";
 import { AnimatePresence } from "motion/react";
 
-interface MapProps {
-  center: LatLngExpression | LatLngTuple;
+export interface MapProps {
+  center: LatLngTuple;
   checkpoints: Checkpoint[];
   userLocation: Checkpoint;
   zoom?: number;
