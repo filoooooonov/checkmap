@@ -34,7 +34,7 @@ export default function Page() {
     };
 
     fetchEvents(); // Call the async function
-  });
+  }, []);
   return (
     <div className="max-w-2xl mx-auto">
       {/* Account info */}
@@ -54,12 +54,14 @@ export default function Page() {
 
       {/* Event data */}
       <div className="p-4 pt-6">
-      <h2 className="text-xl font-bold">Your events</h2>
+        <h2 className="text-xl font-bold">Your events</h2>
         {events.length > 0 ? (
           <ul>
-              {events.map((event) => (
-                <li key={event._id}><Link href={`/${event.eventCode}`}>{event.name}</Link></li>
-              ))}
+            {events.map((event) => (
+              <li key={event._id}>
+                <Link href={`/${event.eventCode}`}>{event.name}</Link>
+              </li>
+            ))}
           </ul>
         ) : (
           <p className="text-neutral-500 mt-40 text-center">
