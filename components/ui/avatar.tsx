@@ -90,7 +90,7 @@ const AvatarWithDropdown = () => {
       {isOpen && (
         <div
           ref={dropdownRef}
-          className="absolute top-0 right-0 z-10 p-1 mt-10 w-48 bg-white border-2 border-neutral-100 rounded-lg shadow-lg"
+          className="absolute top-0 right-0 z-[1000] p-1 mt-10 w-48 bg-white border-2 border-neutral-100 rounded-lg shadow-lg"
         >
           {session && (
             <>
