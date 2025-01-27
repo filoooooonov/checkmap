@@ -89,11 +89,13 @@ export default function AddEventForm({setOpen}: {setOpen: (open: boolean) => voi
           placeholder="Event Name"
           value={formData.name}
           onChange={handleChange}
+          autoComplete="off"
           className="max-w-[60%] mx-auto"
         ></Input>
         <Input
           id="description"
           placeholder="Description"
+          autoComplete="off"
           value={formData.description}
           onChange={handleChange}
           className="max-w-[60%] mx-auto"
