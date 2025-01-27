@@ -78,7 +78,7 @@ export default function MapView() {
   }, []);
 
   return (
-    <main className="relative">
+    <main className="relative overflow-hidden">
       <MapLoader
         center={[60.1699, 24.9384]}
         checkpoints={checkpoints}
@@ -87,7 +87,7 @@ export default function MapView() {
       <div className="absolute top-4 right-4 z-10 flex gap-6">
         {!showList && (
           <Button
-            className="shadow-md shadow-neutral-300 bg-white border-2 border-neutral-200 hover:bg-neutral-100 duration-300 rounded-full aspect-square p-2"
+            className=" shadow-neutral-300 bg-white border-2 border-neutral-200 hover:bg-neutral-100 duration-300 rounded-full aspect-square p-2"
             onClick={() => setShowList(true)}
           >
             <Menu size={24} className="text-black" />

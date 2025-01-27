@@ -29,31 +29,12 @@ const Map = ({ center, checkpoints, userLocation }: MapProps) => {
         geolocateControl: "top-left",
       });
 
-      const marker = {
-        type: "Feature",
-        properties: {
-          message: "Foo",
-          iconSize: [60, 60],
-        },
-        geometry: {
-          type: "Point",
-          coordinates: [-66.324462890625, -16.024695711685304],
-        },
-      };
-
-      var locationElement = document.createElement("div");
-      locationElement.className =
-        "bg-blue-500 size-6 border-2 ring-8 ring-blue-300/20 border-white rounded-full";
-
-      // locationElement.addEventListener("click", function () {
-      //   window.alert(marker.properties.message);
-      // });
+      map.current.on("click", (e) => {
+        const { lng, lat } = e.lngLat;
+        console.log(`Longitude: ${lng}, Latitude: ${lat}`);
+      });
 
       if (map.current) {
-        // new maptilersdk.Marker({ element: locationElement })
-        //   .setLngLat([userLocation.coords[1], userLocation.coords[0]]) // Adjusted to match [lng, lat]
-        //   .addTo(map.current!);
-
         checkpoints.forEach((checkpoint) => {
           const marker = new maptilersdk.Marker({ color: "#ff4747" })
             .setLngLat([checkpoint.coords[1], checkpoint.coords[0]]) // Adjusted to match [lng, lat]
@@ -71,6 +52,11 @@ const Map = ({ center, checkpoints, userLocation }: MapProps) => {
       }
     }
   }, [center, checkpoints, userLocation, zoom]);
+
+  useEffect(() => {
+    if (map.current) {
+    }
+  }, [map]);
 
   return (
     <div className="relative map-wrap">

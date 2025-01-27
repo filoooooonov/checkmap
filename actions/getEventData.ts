@@ -13,7 +13,6 @@ export async function getEventData(eventCode: string) {
   if (!event) return null;
 
   const eventObject = event.toObject();
-  console.log("EVENT JSON", JSON.parse(JSON.stringify(eventObject)));
 
   return JSON.parse(JSON.stringify(eventObject));
 }
