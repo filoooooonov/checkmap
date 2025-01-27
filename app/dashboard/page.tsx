@@ -23,10 +23,6 @@ export default function Page() {
 
   const { data } = useGetListOfEvents(session.user.id);
 
-  if (!data) {
-    return <div className="text-center mt-80">No data</div>;
-  }
-
   return (
     <div className="max-w-2xl mx-auto">
       {/* Account info */}
@@ -47,7 +43,7 @@ export default function Page() {
       {/* Event data */}
       <div className="p-4 pt-6">
         <h2 className="text-xl font-bold">Your events</h2>
-        {data.length > 0 ? (
+        {data ? (
           <ul>
             {data.map((event) => (
               <li key={event._id}>
