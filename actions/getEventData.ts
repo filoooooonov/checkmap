@@ -1,29 +1,19 @@
 "use server";
 
 import Event from "@/models/event";
+import Checkpoint from "@/models/checkpoint"; // Import Checkpoint model
 import { connectMongoDB } from "@/utils/mongo";
 import User from "@/models/user";
 
 export async function getEventData(eventCode: string) {
   await connectMongoDB();
 
-  const event = await Event.findOne({ eventCode })
-    .populate("creatorId")
-    .populate("checkpoints");
+  const event = await Event.findOne({ eventCode });
 
   if (!event) return null;
 
   const eventObject = event.toObject();
-  eventObject._id = eventObject._id.toString();
-  eventObject.creatorId._id = eventObject.creatorId._id.toString();
+  console.log("EVENT JSON", JSON.parse(JSON.stringify(eventObject)));
 
-  if (Array.isArray(eventObject.checkpoints)) {
-    eventObject.checkpoints = eventObject.checkpoints.map((checkpoint: any) => {
-      checkpoint._id = checkpoint._id.toString();
-      return checkpoint;
-    });
-  } else {
-    eventObject.checkpoints = [];
-  }
-  return eventObject;
+  return JSON.parse(JSON.stringify(eventObject));
 }

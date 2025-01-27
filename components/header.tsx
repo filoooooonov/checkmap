@@ -38,7 +38,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
         {eventData && (
           <h2 className="text-lg font-semibold flex items-center gap-2">
             {eventData.name}
-            {session?.user?.id === eventData.creatorId._id.toString() && (
+            {session?.user?.id === eventData.creatorId.toString() && (
               <Dialog open={editNameDialog} onOpenChange={setEditNameDialog}>
                 <DialogTrigger>
                   <MdEdit
