@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import MapView from "../[eventCode]/MapView";
 import { useGetListOfEvents } from "@/utils/hooks/useGetListOfEvents";
-import IEvent from "@/models/event"
+import IEvent from "@/models/event";
 export default function Page() {
   // TODO: get user from session, redirect if the user is unauthenticated
 
