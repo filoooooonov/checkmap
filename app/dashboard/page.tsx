@@ -50,10 +50,24 @@ export default function Page() {
       <div className="p-4 pt-6">
         <h2 className="text-xl font-bold">Your events</h2>
         {data ? (
-          <ul>
+          <ul className="space-y-4 mt-4">
             {data.map((event: any) => (
-              <li key={event._id}>
-                <Link href={`/${event.eventCode}`}>{event.name}</Link>
+              <li
+                key={event._id}
+                className="bg-neutral-50 cursor-pointer duration-300 hover:bg-neutral-100 rounded-xl p-4"
+              >
+                <Link
+                  href={`/${event.eventCode}`}
+                  className="flex flex-col gap-2"
+                >
+                  <h3 className="font-bold"> {event.name}</h3>
+                  <span className="text-sm text-medium text-neutral-500">
+                    Mon, Feb 3, 5:30 PM
+                  </span>
+                  <p className="text-sm font-medium text-neutral-500">
+                    {event.description}
+                  </p>
+                </Link>
               </li>
             ))}
           </ul>
