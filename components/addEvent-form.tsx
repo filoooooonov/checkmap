@@ -1,88 +1,110 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { DateTimePicker } from "./DateTimePicker";
 import { addEvent } from "@/actions/addEvent";
-export default function AddEventForm({setOpen}: {setOpen: (open: boolean) => void;}) {
-  const [formData, setFormData] = useState({
+import { Input } from "./ui/input";
+
+interface AddEventFormProps {
+  setOpen: (open: boolean) => void;
+}
+
+interface FormData {
+  name: string;
+  description: string;
+  startDate: string;
+  time: string;
+}
+
+const generateTimeOptions = () => {
+  const times = [];
+  for (let i = 0; i < 24; i++) {
+    for (let j = 0; j < 60; j += 15) {
+      const hour = i.toString().padStart(2, "0");
+      const minute = j.toString().padStart(2, "0");
+      const time = `${hour}:${minute}`;
+      const isoTime = new Date(`1970-01-01T${time}:00Z`).toISOString();
+      times.push({ time, isoTime });
+    }
+  }
+  return times;
+};
+
+const timeOptions = generateTimeOptions();
+
+export default function AddEventForm({ setOpen }: AddEventFormProps) {
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     description: "",
+    startDate: "", // will eventually hold date.toISOString()
+    time: "", // "1970-01-01T02:00:00.000Z" or "HH:mm"
   });
-
-  const [responseMessage, setResponseMessage] = useState("");
-  const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
-  // Update form data state on input change
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
+  const [responseMessage, setResponseMessage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent default form submission behavior
+  // Called when the user picks a date
+  const handleDateChange = (date: Date | null) => {
+    setFormData({ ...formData, startDate: date ? date.toISOString() : "" });
+  };
+
+  // Called when the user picks a time
+  const handleTimeChange = (isoTime: string) => {
+    setFormData({ ...formData, time: isoTime });
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setLoading(true);
 
-    const generatedEventCode = Math.random().toString(36).slice(2).slice(0, 8);
-    if(session?.user.id){
-        const eventData = {
-            name: formData.name,
-            description: formData.description,
-            eventCode: generatedEventCode,
-            creatorId: session.user.id,
-          };
-          try {
-            const newEvent = await addEvent(eventData);
-            setResponseMessage("New event created successfuly!");
-            setLoading(false);
-            setOpen(false);
-        } catch (error: any) {
-            setResponseMessage(error || "Failed to create event");
-            setFormData({
-                name: "",
-                description: "",
-              });
-          }
-          
+    if (!session?.user.id) {
+      setResponseMessage("Please login or register");
+      setLoading(false);
+      return;
     }
-    else{
-        setResponseMessage("please login or register");
-    }
-    /*try {
-      const response = await fetch("/api/add-event", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          description: formData.description,
-          eventCode: generatedEventCode,
-          creatorId: session?.user?.id,
-        }),
-      });
 
-      const data = await response.json();
+    try {
+      // Merge date & time
+      const date = new Date(formData.startDate);
+      // If time is an ISO string "1970-01-01T02:00:00.000Z":
+      const timeDate = new Date(formData.time);
+      const hours = timeDate.getUTCHours();
+      const minutes = timeDate.getUTCMinutes();
+      date.setHours(hours, minutes, 0, 0);
 
-      if (!response.ok) {
-        setResponseMessage(data.error || "Failed to create event");
-      } else {
-        setResponseMessage("New event created successfuly!");
-        setFormData({
-          name: "",
-          description: "",
-        }); // Clear the form
-      }
+      // Or if time is "HH:mm" then parse that:
+      // const [hours, minutes] = formData.time.split(":").map(Number);
+      // date.setHours(hours, minutes, 0, 0);
+
+      const eventData = {
+        ...formData,
+        startDate: date.toISOString(), // final merged Date
+        creatorId: session.user.id,
+        eventCode: Math.random().toString(36).slice(2, 10),
+      };
+      const newEvent = await addEvent(eventData);
+      setResponseMessage("New event created successfully!");
+      setOpen(false);
     } catch (error) {
-      setResponseMessage("An error occurred. Please try again.");
+      setResponseMessage("Failed to create event");
     } finally {
       setLoading(false);
-    }*/
+    }
   };
+
   return (
-    <div>
+    <div className="max-w-[60%] mx-auto">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
         <Input
           id="name"
@@ -90,16 +112,32 @@ export default function AddEventForm({setOpen}: {setOpen: (open: boolean) => voi
           value={formData.name}
           onChange={handleChange}
           autoComplete="off"
-          className="max-w-[60%] mx-auto"
-        ></Input>
+          className="mx-auto"
+        />
         <Input
           id="description"
           placeholder="Description"
           autoComplete="off"
           value={formData.description}
           onChange={handleChange}
-          className="max-w-[60%] mx-auto"
-        ></Input>
+          className=" mx-auto"
+        />
+        <span className="mt-4 font-semibold">Event start date</span>
+        <div className="flex flex-col gap-2">
+          <DateTimePicker onChange={handleDateChange} />
+          <Select onValueChange={handleTimeChange}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select time" />
+            </SelectTrigger>
+            <SelectContent>
+              {timeOptions.map((option) => (
+                <SelectItem key={option.isoTime} value={option.isoTime}>
+                  {option.time}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
         <Button type="submit" className="w-max mx-auto" disabled={loading}>
           {loading ? "Saving..." : "Save"}
         </Button>

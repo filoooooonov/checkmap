@@ -8,6 +8,7 @@ export interface IEvent extends Document {
   eventCode: string;
   creatorId: mongoose.Types.ObjectId;
   checkpoints: mongoose.Types.ObjectId[];
+  startDate: string;
 }
 
 const eventSchema = new Schema(
@@ -28,6 +29,9 @@ const eventSchema = new Schema(
     creatorId: {
       type: Schema.Types.ObjectId,
       ref: "User",
+    },
+    startDate: {
+      type: Date,
     },
     checkpoints: [
       {
