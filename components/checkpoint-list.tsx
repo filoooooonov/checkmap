@@ -21,9 +21,6 @@ export function CheckpointList({
           <ChevronRight size={10} className="icon-btn" onClick={onClose} />
           <h2 className="text-2xl font-bold">Your checkpoints</h2>
         </div>
-        {/* <Button variant="link" className="text-blue-500">
-          View all
-        </Button> */}
       </div>
       <div className="flex mt-8">
         <Button onClick={setShowForm} className="flex items-center gap-2">
