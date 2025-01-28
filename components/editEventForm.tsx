@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { changeEventName } from "@/actions/changeEventName";
 import { MdErrorOutline } from "react-icons/md";
-
+import { useRouter } from "next/navigation";
 export default function EditEventForm({
   eventCode,
   setOpen,
@@ -17,6 +17,7 @@ export default function EditEventForm({
 }) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const router = useRouter();
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
@@ -27,6 +28,7 @@ export default function EditEventForm({
     if (res.success) {
       setSuccess(res.message);
       setError(null);
+      router.refresh()
       setOpen(false);
     } else {
       setError(res.message);
