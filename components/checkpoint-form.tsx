@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ChevronRight } from "lucide-react";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 interface CheckpointFormProps {
   onBack: () => void;
@@ -13,6 +15,28 @@ interface CheckpointFormProps {
 export function CheckpointForm({ onBack }: CheckpointFormProps) {
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState<{ lat: number; lon: number } | null>(null);
+  const [pinCoordinates, setPinCoordinates] = useState<{ lat: number; lon: number } | null>(null);
+  const mapRef = useRef<L.Map | null>(null);
+
+  useEffect(() => {
+    if (!mapRef.current) {
+      mapRef.current = L.map("map").setView([60.1879057,24.8224665], 13);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(mapRef.current);
+
+      mapRef.current.on("move", () => {
+        const center = mapRef.current!.getCenter();
+        setPinCoordinates({ lat: center.lat, lon: center.lng });
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (coordinates && mapRef.current) {
+      mapRef.current.setView([coordinates.lat, coordinates.lon], 13);
+    }
+  }, [coordinates]);
 
   const handleSearch = async () => {
     if (address.length > 3) {
@@ -59,6 +83,26 @@ export function CheckpointForm({ onBack }: CheckpointFormProps) {
           <div>
             <p>Latitude: {coordinates.lat}</p>
             <p>Longitude: {coordinates.lon}</p>
+          </div>
+        )}
+        <div id="map" style={{ height: "200px", position: "relative" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1000,
+              pointerEvents: "none"
+            }}
+          >
+            <div style={{ backgroundColor: "red", width: "12px", height: "12px", borderRadius: "50%" }}></div>
+          </div>
+        </div>
+        {pinCoordinates && (
+          <div>
+            <p>Pin Latitude: {pinCoordinates.lat}</p>
+            <p>Pin Longitude: {pinCoordinates.lon}</p>
           </div>
         )}
       </div>
