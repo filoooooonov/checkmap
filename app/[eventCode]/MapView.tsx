@@ -8,8 +8,9 @@ import { CheckpointList } from "@/components/checkpoint-list";
 import { Checkpoint } from "./page";
 import { Menu } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { IEvent } from "@/models/event";
 
-export default function MapView() {
+export default function MapView({ eventData }: { eventData: IEvent }) {
   const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(false);
 
@@ -106,6 +107,7 @@ export default function MapView() {
             {showForm && <CheckpointForm onBack={() => setShowForm(false)} />}
             {showList && (
               <CheckpointList
+                eventData={eventData}
                 onClose={() => setShowList(false)}
                 setShowForm={() => {
                   setShowForm(true);
