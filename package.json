@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@maptiler/geocoding-control": "^2.1.4",
     "@maptiler/leaflet-maptilersdk": "^4.0.2",
     "@radix-ui/react-avatar": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.5",
@@ -29,7 +30,7 @@
     "leaflet-routing-machine": "^3.2.12",
     "lucide-react": "^0.471.1",
     "mapbox-gl": "^3.9.3",
-    "maplibre-gl": "^5.0.1",
+    "maplibre-gl": "^5.1.0",
     "mongodb": "^6.12.0",
     "mongoose": "^8.9.5",
     "motion": "^12.0.3",
