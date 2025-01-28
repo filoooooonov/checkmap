@@ -30,7 +30,7 @@ export default async function Page({
         <Header eventData={eventData} />
         <div>
           {eventData ? (
-            <MapView />
+            <MapView eventData={eventData} />
           ) : (
             <div className="flex w-full h-[80vh] items-center justify-center">
               <div className="flex flex-col gap-4">
