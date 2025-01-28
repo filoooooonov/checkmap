@@ -5,7 +5,7 @@ import Checkpoint from "@/models/checkpoint"; // Import Checkpoint model
 import { connectMongoDB } from "@/utils/mongo";
 import User from "@/models/user";
 
-export async function getEventData(eventId: string) {
+export async function removeEvent(eventId: string) {
   await connectMongoDB();
 
   try {

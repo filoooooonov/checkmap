@@ -8,7 +8,14 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useGetListOfEvents } from "@/utils/hooks/useGetListOfEvents";
 import { format } from "date-fns";
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {removeEvent} from "@/actions/removeEvent";
+import { EllipsisVertical } from "lucide-react";
 export default function Page() {
   const { data: session, status } = useSession();
   const [userId, setUserId] = useState<string>("");
@@ -19,6 +26,7 @@ export default function Page() {
       setUserId(session.user.id);
     }
   }, [session]);
+
   if (status !== "authenticated" && status !== "loading") {
     redirect("/");
   }
@@ -52,13 +60,14 @@ export default function Page() {
             {data.map((event: any) => (
               <li
                 key={event._id}
-                className="bg-neutral-50 cursor-pointer duration-300 hover:bg-neutral-100 rounded-xl p-4"
+                className="bg-neutral-50 cursor-pointer duration-300 hover:bg-neutral-100 rounded-xl p-4 relative flex justify-between items-center"
               >
                 <Link
                   href={`/${event.eventCode}`}
-                  className="flex flex-col gap-2"
+                  className="flex flex-col w-full gap-2"
                 >
-                  <h3 className="font-bold"> {event.name}</h3>
+                  <h3 className="font-bold"> {event.name}</h3>  
+                  
 
                   {event.startDate && (
                     <span className="text-sm text-medium text-neutral-500">
@@ -70,6 +79,26 @@ export default function Page() {
                     {event.description}
                   </p>
                 </Link>
+                <DropdownMenu>
+                <DropdownMenuTrigger
+                  className="rounded-full hover:bg-neutral-200 duration-200 p-2"
+                  asChild
+                >
+                  <EllipsisVertical size={35} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-25">
+                  <DropdownMenuItem
+                    className="flex justify-center items-center py-1"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      removeEvent(event._id);
+                    }}
+                  >
+                    <span className="text-red-500">Delete event</span>
+                  </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </li>
             ))}
           </ul>
