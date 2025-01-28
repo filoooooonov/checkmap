@@ -100,8 +100,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
                   <DialogHeader>
                     <DialogTitle>Create new event</DialogTitle>
                   </DialogHeader>
-                  <AddEventForm 
-                  setOpen={setCreateEvenetDialog}/>
+                  <AddEventForm setOpen={setCreateEvenetDialog} />
                 </DialogContent>
               </Dialog>
             </h3>
@@ -112,12 +111,12 @@ export function Header({ eventData }: { eventData?: IEvent }) {
             <>
               <Link
                 href="\login"
-                className="block px-4 py-2 bg-neutral-100 hover:bg-neutral-200 duration-300 font-medium text-sm rounded-md cursor-pointer"
+                className="block px-4 py-2 bg-neutral-100 hover:bg-neutral-200 duration-300 font-medium text-sm rounded-xl cursor-pointer"
               >
                 Login
               </Link>
               <Link href="\register">
-                <Button className="block px-4 py-2 duration-300 font-medium text-sm rounded-md cursor-pointer">
+                <Button className="block px-4 py-2 duration-300 font-medium text-sm rounded-xl cursor-pointer">
                   Register
                 </Button>
               </Link>

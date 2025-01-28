@@ -6,12 +6,10 @@ import Link from "next/link";
 import img from "@/public/placeholder-user.png";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import MapView from "../[eventCode]/MapView";
 import { useGetListOfEvents } from "@/utils/hooks/useGetListOfEvents";
-import IEvent from "@/models/event";
-export default function Page() {
-  // TODO: get user from session, redirect if the user is unauthenticated
+import { format } from "date-fns";
 
+export default function Page() {
   const { data: session, status } = useSession();
   const [userId, setUserId] = useState<string>("");
   const { data } = useGetListOfEvents(userId);
@@ -61,9 +59,13 @@ export default function Page() {
                   className="flex flex-col gap-2"
                 >
                   <h3 className="font-bold"> {event.name}</h3>
-                  <span className="text-sm text-medium text-neutral-500">
-                    Mon, Feb 3, 5:30 PM
-                  </span>
+
+                  {event.startDate && (
+                    <span className="text-sm text-medium text-neutral-500">
+                      {format(new Date(event.startDate), "E, MMM d, HH:mm")}
+                    </span>
+                  )}
+
                   <p className="text-sm font-medium text-neutral-500">
                     {event.description}
                   </p>

@@ -9,12 +9,12 @@ import { useState } from "react";
 
 export function LoginForm() {
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<string | false>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading("true");
+    setLoading(true);
 
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     const email = formData.get("email") as string;
@@ -64,7 +64,7 @@ export function LoginForm() {
           />
         </div>
         <div className="flex justify-center">
-          <Button type="submit" className="w-full">
+          <Button type="submit" disabled={loading} className="w-full">
             {loading ? "Loading..." : "Login"}
           </Button>
         </div>
