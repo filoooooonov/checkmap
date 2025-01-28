@@ -19,6 +19,7 @@ import { MdEdit } from "react-icons/md";
 import EditEventForm from "./editEventForm";
 import AddEventForm from "./addEvent-form";
 import { useState } from "react";
+import Logo from "./Logo";
 export function Header({ eventData }: { eventData?: IEvent }) {
   const { data: session } = useSession();
   const [editNameDialog, setEditNameDialog] = useState(false);
@@ -32,9 +33,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
     <>
       <Toaster position="bottom-center" />
       <header className="flex items-center justify-between p-2 max-h-16 px-8 gap-2">
-        <Link href="/" className="flex items-center gap-8">
-          <h1 className="text-xl font-bold">Checkmap</h1>
-        </Link>
+        <Logo />
         {eventData && (
           <h2 className="text-lg font-semibold flex items-center gap-2">
             {eventData.name}
