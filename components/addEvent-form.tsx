@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { addEvent } from "@/actions/addEvent";
+import { getEventData } from "@/actions/getEventData";
 export default function AddEventForm({setOpen}: {setOpen: (open: boolean) => void;}) {
   const [formData, setFormData] = useState({
     name: "",
@@ -25,7 +26,10 @@ export default function AddEventForm({setOpen}: {setOpen: (open: boolean) => voi
     e.preventDefault(); // Prevent default form submission behavior
     setLoading(true);
 
-    const generatedEventCode = Math.random().toString(36).slice(2).slice(0, 8);
+    let generatedEventCode = Math.random().toString(36).slice(2).slice(0, 8);
+    while(await getEventData(generatedEventCode)){
+      generatedEventCode = Math.random().toString(36).slice(2).slice(0, 8);
+    } 
     if(session?.user.id){
         const eventData = {
             name: formData.name,
