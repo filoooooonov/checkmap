@@ -37,7 +37,7 @@ const Map = ({ center, checkpoints, userLocation }: MapProps) => {
       if (map.current) {
         checkpoints.forEach((checkpoint) => {
           const marker = new maptilersdk.Marker({ color: "#ff4747" })
-            .setLngLat([checkpoint.coords[1], checkpoint.coords[0]]) // Adjusted to match [lng, lat]
+            .setLngLat([checkpoint.location.coordinates[1], checkpoint.location.coordinates[0]]) // Adjusted to match [lng, lat]
             .addTo(map.current!);
 
           const markerElement = marker.getElement();
