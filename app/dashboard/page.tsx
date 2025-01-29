@@ -13,13 +13,13 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {removeEvent} from "@/actions/removeEvent";
-import { EllipsisVertical } from "lucide-react";
+} from "@/components/ui/dropdown-menu";
+import { removeEvent } from "@/actions/removeEvent";
+import { EllipsisVertical, Loader2 } from "lucide-react";
 export default function Page() {
   const { data: session, status } = useSession();
   const [userId, setUserId] = useState<string>("");
-  const { data } = useGetListOfEvents(userId);
+  const { data, refetch, isLoading, isPending } = useGetListOfEvents(userId);
 
   useEffect(() => {
     if (session?.user?.id) {
@@ -32,7 +32,12 @@ export default function Page() {
   }
 
   if (!session?.user?.id) {
-    return <div className="text-center mt-80">Loading...</div>;
+    return (
+      <div className="text-center mt-80 flex items-center gap-2 justify-center ">
+        <Loader2 className="size-6 animate-spin" />
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -55,7 +60,7 @@ export default function Page() {
       {/* Event data */}
       <div className="p-4 pt-6">
         <h2 className="text-xl font-bold">Your events</h2>
-        {data ? (
+        {data && !isLoading && !isPending && (
           <ul className="space-y-4 mt-4">
             {data.map((event: any) => (
               <li
@@ -66,8 +71,7 @@ export default function Page() {
                   href={`/${event.eventCode}`}
                   className="flex flex-col w-full gap-2"
                 >
-                  <h3 className="font-bold"> {event.name}</h3>  
-                  
+                  <h3 className="font-bold"> {event.name}</h3>
 
                   {event.startDate && (
                     <span className="text-sm text-medium text-neutral-500">
@@ -80,29 +84,31 @@ export default function Page() {
                   </p>
                 </Link>
                 <DropdownMenu>
-                <DropdownMenuTrigger
-                  className="rounded-full hover:bg-neutral-200 duration-200 p-2"
-                  asChild
-                >
-                  <EllipsisVertical size={35} />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-25">
-                  <DropdownMenuItem
-                    className="flex justify-center items-center py-1"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      removeEvent(event._id);
-                    }}
+                  <DropdownMenuTrigger
+                    className="rounded-full hover:bg-neutral-200 duration-200 p-2"
+                    asChild
                   >
-                    <span className="text-red-500">Delete event</span>
-                  </DropdownMenuItem>
+                    <EllipsisVertical size={35} />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-25">
+                    <DropdownMenuItem
+                      className="flex justify-center items-center py-1"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        removeEvent(event._id);
+                      }}
+                    >
+                      <span className="text-red-500">Delete event</span>
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </li>
             ))}
           </ul>
-        ) : (
+        )}
+
+        {!isLoading && !isPending && !data && (
           <p className="text-neutral-500 mt-40 text-center">
             You haven't created any events yet.
           </p>
