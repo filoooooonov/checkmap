@@ -44,7 +44,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
     <>
       <Toaster position="bottom-center" />
       <header
-        style={{ backgroundColor: bgColor }}
+        style={eventData ? { backgroundColor: bgColor } : {}}
         className={`${
           isDark(bgColor) ? "text-white" : "text-black"
         } ${eventData} flex items-center justify-between p-2 max-h-16 px-8 gap-2`}

@@ -11,6 +11,16 @@ import {
 import { DateTimePicker } from "./DateTimePicker";
 import { addEvent } from "@/actions/addEvent";
 import { Input } from "./ui/input";
+import { ColorPicker, useColor } from "react-color-palette";
+import "react-color-palette/css";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface AddEventFormProps {
   setOpen: (open: boolean) => void;
@@ -21,6 +31,7 @@ interface FormData {
   description: string;
   startDate: string;
   time: string;
+  primaryColor: string;
 }
 
 const generateTimeOptions = () => {
@@ -40,11 +51,13 @@ const generateTimeOptions = () => {
 const timeOptions = generateTimeOptions();
 
 export default function AddEventForm({ setOpen }: AddEventFormProps) {
+  const [color, setColor] = useColor("#ffffff");
   const [formData, setFormData] = useState<FormData>({
     name: "",
     description: "",
     startDate: "", // will eventually hold date.toISOString()
     time: "", // "1970-01-01T02:00:00.000Z" or "HH:mm"
+    primaryColor: color.hex,
   });
   const { data: session } = useSession();
   const [responseMessage, setResponseMessage] = useState<string>("");
@@ -52,6 +65,14 @@ export default function AddEventForm({ setOpen }: AddEventFormProps) {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleColorChange = (newColor: any) => {
+    setColor(newColor);
+    setFormData((prevData) => ({
+      ...prevData,
+      primaryColor: newColor.hex,
+    }));
   };
 
   // Called when the user picks a date
@@ -138,6 +159,27 @@ export default function AddEventForm({ setOpen }: AddEventFormProps) {
             </SelectContent>
           </Select>
         </div>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <button className="px-4 py-2 bg-white shadow-sm border hover:bg-neutral-50 duration-300 border-neutral-200 text-sm rounded-xl flex items-center gap-2">
+              <div
+                style={{ backgroundColor: color.hex }}
+                className="rounded-md size-4"
+              ></div>
+              Pick color
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <ColorPicker
+              hideInput={["rgb", "hsv"]}
+              hideAlpha={true}
+              color={color}
+              onChange={handleColorChange}
+            />
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <Button type="submit" className="w-max mx-auto" disabled={loading}>
           {loading ? "Saving..." : "Save"}
         </Button>

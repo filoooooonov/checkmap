@@ -8,7 +8,7 @@ export default function Logo() {
     <div>
       <Link href="/" className="flex items-center gap-2">
         <Image src={logo} alt="logo" className="size-8" />
-        <h1 className="text-xl font-bold">Checkmap</h1>
+        <h1 className="text-xl font-bold text-black">Checkmap</h1>
       </Link>
     </div>
   );
