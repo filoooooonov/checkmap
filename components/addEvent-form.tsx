@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -22,7 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { isDark, lightenColor } from "@/utils/utils";
-
+import { useRouter } from "next/navigation";
 interface AddEventFormProps {
   setOpen: (open: boolean) => void;
 }
@@ -53,6 +54,7 @@ const generateTimeOptions = () => {
 const timeOptions = generateTimeOptions();
 
 export default function AddEventForm({ setOpen }: AddEventFormProps) {
+  const router = useRouter()
   const [color, setColor] = useColor("#ffffff");
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -122,6 +124,8 @@ export default function AddEventForm({ setOpen }: AddEventFormProps) {
       };
       const newEvent = await addEvent(eventData);
       setResponseMessage("New event created successfully!");
+      console.log(newEvent);
+      router.push(`/${newEvent.eventCode}`);
       setOpen(false);
     } catch (error) {
       setResponseMessage("Failed to create event");

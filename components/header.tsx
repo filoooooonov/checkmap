@@ -123,7 +123,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
                   <DialogHeader>
                     <DialogTitle>Create new event</DialogTitle>
                   </DialogHeader>
-                  <AddEventForm setOpen={setCreateEvenetDialog} />
+                  <AddEventForm setOpen={setCreateEvenetDialog}/>
                 </DialogContent>
               </Dialog>
             </h3>
