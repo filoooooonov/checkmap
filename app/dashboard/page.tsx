@@ -51,7 +51,9 @@ export default function Page() {
   }
 
   const handleClick = () => {
-    const fileInput = document.getElementById('fileInput') as HTMLInputElement | null;
+    const fileInput = document.getElementById(
+      "fileInput"
+    ) as HTMLInputElement | null;
     if (fileInput) {
       fileInput.click();
     }
@@ -62,8 +64,15 @@ export default function Page() {
       {/* Account info */}
       {session && (
         <div className="flex items-center p-4 pb-6 border-b">
-          <Avatar className="size-24 rounded-full cursor-pointer hover:bg-neutral-100" onClick={handleClick}>
-            <AvatarImage src={base64Image || (typeof img === 'string' ? img : img?.src)} className="size-50 rounded-full" alt="User" />
+          <Avatar
+            className="size-24 rounded-full cursor-pointer hover:bg-neutral-100"
+            onClick={handleClick}
+          >
+            <AvatarImage
+              src={base64Image || (typeof img === "string" ? img : img?.src)}
+              className="size-50 rounded-full object-cover"
+              alt="User"
+            />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="ml-4">
@@ -73,8 +82,8 @@ export default function Page() {
           <input
             type="file"
             id="fileInput"
-            style={{ display: 'none' }}
-            accept="image/*" 
+            style={{ display: "none" }}
+            accept="image/*"
             onChange={(e) => {
               const file = e.target.files ? e.target.files[0] : null;
               if (file) {
@@ -82,9 +91,11 @@ export default function Page() {
                 reader.onloadend = () => {
                   if (reader.result) {
                     const base64Image = reader.result.toString();
-                    changeProfilePicture(base64Image, session.user.id).then(() => {
-                      setBase64Image(base64Image);
-                    });
+                    changeProfilePicture(base64Image, session.user.id).then(
+                      () => {
+                        setBase64Image(base64Image);
+                      }
+                    );
                   }
                 };
                 reader.readAsDataURL(file);

@@ -73,7 +73,12 @@ export default function MapView({ eventData }: { eventData: IEvent }) {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.2 }}
-            className="absolute top-0 right-0 h-full w-1/4 bg-white shadow-lg z-20 p-4"
+            className="absolute top-0 right-0 h-full w-1/4 shadow-lg z-20 p-4 m-2 rounded-xl"
+            style={{
+              color: eventData.fontColor,
+              backgroundColor: eventData.primaryColor,
+              border: `2px solid ${lightenColor(eventData.primaryColor, 20)}`,
+            }}
           >
             {showForm && (
               <CheckpointForm
