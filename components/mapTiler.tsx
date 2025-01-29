@@ -5,15 +5,17 @@ import { Checkpoint } from "@/app/[eventCode]/page";
 import CheckpointData from "./checkpoint-data";
 import { AnimatePresence } from "motion/react";
 import { LatLngTuple } from "leaflet";
+import { IEvent } from "@/models/event";
 
 export interface MapProps {
   center: LatLngTuple;
   checkpoints: Checkpoint[];
   zoom?: number;
   primaryColor: string;
+  eventData: IEvent;
 }
 
-const Map = ({ center, checkpoints, primaryColor }: MapProps) => {
+const Map = ({ center, checkpoints, primaryColor, eventData }: MapProps) => {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maptilersdk.Map | null>(null);
   const zoom = 10;
@@ -77,6 +79,7 @@ const Map = ({ center, checkpoints, primaryColor }: MapProps) => {
             <CheckpointData
               checkpoint={selectedCheckpoint}
               onClose={() => setSelectedCheckpoint(null)}
+              eventData={eventData}
             />
           </div>
         )}

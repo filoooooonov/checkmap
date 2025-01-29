@@ -50,6 +50,7 @@ export default function MapView({ eventData }: { eventData: IEvent }) {
       {checkpoints.length >= 0 ? (
         <MapLoader
           center={[60.1699, 24.9384]}
+          eventData={eventData}
           checkpoints={checkpoints}
           primaryColor={eventData.primaryColor}
         />
