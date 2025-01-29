@@ -32,7 +32,7 @@
     "leaflet-routing-machine": "^3.2.12",
     "lucide-react": "^0.471.1",
     "mapbox-gl": "^3.9.3",
-    "maplibre-gl": "^5.1.0",
+    "maplibre-gl": "4.7.1",
     "mongodb": "^6.12.0",
     "mongoose": "^8.9.5",
     "motion": "^12.0.3",
