@@ -29,13 +29,29 @@ export function Header({ eventData }: { eventData?: IEvent }) {
     toast.success("Link copied to clipboard");
   }
 
+  function isDark(hexColor: string) {
+    const stripped = hexColor.replace("#", "");
+    const r = parseInt(stripped.substring(0, 2), 16);
+    const g = parseInt(stripped.substring(2, 4), 16);
+    const b = parseInt(stripped.substring(4, 6), 16);
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return luminance < 0.5;
+  }
+
+  const bgColor = "#090b0c";
+
   return (
     <>
       <Toaster position="bottom-center" />
-      <header className="flex items-center justify-between p-2 max-h-16 px-8 gap-2">
+      <header
+        style={{ backgroundColor: bgColor }}
+        className={`${
+          isDark(bgColor) ? "text-white" : "text-black"
+        } ${eventData} flex items-center justify-between p-2 max-h-16 px-8 gap-2`}
+      >
         <Logo />
         {eventData && (
-          <h2 className="text-lg font-semibold flex items-center gap-2">
+          <h2 className="text-lg font-medium flex items-center gap-2 ">
             {eventData.name}
             {session?.user?.id === eventData.creatorId.toString() && (
               <Dialog open={editNameDialog} onOpenChange={setEditNameDialog}>
