@@ -6,7 +6,9 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { User2 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
-
+import img from "@/public/placeholder-user.png";
+import { useState, useEffect } from "react";
+import { getUserData } from "@/actions/getUserData";
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
@@ -52,7 +54,8 @@ const AvatarWithDropdown = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
-
+  const [base64Image, setBase64Image] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
   // Close dropdown when clicking outside
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -70,7 +73,14 @@ const AvatarWithDropdown = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  useEffect(() => {
+      if (session?.user?.id) {
+        setUserId(session.user.id);
+        getUserData(session.user.id).then((userData) => {
+          setBase64Image(userData?.profilePicture || "");
+        });
+      }
+    }, [session]);
   return (
     <div className="relative inline-block">
       {/* Avatar */}
@@ -79,7 +89,7 @@ const AvatarWithDropdown = () => {
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <Avatar>
-          <AvatarImage src="/path-to-image.jpg" alt="User Avatar" />
+          <AvatarImage src={base64Image || (typeof img === 'string' ? img : img?.src)} alt="User Avatar" />
           <AvatarFallback>
             <User2 className="h-4 w-4" />
           </AvatarFallback>
