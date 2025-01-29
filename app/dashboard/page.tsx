@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useGetListOfEvents } from "@/utils/hooks/useGetListOfEvents";
 import { format } from "date-fns";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,14 +17,23 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { removeEvent } from "@/actions/removeEvent";
 import { EllipsisVertical, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { changeProfilePicture } from "@/actions/changeProfilePicture";
+import { getUserData } from "@/actions/getUserData";
+
 export default function Page() {
   const { data: session, status } = useSession();
   const [userId, setUserId] = useState<string>("");
+  const [base64Image, setBase64Image] = useState<string>("");
+
   const { data, refetch, isLoading, isPending } = useGetListOfEvents(userId);
 
   useEffect(() => {
     if (session?.user?.id) {
       setUserId(session.user.id);
+      getUserData(session.user.id).then((userData) => {
+        setBase64Image(userData?.profilePicture || "");
+      });
     }
   }, [session]);
 
@@ -40,20 +50,47 @@ export default function Page() {
     );
   }
 
+  const handleClick = () => {
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement | null;
+    if (fileInput) {
+      fileInput.click();
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto">
       {/* Account info */}
       {session && (
         <div className="flex items-center p-4 pb-6 border-b">
-          <Image
-            src={session.user.image || img}
-            alt="User"
-            className="size-24 rounded-full"
-          />
+          <Avatar className="size-24 rounded-full cursor-pointer hover:bg-neutral-100" onClick={handleClick}>
+            <AvatarImage src={base64Image || (typeof img === 'string' ? img : img?.src)} className="size-50 rounded-full" alt="User" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
           <div className="ml-4">
             <h2 className="text-xl font-bold">{session.user.name}</h2>
             <p className="text-neutral-500">{session.user.email}</p>
           </div>
+          <input
+            type="file"
+            id="fileInput"
+            style={{ display: 'none' }}
+            accept="image/*" 
+            onChange={(e) => {
+              const file = e.target.files ? e.target.files[0] : null;
+              if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  if (reader.result) {
+                    const base64Image = reader.result.toString();
+                    changeProfilePicture(base64Image, session.user.id).then(() => {
+                      setBase64Image(base64Image);
+                    });
+                  }
+                };
+                reader.readAsDataURL(file);
+              }
+            }}
+          />
         </div>
       )}
 
@@ -96,8 +133,7 @@ export default function Page() {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        removeEvent(event._id);
-                        refetch();
+                        removeEvent(event._id).then(() => refetch());
                       }}
                     >
                       <span className="text-red-500">Delete event</span>
