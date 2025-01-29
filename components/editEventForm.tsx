@@ -28,7 +28,7 @@ export default function EditEventForm({
     if (res.success) {
       setSuccess(res.message);
       setError(null);
-      router.refresh()
+      router.refresh();
       setOpen(false);
     } else {
       setError(res.message);

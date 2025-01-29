@@ -3,7 +3,6 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -20,6 +19,7 @@ import EditEventForm from "./editEventForm";
 import AddEventForm from "./addEvent-form";
 import { useState } from "react";
 import Logo from "./Logo";
+import { lightenColor } from "@/utils/utils";
 export function Header({ eventData }: { eventData?: IEvent }) {
   const { data: session } = useSession();
   const [editNameDialog, setEditNameDialog] = useState(false);
@@ -29,13 +29,21 @@ export function Header({ eventData }: { eventData?: IEvent }) {
     toast.success("Link copied to clipboard");
   }
 
+  const bgColor = eventData?.primaryColor || "#ffffff";
+
   return (
     <>
       <Toaster position="bottom-center" />
-      <header className="flex items-center justify-between p-2 max-h-16 px-8 gap-2">
-        <Logo />
+      <header
+        style={eventData ? { backgroundColor: bgColor } : {}}
+        className="flex items-center justify-between p-2 max-h-16 px-8 gap-2"
+      >
+        <Logo fontColor={eventData?.fontColor || "#000000"} />
         {eventData && (
-          <h2 className="text-lg font-semibold flex items-center gap-2">
+          <h2
+            className="text-lg font-medium flex items-center gap-2 "
+            style={{ color: eventData.fontColor }}
+          >
             {eventData.name}
             {session?.user?.id === eventData.creatorId.toString() && (
               <Dialog open={editNameDialog} onOpenChange={setEditNameDialog}>
@@ -43,10 +51,25 @@ export function Header({ eventData }: { eventData?: IEvent }) {
                   <MdEdit
                     size={30}
                     onClick={() => setEditNameDialog(!editNameDialog)}
-                    className="text-neutral-500 p-2 rounded-full cursor-pointer duration-300 hover:bg-neutral-100"
+                    style={{
+                      padding: "0.5rem",
+                      borderRadius: "50%",
+                      cursor: "pointer",
+                      color: eventData.fontColor,
+                      transition: "background-color 0.3s, color 0.3s",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = lightenColor(
+                        bgColor,
+                        10
+                      );
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = "transparent";
+                    }}
                   />
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="w-full max-w-sm">
                   <DialogHeader>
                     <DialogTitle>Edit event name</DialogTitle>
                     <EditEventForm
@@ -96,7 +119,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
                     Create event
                   </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="w-full max-w-lg">
                   <DialogHeader>
                     <DialogTitle>Create new event</DialogTitle>
                   </DialogHeader>

@@ -19,6 +19,7 @@ export function DateTimePicker({
   onChange: (date: Date) => void;
 }) {
   const [date, setDate] = React.useState<Date>();
+  const [open, setOpen] = React.useState(false);
 
   const handleDateChange = (selectedDate: any) => {
     setDate(selectedDate);
@@ -26,7 +27,7 @@ export function DateTimePicker({
   };
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
@@ -43,7 +44,10 @@ export function DateTimePicker({
         <Calendar
           mode="single"
           selected={date}
-          onSelect={handleDateChange}
+          onSelect={(newDate) => {
+            handleDateChange(newDate);
+            setOpen(false);
+          }}
           initialFocus
         />
       </PopoverContent>

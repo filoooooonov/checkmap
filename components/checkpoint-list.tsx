@@ -6,6 +6,7 @@ import { Checkpoint } from "@/app/[eventCode]/page";
 import { ChevronRight } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { IEvent } from "@/models/event";
+import { lightenColor } from "@/utils/utils";
 
 interface CheckpointListProps {
   eventData: IEvent;
@@ -25,7 +26,20 @@ export function CheckpointList({
     <div className="space-y-4 p-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <ChevronRight size={10} className="icon-btn" onClick={onClose} />
+          <ChevronRight
+            size={10}
+            className="icon-btn"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = lightenColor(
+                eventData.primaryColor,
+                10
+              );
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+            }}
+            onClick={onClose}
+          />
           <h2 className="text-2xl font-bold">Your checkpoints</h2>
         </div>
       </div>
@@ -42,8 +56,17 @@ export function CheckpointList({
         {checkpoints.map((checkpoint) => (
           <Button
             key={checkpoint.id}
-            variant="ghost"
-            className="w-full justify-start gap-2"
+            style={{ color: eventData.fontColor }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = lightenColor(
+                eventData.primaryColor,
+                5
+              );
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+            }}
+            className="bg-transparent w-full justify-start gap-2 shadow-none duration-300"
           >
             <MapPin className="h-4 w-4" />
             {checkpoint.name}

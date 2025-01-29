@@ -96,7 +96,7 @@ const AvatarWithDropdown = () => {
             <>
               <Link
                 href="\dashboard"
-                className="block px-4 py-2 hover:bg-gray-100 duration-300 font-medium text-sm rounded-md cursor-pointer"
+                className="block px-4 py-2 hover:bg-gray-100 duration-300 font-medium text-sm text-black rounded-md cursor-pointer"
               >
                 Dashboard
               </Link>
@@ -104,7 +104,7 @@ const AvatarWithDropdown = () => {
                 onClick={() => {
                   signOut({ callbackUrl: "/" });
                 }}
-                className="w-full text-left block px-4 py-2 hover:bg-gray-100 duration-300 font-medium text-sm rounded-md cursor-pointer"
+                className="w-full text-left block px-4 py-2 hover:bg-gray-100 duration-300 font-medium text-sm text-black rounded-md cursor-pointer"
               >
                 Sign out
               </button>

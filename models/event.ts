@@ -9,6 +9,8 @@ export interface IEvent extends Document {
   creatorId: mongoose.Types.ObjectId;
   checkpoints: mongoose.Types.ObjectId[];
   startDate: string;
+  primaryColor: string;
+  fontColor: string;
 }
 
 const eventSchema = new Schema(
@@ -32,6 +34,14 @@ const eventSchema = new Schema(
     },
     startDate: {
       type: Date,
+    },
+    primaryColor: {
+      type: String,
+      required: false,
+    },
+    fontColor: {
+      type: String,
+      required: false,
     },
     checkpoints: [
       {
