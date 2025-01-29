@@ -38,7 +38,26 @@ export function Header({ eventData }: { eventData?: IEvent }) {
     return luminance < 0.5;
   }
 
-  const bgColor = "#090b0c";
+  function lightenColor(hex: string, percent: number) {
+    const num = parseInt(hex.replace("#", ""), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = (num >> 16) + amt;
+    const G = ((num >> 8) & 0x00ff) + amt;
+    const B = (num & 0x0000ff) + amt;
+    return (
+      "#" +
+      (
+        0x1000000 +
+        (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 +
+        (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 +
+        (B < 255 ? (B < 1 ? 0 : B) : 255)
+      )
+        .toString(16)
+        .slice(1)
+    );
+  }
+
+  const bgColor = eventData?.primaryColor || "#ffffff";
 
   return (
     <>
@@ -59,7 +78,23 @@ export function Header({ eventData }: { eventData?: IEvent }) {
                   <MdEdit
                     size={30}
                     onClick={() => setEditNameDialog(!editNameDialog)}
-                    className="text-neutral-500 p-2 rounded-full cursor-pointer duration-300 hover:bg-neutral-100"
+                    className={isDark(bgColor) ? "!text-white" : "!text-black"}
+                    style={{
+                      color: bgColor,
+                      padding: "0.5rem",
+                      borderRadius: "50%",
+                      cursor: "pointer",
+                      transition: "background-color 0.3s, color 0.3s",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = lightenColor(
+                        bgColor,
+                        20
+                      );
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = "transparent";
+                    }}
                   />
                 </DialogTrigger>
                 <DialogContent className="w-full max-w-sm">
