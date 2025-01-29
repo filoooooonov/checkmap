@@ -6,6 +6,7 @@ export interface IUser extends Document {
   email: string;
   password: string;
   events: mongoose.Types.ObjectId[];
+  profilePicture: string;
 }
 
 const userSchema = new Schema(
@@ -28,6 +29,9 @@ const userSchema = new Schema(
         ref: "Event",
       },
     ],
+    profilePicture: {
+      type: String,
+    }
   },
   { timestamps: true }
 );
