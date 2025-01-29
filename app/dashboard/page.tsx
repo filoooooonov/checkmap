@@ -97,6 +97,7 @@ export default function Page() {
                         e.preventDefault();
                         e.stopPropagation();
                         removeEvent(event._id);
+                        refetch();
                       }}
                     >
                       <span className="text-red-500">Delete event</span>
