@@ -10,43 +10,20 @@ import { Menu } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { IEvent } from "@/models/event";
 import { lightenColor } from "@/utils/utils";
+import { getCheckpoints } from "@/actions/getCheckpoints";
 
 export default function MapView({ eventData }: { eventData: IEvent }) {
   const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(false);
+  const [checkpoints, setCheckpoints] = useState<Checkpoint[]>([]);
 
-  const checkpoints: Checkpoint[] = [
-    {
-      id: 1,
-      coords: [60.1841, 24.8301],
-      name: "Otaniemi",
-    },
-    {
-      id: 2,
-      coords: [60.2417, 24.8854],
-      name: "Kannelmäki",
-    },
-    {
-      id: 3,
-      coords: [60.2108, 25.0805],
-      name: "Itäkeskus",
-    },
-    {
-      id: 4,
-      coords: [60.18587105372319, 24.83476776131922],
-      name: "Otaniemi Sports Park",
-    },
-    {
-      id: 5,
-      coords: [60.187556632736374, 24.835025253385037],
-      name: "Otaniemi JMT1",
-    },
-    {
-      id: 6,
-      coords: [60.18975414452264, 24.83719152849063],
-      name: "Otaniemi Chapel",
-    },
-  ];
+  useEffect(() => {
+    async function fetchCheckpoints() {
+      const fetchedCheckpoints = await getCheckpoints(eventData.eventCode);
+      setCheckpoints(fetchedCheckpoints);
+    }
+    fetchCheckpoints();
+  }, [eventData.eventCode]);
 
   const [userLocation, setUserLocation] = useState<Checkpoint>({
     id: 0,
@@ -81,12 +58,16 @@ export default function MapView({ eventData }: { eventData: IEvent }) {
 
   return (
     <main className="relative overflow-hidden">
-      <MapLoader
-        center={[60.1699, 24.9384]}
-        checkpoints={checkpoints}
-        userLocation={userLocation}
-        primaryColor={eventData.primaryColor}
-      />
+      {checkpoints.length > 0 ? (
+        <MapLoader
+          center={[60.1699, 24.9384]}
+          checkpoints={checkpoints}
+          userLocation={userLocation}
+          primaryColor={eventData.primaryColor}
+        />
+      ) : (
+        <div>Loading checkpoints...</div>
+      )}
       <div className="absolute top-4 right-4 z-10 flex gap-6">
         {!showList && (
           <Button
@@ -104,12 +85,7 @@ export default function MapView({ eventData }: { eventData: IEvent }) {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.2 }}
-            className="absolute top-0 right-0 h-full w-1/4 shadow-lg z-20 p-4 m-2 rounded-xl "
-            style={{
-              backgroundColor: eventData.primaryColor,
-              color: eventData.fontColor,
-              border: `2px solid ${lightenColor(eventData.primaryColor, 20)}`,
-            }}
+            className="absolute top-0 right-0 h-full w-1/4 bg-white shadow-lg z-20 p-4"
           >
             {showForm && (
               <CheckpointForm
