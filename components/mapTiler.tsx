@@ -1,12 +1,19 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
-import { MapProps } from "./map";
 import { Checkpoint } from "@/app/[eventCode]/page";
 import CheckpointData from "./checkpoint-data";
 import { AnimatePresence } from "motion/react";
+import { LatLngTuple } from "leaflet";
 
-const Map = ({ center, checkpoints, userLocation, primaryColor }: MapProps) => {
+export interface MapProps {
+  center: LatLngTuple;
+  checkpoints: Checkpoint[];
+  zoom?: number;
+  primaryColor: string;
+}
+
+const Map = ({ center, checkpoints, primaryColor }: MapProps) => {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maptilersdk.Map | null>(null);
   const zoom = 10;
@@ -35,7 +42,7 @@ const Map = ({ center, checkpoints, userLocation, primaryColor }: MapProps) => {
       });
 
       if (map.current) {
-        checkpoints.forEach((checkpoint) => {
+        checkpoints.forEach((checkpoint: Checkpoint) => {
           const marker = new maptilersdk.Marker({ color: "#000000" })
             .setLngLat([
               checkpoint.location.coordinates[1],
@@ -54,7 +61,7 @@ const Map = ({ center, checkpoints, userLocation, primaryColor }: MapProps) => {
         });
       }
     }
-  }, [center, checkpoints, userLocation, zoom]);
+  }, [center, checkpoints, zoom]);
 
   useEffect(() => {
     if (map.current) {

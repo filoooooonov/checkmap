@@ -10,11 +10,15 @@ import Link from "next/link";
 
 export interface Checkpoint {
   id: number;
-  coords: LatLngTuple;
   name: string;
   description?: string;
+  location: {
+    type: string;
+    coordinates: [number, number];
+  };
+  event: string;
+  images: string[];
 }
-
 export default async function Page({
   params,
 }: {

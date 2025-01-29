@@ -25,22 +25,11 @@ export default function MapView({ eventData }: { eventData: IEvent }) {
     fetchCheckpoints();
   }, [eventData.eventCode]);
 
-  const [userLocation, setUserLocation] = useState<Checkpoint>({
-    id: 0,
-    coords: [60.1699, 24.9384],
-    name: "Your location",
-  });
-
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setUserLocation({
-            id: 0,
-            coords: [latitude, longitude],
-            name: "Your location",
-          });
         },
         (error) => {
           console.error("Error getting user location:", error);
@@ -58,11 +47,10 @@ export default function MapView({ eventData }: { eventData: IEvent }) {
 
   return (
     <main className="relative overflow-hidden">
-      {checkpoints.length > 0 ? (
+      {checkpoints.length >= 0 ? (
         <MapLoader
           center={[60.1699, 24.9384]}
           checkpoints={checkpoints}
-          userLocation={userLocation}
           primaryColor={eventData.primaryColor}
         />
       ) : (
