@@ -104,7 +104,7 @@ export default function MapView({ eventData }: { eventData: IEvent }) {
             transition={{ duration: 0.2 }}
             className="absolute top-0 right-0 h-full w-1/4 bg-white shadow-lg z-20 p-4"
           >
-            {showForm && <CheckpointForm onBack={() => setShowForm(false)} />}
+            {showForm && <CheckpointForm eventId={eventData.eventCode} onBack={() => setShowForm(false)} />}
             {showList && (
               <CheckpointList
                 eventData={eventData}
