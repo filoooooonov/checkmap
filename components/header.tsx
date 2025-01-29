@@ -46,7 +46,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
                     className="text-neutral-500 p-2 rounded-full cursor-pointer duration-300 hover:bg-neutral-100"
                   />
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="w-full max-w-sm">
                   <DialogHeader>
                     <DialogTitle>Edit event name</DialogTitle>
                     <EditEventForm
@@ -96,7 +96,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
                     Create event
                   </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="w-full max-w-lg">
                   <DialogHeader>
                     <DialogTitle>Create new event</DialogTitle>
                   </DialogHeader>
