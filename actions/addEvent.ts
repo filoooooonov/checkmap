@@ -21,9 +21,6 @@ export async function addEvent(eventData: {
       startDate: new Date(eventData.startDate),
     });
 
-    console.log("EVENT DATA", eventData);
-    console.log("NEW DATA", newEvent);
-
     if (!newEvent) {
       throw new Error("Failed to create the event");
     }

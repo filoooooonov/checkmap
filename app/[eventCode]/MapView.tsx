@@ -9,6 +9,7 @@ import { Checkpoint } from "./page";
 import { Menu } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { IEvent } from "@/models/event";
+import { lightenColor } from "@/utils/utils";
 
 export default function MapView({ eventData }: { eventData: IEvent }) {
   const [showForm, setShowForm] = useState(false);
@@ -84,6 +85,7 @@ export default function MapView({ eventData }: { eventData: IEvent }) {
         center={[60.1699, 24.9384]}
         checkpoints={checkpoints}
         userLocation={userLocation}
+        primaryColor={eventData.primaryColor}
       />
       <div className="absolute top-4 right-4 z-10 flex gap-6">
         {!showList && (
@@ -102,9 +104,19 @@ export default function MapView({ eventData }: { eventData: IEvent }) {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.2 }}
-            className="absolute top-0 right-0 h-full w-1/4 bg-white shadow-lg z-20 p-4"
+            className="absolute top-0 right-0 h-full w-1/4 shadow-lg z-20 p-4 m-2 rounded-xl "
+            style={{
+              backgroundColor: eventData.primaryColor,
+              color: eventData.fontColor,
+              border: `2px solid ${lightenColor(eventData.primaryColor, 20)}`,
+            }}
           >
-            {showForm && <CheckpointForm eventId={eventData.eventCode} onBack={() => setShowForm(false)} />}
+            {showForm && (
+              <CheckpointForm
+                eventId={eventData.eventCode}
+                onBack={() => setShowForm(false)}
+              />
+            )}
             {showList && (
               <CheckpointList
                 eventData={eventData}

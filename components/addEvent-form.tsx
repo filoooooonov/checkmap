@@ -21,6 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { isDark, lightenColor } from "@/utils/utils";
 
 interface AddEventFormProps {
   setOpen: (open: boolean) => void;
@@ -32,6 +33,7 @@ interface FormData {
   startDate: string;
   time: string;
   primaryColor: string;
+  fontColor: string;
 }
 
 const generateTimeOptions = () => {
@@ -57,7 +59,8 @@ export default function AddEventForm({ setOpen }: AddEventFormProps) {
     description: "",
     startDate: "", // will eventually hold date.toISOString()
     time: "", // "1970-01-01T02:00:00.000Z" or "HH:mm"
-    primaryColor: color.hex,
+    primaryColor: "#ffffff", // background color
+    fontColor: "#000000", // color for texts
   });
   const { data: session } = useSession();
   const [responseMessage, setResponseMessage] = useState<string>("");
@@ -72,6 +75,9 @@ export default function AddEventForm({ setOpen }: AddEventFormProps) {
     setFormData((prevData) => ({
       ...prevData,
       primaryColor: newColor.hex,
+      fontColor: isDark(newColor.hex)
+        ? lightenColor(newColor.hex, 50)
+        : lightenColor(newColor.hex, -50),
     }));
   };
 

@@ -10,6 +10,7 @@ export interface IEvent extends Document {
   checkpoints: mongoose.Types.ObjectId[];
   startDate: string;
   primaryColor: string;
+  fontColor: string;
 }
 
 const eventSchema = new Schema(
@@ -35,6 +36,10 @@ const eventSchema = new Schema(
       type: Date,
     },
     primaryColor: {
+      type: String,
+      required: false,
+    },
+    fontColor: {
       type: String,
       required: false,
     },

@@ -25,6 +25,7 @@ export interface MapProps {
   checkpoints: Checkpoint[];
   userLocation: Checkpoint;
   zoom?: number;
+  primaryColor: string;
 }
 
 const defaults = {

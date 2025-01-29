@@ -6,7 +6,7 @@ import { Checkpoint } from "@/app/[eventCode]/page";
 import CheckpointData from "./checkpoint-data";
 import { AnimatePresence } from "motion/react";
 
-const Map = ({ center, checkpoints, userLocation }: MapProps) => {
+const Map = ({ center, checkpoints, userLocation, primaryColor }: MapProps) => {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maptilersdk.Map | null>(null);
   const zoom = 10;
@@ -36,7 +36,7 @@ const Map = ({ center, checkpoints, userLocation }: MapProps) => {
 
       if (map.current) {
         checkpoints.forEach((checkpoint) => {
-          const marker = new maptilersdk.Marker({ color: "#ff4747" })
+          const marker = new maptilersdk.Marker({ color: "#000000" })
             .setLngLat([checkpoint.coords[1], checkpoint.coords[0]]) // Adjusted to match [lng, lat]
             .addTo(map.current!);
 

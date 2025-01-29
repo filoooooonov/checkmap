@@ -18,14 +18,21 @@ interface MapLoaderProps {
   center: LatLngTuple;
   checkpoints: Checkpoint[];
   userLocation: Checkpoint;
+  primaryColor: string;
 }
 
-const MapLoader = ({ center, checkpoints, userLocation }: MapLoaderProps) => {
+const MapLoader = ({
+  center,
+  checkpoints,
+  userLocation,
+  primaryColor,
+}: MapLoaderProps) => {
   return (
     <Map
       center={center}
       checkpoints={checkpoints}
       userLocation={userLocation}
+      primaryColor={primaryColor}
     />
   );
 };
