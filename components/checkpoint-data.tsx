@@ -55,13 +55,6 @@ export default function CheckpointData({
     >
       <div className="flex flex-col">
         <div className="bg-neutral-200 w-full h-40 rounded-lg relative" onClick={handleImageClick}>
-          {/* <Image
-            src={checkpoint.images[currentImageIndex]}
-            alt={`${checkpoint.name} image ${currentImageIndex + 1}`}
-            layout="fill"
-            objectFit="cover"
-            className="rounded-lg"
-          /> */}
           <ImageSwiper images={checkpoint.images} className="h-full w-full" />
         </div>
         <div className="p-4">
