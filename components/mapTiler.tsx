@@ -6,6 +6,18 @@ import CheckpointData from "./checkpoint-data";
 import { AnimatePresence } from "motion/react";
 import { LatLngTuple } from "leaflet";
 import { IEvent } from "@/models/event";
+import { useMediaQuery } from "usehooks-ts";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Button } from "./ui/button";
 
 export interface MapProps {
   center: LatLngTuple;
@@ -24,6 +36,8 @@ const Map = ({ center, checkpoints, primaryColor, eventData }: MapProps) => {
 
   const [selectedCheckpoint, setSelectedCheckpoint] =
     useState<Checkpoint | null>(null);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     if (map.current) return; // stops map from initializing more than once
@@ -59,6 +73,9 @@ const Map = ({ center, checkpoints, primaryColor, eventData }: MapProps) => {
 
           marker.getElement().addEventListener("click", () => {
             setSelectedCheckpoint(checkpoint);
+            if (!isDesktop) {
+              setDrawerOpen(!drawerOpen);
+            }
           });
         });
       }
@@ -73,6 +90,25 @@ const Map = ({ center, checkpoints, primaryColor, eventData }: MapProps) => {
   return (
     <div className="relative map-wrap">
       <div ref={mapContainer} className="map" />
+      {/* TODO: show the checkpoint data in a Drawer */}
+      {/* {selectedCheckpoint && (
+        <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
+          <DrawerTrigger>Open</DrawerTrigger>
+          <DrawerContent>
+            <CheckpointData
+              checkpoint={selectedCheckpoint}
+              onClose={() => setSelectedCheckpoint(null)}
+              eventData={eventData}
+            />
+            <DrawerFooter>
+              <DrawerClose>
+                <Button variant="outline">Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      )} */}
+
       <AnimatePresence>
         {selectedCheckpoint && (
           <div>

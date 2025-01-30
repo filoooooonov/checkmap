@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import MapLoader from "@/components/MapLoader";
 import { CheckpointForm } from "@/components/checkpoint-form";
@@ -11,12 +11,16 @@ import { AnimatePresence, motion } from "motion/react";
 import { IEvent } from "@/models/event";
 import { lightenColor } from "@/utils/utils";
 import { getCheckpoints } from "@/actions/getCheckpoints";
+import { set } from "mongoose";
 
 export default function MapView({ eventData }: { eventData: IEvent }) {
   const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(false);
+  const [showRightSidebar, setShowRightSidebar] = useState(false);
   const [checkpoints, setCheckpoints] = useState<Checkpoint[]>([]);
+  const ref = useRef<HTMLDivElement>(null);
 
+  // Fetching checkpoints
   useEffect(() => {
     async function fetchCheckpoints() {
       const fetchedCheckpoints = await getCheckpoints(eventData.eventCode);
@@ -24,6 +28,20 @@ export default function MapView({ eventData }: { eventData: IEvent }) {
     }
     fetchCheckpoints();
   }, [eventData.eventCode]);
+
+  // To close sidebars on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setShowRightSidebar(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setShowForm, setShowList]);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -58,23 +76,27 @@ export default function MapView({ eventData }: { eventData: IEvent }) {
         <div>Loading checkpoints...</div>
       )}
       <div className="absolute top-4 right-4 z-10 flex gap-6">
-        {!showList && (
+        {!showRightSidebar && (
           <Button
             className=" shadow-neutral-300 bg-white border-2 border-neutral-200 hover:bg-neutral-100 duration-300 rounded-full aspect-square p-2"
-            onClick={() => setShowList(true)}
+            onClick={() => {
+              setShowRightSidebar(true);
+              setShowList(true);
+            }}
           >
             <Menu size={24} className="text-black" />
           </Button>
         )}
       </div>
       <AnimatePresence>
-        {(showForm || showList) && (
+        {showRightSidebar && (
           <motion.aside
+            ref={ref}
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.2 }}
-            className="absolute top-0 right-0 h-full w-1/4 shadow-lg z-20 p-4 m-2 rounded-xl"
+            className="absolute top-0 right-0 h-full w-3/4 lg:w-1/4 shadow-lg z-20 p-4 m-2 rounded-xl"
             style={{
               color: eventData.fontColor,
               backgroundColor: eventData.primaryColor,
@@ -84,13 +106,16 @@ export default function MapView({ eventData }: { eventData: IEvent }) {
             {showForm && (
               <CheckpointForm
                 eventId={eventData.eventCode}
-                onBack={() => setShowForm(false)}
+                onBack={() => {
+                  setShowForm(false);
+                  setShowList(true);
+                }}
               />
             )}
             {showList && (
               <CheckpointList
                 eventData={eventData}
-                onClose={() => setShowList(false)}
+                onClose={() => setShowRightSidebar(false)}
                 setShowForm={() => {
                   setShowForm(true);
                   setShowList(false);
