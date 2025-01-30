@@ -59,7 +59,7 @@ const Map = ({ center, checkpoints, primaryColor, eventData }: MapProps) => {
 
       if (map.current) {
         checkpoints.forEach((checkpoint: Checkpoint) => {
-          const marker = new maptilersdk.Marker({ color: "#000000" })
+          const marker = new maptilersdk.Marker({ color: checkpoint.isInside ? "#FFFFFF" : "#000000" })
             .setLngLat([
               checkpoint.location.coordinates[1],
               checkpoint.location.coordinates[0],

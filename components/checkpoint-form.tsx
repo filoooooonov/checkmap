@@ -13,7 +13,7 @@ import { IoSearchSharp } from "react-icons/io5";
 import { revalidatePath } from "next/cache";
 import { IEvent } from "@/models/event";
 import { lightenColor } from "@/utils/utils";
-
+import { Check } from 'lucide-react'
 interface CheckpointFormProps {
   onBack: () => void;
   eventCode: string;
@@ -38,6 +38,7 @@ export function CheckpointForm({
   }>({ lat: 60.1879057, lon: 24.8224665 });
   const mapRef = useRef<L.Map | null>(null);
   const [images, setImages] = useState<string[]>([]);
+  const [isInside, setIsInside] = useState(false);
 
   useEffect(() => {
     if (!mapRef.current) {
@@ -122,6 +123,7 @@ export function CheckpointForm({
         },
         event: eventCode,
         images,
+        isInside,
       };
 
       await addCheckpoint(checkpointData);
@@ -234,6 +236,16 @@ export function CheckpointForm({
             onChange={handleImageChange}
           />
         </div>
+      </div>
+      <div className="space-y-2">
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={isInside}
+            onChange={(e) => setIsInside(e.target.checked)}
+          />
+          Is the checkpoint inside?
+        </label>
       </div>
       <Button type="submit" className="w-full">
         Save checkpoint
