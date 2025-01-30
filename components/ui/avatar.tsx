@@ -75,10 +75,18 @@ const AvatarWithDropdown = () => {
   }, []);
   useEffect(() => {
     if (session?.user?.id) {
-      setUserId(session.user.id);
-      getUserData(session.user.id).then((userData) => {
-        setBase64Image(userData?.profilePicture || "");
-      });
+      const storedImage = localStorage.getItem("profileImgData");
+      if (storedImage) {
+        setBase64Image(storedImage);
+      } else {
+        getUserData(session.user.id).then((userData) => {
+          setBase64Image(userData?.profilePicture || "");
+          localStorage.setItem(
+            "profileImgData",
+            userData?.profilePicture || ""
+          );
+        });
+      }
     }
   }, [session]);
   return (
@@ -116,6 +124,7 @@ const AvatarWithDropdown = () => {
               </Link>
               <button
                 onClick={() => {
+                  localStorage.clear();
                   signOut({ callbackUrl: "/" });
                 }}
                 className="w-full text-left block px-4 py-2 hover:bg-gray-100 duration-300 font-medium text-sm text-black rounded-md cursor-pointer"

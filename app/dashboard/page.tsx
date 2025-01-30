@@ -30,10 +30,18 @@ export default function Page() {
 
   useEffect(() => {
     if (session?.user?.id) {
-      setUserId(session.user.id);
-      getUserData(session.user.id).then((userData) => {
-        setBase64Image(userData?.profilePicture || "");
-      });
+      const storedImage = localStorage.getItem("profileImgData");
+      if (storedImage) {
+        setBase64Image(storedImage);
+      } else {
+        getUserData(session.user.id).then((userData) => {
+          setBase64Image(userData?.profilePicture || "");
+          localStorage.setItem(
+            "profileImgData",
+            userData?.profilePicture || ""
+          );
+        });
+      }
     }
   }, [session]);
 
@@ -69,7 +77,10 @@ export default function Page() {
             onClick={handleClick}
           >
             <AvatarImage
-              src={base64Image || (typeof img === "string" ? img : img?.src)}
+              src={
+                localStorage.getItem("profileImgData") ||
+                (typeof img === "string" ? img : img?.src)
+              }
               className="size-50 rounded-full object-cover"
               alt="User"
             />

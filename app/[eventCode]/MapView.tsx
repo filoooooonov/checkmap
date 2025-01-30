@@ -100,8 +100,8 @@ export default function MapView({
           >
             {showForm && (
               <CheckpointForm
-                eventData={eventData}
                 eventCode={eventData.eventCode}
+                eventData={eventData}
                 onBack={() => {
                   setShowForm(false);
                   setShowList(true);
