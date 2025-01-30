@@ -7,6 +7,7 @@ import { getEventData } from "@/actions/getEventData";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { getCheckpoints } from "@/actions/getCheckpoints";
 
 export interface Checkpoint {
   id: number;
@@ -27,6 +28,7 @@ export default async function Page({
   const eventCode = (await params).eventCode;
 
   const eventData = await getEventData(eventCode);
+  const fetchedCheckpoints = await getCheckpoints(eventData.eventCode);
 
   return (
     <>
@@ -34,7 +36,7 @@ export default async function Page({
         <Header eventData={eventData} />
         <div>
           {eventData ? (
-            <MapView eventData={eventData} />
+            <MapView eventData={eventData} checkpoints={fetchedCheckpoints} />
           ) : (
             <div className="flex w-full h-[80vh] items-center justify-center">
               <div className="flex flex-col gap-4">

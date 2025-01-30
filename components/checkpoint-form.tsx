@@ -10,13 +10,21 @@ import "leaflet/dist/leaflet.css";
 import { addCheckpoint } from "@/actions/addCheckpoint";
 import { toast, Toaster } from "sonner";
 import { IoSearchSharp } from "react-icons/io5";
+import { revalidatePath } from "next/cache";
+import { IEvent } from "@/models/event";
+import { lightenColor } from "@/utils/utils";
 
 interface CheckpointFormProps {
   onBack: () => void;
-  eventId: string;
+  eventCode: string;
+  eventData: IEvent;
 }
 
-export function CheckpointForm({ onBack, eventId }: CheckpointFormProps) {
+export function CheckpointForm({
+  onBack,
+  eventCode,
+  eventData,
+}: CheckpointFormProps) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [address, setAddress] = useState("");
@@ -80,7 +88,7 @@ export function CheckpointForm({ onBack, eventId }: CheckpointFormProps) {
             number
           ],
         },
-        event: eventId,
+        event: eventCode,
       };
 
       await addCheckpoint(checkpointData);
@@ -94,10 +102,23 @@ export function CheckpointForm({ onBack, eventId }: CheckpointFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="p-2 space-y-10">
-      <Toaster />
       <div className="flex items-center gap-2">
-        <button onClick={onBack} className="icon-btn">
-          <ChevronRight size={20} />
+        <button onClick={onBack}>
+          <ChevronRight
+            size={10}
+            className="icon-btn"
+            style={{ color: eventData.fontColor }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = eventData.fontColor;
+              e.currentTarget.style.backgroundColor = lightenColor(
+                eventData.primaryColor,
+                10
+              );
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+            }}
+          />
         </button>
         <h2 className="text-2xl font-bold">New checkpoint</h2>
       </div>
