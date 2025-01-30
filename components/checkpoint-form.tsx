@@ -8,13 +8,23 @@ import { ChevronRight } from "lucide-react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { addCheckpoint } from "@/actions/addCheckpoint";
+import { toast, Toaster } from "sonner";
+import { IoSearchSharp } from "react-icons/io5";
+import { revalidatePath } from "next/cache";
+import { IEvent } from "@/models/event";
+import { lightenColor } from "@/utils/utils";
 
 interface CheckpointFormProps {
   onBack: () => void;
-  eventId: string;
+  eventCode: string;
+  eventData: IEvent;
 }
 
-export function CheckpointForm({ onBack, eventId }: CheckpointFormProps) {
+export function CheckpointForm({
+  onBack,
+  eventCode,
+  eventData,
+}: CheckpointFormProps) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [address, setAddress] = useState("");
@@ -25,20 +35,16 @@ export function CheckpointForm({ onBack, eventId }: CheckpointFormProps) {
   const [pinCoordinates, setPinCoordinates] = useState<{
     lat: number;
     lon: number;
-  }>({
-    lat: 60.1879057,
-    lon: 24.8224665,
-  });
+  }>({ lat: 60.1879057, lon: 24.8224665 });
   const mapRef = useRef<L.Map | null>(null);
   const [images, setImages] = useState<string[]>([]);
 
   useEffect(() => {
     if (!mapRef.current) {
       mapRef.current = L.map("map").setView([60.1879057, 24.8224665], 13);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(mapRef.current);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(
+        mapRef.current
+      );
 
       mapRef.current.on("move", () => {
         const center = mapRef.current!.getCenter();
@@ -57,7 +63,9 @@ export function CheckpointForm({ onBack, eventId }: CheckpointFormProps) {
     if (address.length > 3) {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+          
           address
+        
         )}&format=json&addressdetails=1`
       );
       const data = await response.json();
@@ -108,8 +116,11 @@ export function CheckpointForm({ onBack, eventId }: CheckpointFormProps) {
         location: {
           type: "Point",
           coordinates: [pinCoordinates.lat, pinCoordinates.lon] as [
+            
             number,
+           
             number
+          
           ],
         },
         event: eventId,
@@ -117,26 +128,40 @@ export function CheckpointForm({ onBack, eventId }: CheckpointFormProps) {
       };
 
       await addCheckpoint(checkpointData);
-      alert("Checkpoint added successfully!");
+      toast.success("Checkpoint added successfully!");
       onBack();
     } catch (error) {
       console.error("Error adding checkpoint:", error);
-      alert("Failed to add checkpoint.");
+      toast.error("Failed to add checkpoint.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-2 space-y-6">
+    <form onSubmit={handleSubmit} className="p-2 space-y-10">
       <div className="flex items-center gap-2">
-        <button onClick={onBack} className="icon-btn">
-          <ChevronRight size={20} />
+        <button onClick={onBack}>
+          <ChevronRight
+            size={10}
+            className="icon-btn"
+            style={{ color: eventData.fontColor }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = eventData.fontColor;
+              e.currentTarget.style.backgroundColor = lightenColor(
+                eventData.primaryColor,
+                10
+              );
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+            }}
+          />
         </button>
         <h2 className="text-2xl font-bold">New checkpoint</h2>
       </div>
       <div className="space-y-2">
         <Input
           id="name"
-          placeholder="Checkpoint name*"
+          placeholder="Checkpoint name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -158,11 +183,29 @@ export function CheckpointForm({ onBack, eventId }: CheckpointFormProps) {
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
-          <Button type="button" onClick={handleSearch}>
+          <Button
+            type="button"
+            onClick={handleSearch}
+            className="flex items-center gap-2"
+          >
+            <IoSearchSharp />
             Search
           </Button>
         </div>
-        <div id="map" style={{ height: "200px", position: "relative" }}>
+        {/* {coordinates && (
+          <div>
+            <p>Latitude: {coordinates.lat}</p>
+            <p>Longitude: {coordinates.lon}</p>
+          </div>
+        )} */}
+        <div
+          id="map"
+          style={{
+            height: "200px",
+            position: "relative",
+            borderRadius: "16px",
+          }}
+        >
           <div
             style={{
               position: "absolute",

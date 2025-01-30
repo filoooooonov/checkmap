@@ -11,23 +11,18 @@ import { AnimatePresence, motion } from "motion/react";
 import { IEvent } from "@/models/event";
 import { lightenColor } from "@/utils/utils";
 import { getCheckpoints } from "@/actions/getCheckpoints";
-import { set } from "mongoose";
 
-export default function MapView({ eventData }: { eventData: IEvent }) {
+export default function MapView({
+  eventData,
+  checkpoints,
+}: {
+  eventData: IEvent;
+  checkpoints: Checkpoint[];
+}) {
   const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(false);
   const [showRightSidebar, setShowRightSidebar] = useState(false);
-  const [checkpoints, setCheckpoints] = useState<Checkpoint[]>([]);
   const ref = useRef<HTMLDivElement>(null);
-
-  // Fetching checkpoints
-  useEffect(() => {
-    async function fetchCheckpoints() {
-      const fetchedCheckpoints = await getCheckpoints(eventData.eventCode);
-      setCheckpoints(fetchedCheckpoints);
-    }
-    fetchCheckpoints();
-  }, [eventData.eventCode]);
 
   // To close sidebars on click outside
   useEffect(() => {
@@ -105,7 +100,8 @@ export default function MapView({ eventData }: { eventData: IEvent }) {
           >
             {showForm && (
               <CheckpointForm
-                eventId={eventData.eventCode}
+                eventData={eventData}
+                eventCode={eventData.eventCode}
                 onBack={() => {
                   setShowForm(false);
                   setShowList(true);
