@@ -37,6 +37,7 @@ export function CheckpointForm({
     lon: number;
   }>({ lat: 60.1879057, lon: 24.8224665 });
   const mapRef = useRef<L.Map | null>(null);
+  const [images, setImages] = useState<string[]>([]);
 
   useEffect(() => {
     if (!mapRef.current) {
@@ -62,7 +63,9 @@ export function CheckpointForm({
     if (address.length > 3) {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+          
           address
+        
         )}&format=json&addressdetails=1`
       );
       const data = await response.json();
@@ -70,6 +73,35 @@ export function CheckpointForm({
         const { lat, lon } = data[0];
         setCoordinates({ lat: parseFloat(lat), lon: parseFloat(lon) });
       }
+    }
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const fileReaders: FileReader[] = [];
+      const imagePromises = Array.from(files).map((file) => {
+        return new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            if (reader.result) {
+              resolve(reader.result.toString());
+            } else {
+              reject("Failed to read file");
+            }
+          };
+          reader.readAsDataURL(file);
+          fileReaders.push(reader);
+        });
+      });
+
+      Promise.all(imagePromises)
+        .then((base64Images) => {
+          setImages((prevImages) => [...prevImages, ...base64Images]);
+        })
+        .catch((error) => {
+          console.error("Error reading files:", error);
+        });
     }
   };
 
@@ -83,12 +115,13 @@ export function CheckpointForm({
         description,
         location: {
           type: "Point",
-          coordinates: [pinCoordinates.lat, pinCoordinates.lon] as [
-            number,
+          coordinates: [pinCoordinates.lat, pinCoordinates.lon] as [       
+            number,   
             number
           ],
         },
         event: eventCode,
+        images,
       };
 
       await addCheckpoint(checkpointData);
@@ -190,12 +223,17 @@ export function CheckpointForm({
             ></div>
           </div>
         </div>
-        {/* {pinCoordinates && (
-          <div>
-            <p>Pin Latitude: {pinCoordinates.lat}</p>
-            <p>Pin Longitude: {pinCoordinates.lon}</p>
-          </div>
-        )} */}
+        <div id="imageinput">
+          <Input
+            id="provideImage"
+            placeholder="Select Images"
+            multiple
+            type="file"
+            className="cursor-pointer bg-hover:bg-gray-100"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
+        </div>
       </div>
       <Button type="submit" className="w-full">
         Save checkpoint

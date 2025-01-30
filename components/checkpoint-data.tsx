@@ -5,7 +5,8 @@ import { IEvent } from "@/models/event";
 import { lightenColor } from "@/utils/utils";
 import { ChevronLeft } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 interface SidebarProps {
   checkpoint: Checkpoint;
@@ -19,6 +20,7 @@ export default function CheckpointData({
   eventData,
 }: SidebarProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -32,6 +34,11 @@ export default function CheckpointData({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
+
+  const handleImageClick = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % checkpoint.images.length);
+  };
+
   return (
     <motion.aside
       initial={{ x: "-100%" }}
@@ -47,7 +54,15 @@ export default function CheckpointData({
       }}
     >
       <div className="flex flex-col">
-        <div className="bg-neutral-200 w-full h-40 rounded-lg"></div>
+        <div className="bg-neutral-200 w-full h-40 rounded-lg relative" onClick={handleImageClick}>
+          <Image
+            src={checkpoint.images[currentImageIndex]}
+            alt={`${checkpoint.name} image ${currentImageIndex + 1}`}
+            layout="fill"
+            objectFit="cover"
+            className="rounded-lg"
+          />
+        </div>
         <div className="p-4">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold">{checkpoint.name}</h2>
