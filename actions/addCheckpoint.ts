@@ -10,6 +10,7 @@ export async function addCheckpoint(checkpointData: {
   location: { type: string; coordinates: [number, number] };
   event: string;
   images?: string[];
+  isInside: boolean;
 }) {
   try {
     // Connect to the database

@@ -30,6 +30,10 @@ const checkpointSchema = new Schema(
       type: [String], // Array of image URLs 
       required: false, 
     }, 
+    isInside:{
+      type: Boolean,
+      required: true,
+    },
   }, 
   { timestamps: true } 
 ); 
