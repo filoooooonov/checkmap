@@ -115,15 +115,12 @@ export function CheckpointForm({
         description,
         location: {
           type: "Point",
-          coordinates: [pinCoordinates.lat, pinCoordinates.lon] as [
-            
-            number,
-           
+          coordinates: [pinCoordinates.lat, pinCoordinates.lon] as [       
+            number,   
             number
-          
           ],
         },
-        event: eventId,
+        event: eventCode,
         images,
       };
 
