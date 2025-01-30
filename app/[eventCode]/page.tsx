@@ -19,6 +19,7 @@ export interface Checkpoint {
   };
   event: string;
   images: string[];
+  isInside: boolean;
 }
 export default async function Page({
   params,
