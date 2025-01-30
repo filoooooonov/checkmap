@@ -54,14 +54,13 @@ export default function CheckpointData({
             <button
               style={{ color: eventData.fontColor }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.color = eventData.primaryColor;
+                e.currentTarget.style.color = eventData.fontColor;
                 e.currentTarget.style.backgroundColor = lightenColor(
                   eventData.primaryColor,
                   10
                 );
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.color = eventData.fontColor;
                 e.currentTarget.style.backgroundColor = "transparent";
               }}
               onClick={onClose}

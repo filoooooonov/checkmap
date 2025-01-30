@@ -20,6 +20,8 @@ import AddEventForm from "./addEvent-form";
 import { useState } from "react";
 import Logo from "./Logo";
 import { lightenColor } from "@/utils/utils";
+import { LuCopy } from "react-icons/lu";
+
 export function Header({ eventData }: { eventData?: IEvent }) {
   const { data: session } = useSession();
   const [editNameDialog, setEditNameDialog] = useState(false);
@@ -92,8 +94,8 @@ export function Header({ eventData }: { eventData?: IEvent }) {
               size="sm"
               className="gap-2"
             >
-              <Share2 className="h-4 w-4" />
-              Share
+              <LuCopy className="h-4 w-4" />
+              Copy link
             </Button>
           )}
 
@@ -123,7 +125,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
                   <DialogHeader>
                     <DialogTitle>Create new event</DialogTitle>
                   </DialogHeader>
-                  <AddEventForm setOpen={setCreateEvenetDialog}/>
+                  <AddEventForm setOpen={setCreateEvenetDialog} />
                 </DialogContent>
               </Dialog>
             </h3>

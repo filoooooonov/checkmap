@@ -9,7 +9,7 @@ export default function Logo({ fontColor }: { fontColor: string }) {
     <div>
       <Link href="/" className="flex items-center gap-2">
         <Image src={logo} alt="logo" className="size-8" />
-        <h1 className="text-xl font-medium" style={{ color: fontColor }}>
+        <h1 className="text-xl font-semibold" style={{ color: fontColor }}>
           Checkmap
         </h1>
       </Link>

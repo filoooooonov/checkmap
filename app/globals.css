@@ -19,7 +19,7 @@ body {
 }
 
 .icon-btn {
-  @apply hover:bg-neutral-100 duration-300 cursor-pointer text-neutral-500 size-10 p-2 rounded-full flex items-center justify-center;
+  @apply hover:bg-neutral-100 duration-300 cursor-pointer text-neutral-500 size-10 p-2 rounded-full flex items-center justify-center aspect-square;
 }
 
 .custom-div-icon .icon-wrapper {
@@ -52,7 +52,7 @@ body {
   position: relative;
   width: 100%;
   height: calc(
-    100vh - 57px
+    100vh - 56px
   ); /* calculate height of the screen minus the heading */
 }
 

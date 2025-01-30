@@ -74,13 +74,13 @@ const AvatarWithDropdown = () => {
     };
   }, []);
   useEffect(() => {
-      if (session?.user?.id) {
-        setUserId(session.user.id);
-        getUserData(session.user.id).then((userData) => {
-          setBase64Image(userData?.profilePicture || "");
-        });
-      }
-    }, [session]);
+    if (session?.user?.id) {
+      setUserId(session.user.id);
+      getUserData(session.user.id).then((userData) => {
+        setBase64Image(userData?.profilePicture || "");
+      });
+    }
+  }, [session]);
   return (
     <div className="relative inline-block">
       {/* Avatar */}
@@ -89,7 +89,11 @@ const AvatarWithDropdown = () => {
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <Avatar>
-          <AvatarImage src={base64Image || (typeof img === 'string' ? img : img?.src)} alt="User Avatar" />
+          <AvatarImage
+            src={base64Image || (typeof img === "string" ? img : img?.src)}
+            alt="User Avatar"
+            className="object-cover"
+          />
           <AvatarFallback>
             <User2 className="h-4 w-4" />
           </AvatarFallback>

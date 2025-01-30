@@ -31,19 +31,18 @@ export function CheckpointList({
             className="icon-btn"
             style={{ color: eventData.fontColor }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.color = eventData.primaryColor;
+              e.currentTarget.style.color = eventData.fontColor;
               e.currentTarget.style.backgroundColor = lightenColor(
                 eventData.primaryColor,
                 10
               );
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.color = eventData.fontColor;
               e.currentTarget.style.backgroundColor = "transparent";
             }}
             onClick={onClose}
           />
-          <h2 className="text-2xl font-bold">Your checkpoints</h2>
+          <h2 className="text-2xl font-bold">All checkpoints</h2>
         </div>
       </div>
       {session && session.user.id === eventData.creatorId.toString() && (
