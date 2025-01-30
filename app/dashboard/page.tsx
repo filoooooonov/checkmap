@@ -30,6 +30,7 @@ export default function Page() {
 
   useEffect(() => {
     if (session?.user?.id) {
+      setUserId(session.user.id);
       const storedImage = localStorage.getItem("profileImgData");
       if (storedImage) {
         setBase64Image(storedImage);
@@ -73,14 +74,11 @@ export default function Page() {
       {session && (
         <div className="flex items-center p-4 pb-6 border-b">
           <Avatar
-            className="size-24 rounded-full cursor-pointer hover:bg-neutral-100"
+            className="size-24 rounded-full cursor-pointer "
             onClick={handleClick}
           >
             <AvatarImage
-              src={
-                localStorage.getItem("profileImgData") ||
-                (typeof img === "string" ? img : img?.src)
-              }
+              src={localStorage.getItem("profileImgData") || base64Image}
               className="size-50 rounded-full object-cover"
               alt="User"
             />
