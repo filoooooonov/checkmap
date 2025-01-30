@@ -29,6 +29,8 @@ export default function MapView({
     function handleClickOutside(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
         setShowRightSidebar(false);
+        setShowForm(false);
+        setShowList(false);
       }
     }
 

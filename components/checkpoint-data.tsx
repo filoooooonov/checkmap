@@ -36,7 +36,9 @@ export default function CheckpointData({
   }, [onClose]);
 
   const handleImageClick = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % checkpoint.images.length);
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex + 1) % checkpoint.images.length
+    );
   };
 
   return (
@@ -46,7 +48,7 @@ export default function CheckpointData({
       exit={{ x: "-100%" }}
       transition={{ duration: 0.3 }}
       ref={ref}
-      className="absolute top-0 left-0 w-3/4 lg:w-[15%] h-full shadow-lg z-10 m-2 rounded-2xl p-2"
+      className="absolute top-0 left-0 w-3/4 lg:w-[25%] h-full shadow-lg z-10 m-2 rounded-2xl p-2"
       style={{
         backgroundColor: eventData.primaryColor,
         color: eventData.fontColor,
@@ -54,9 +56,18 @@ export default function CheckpointData({
       }}
     >
       <div className="flex flex-col">
-        <div className="bg-neutral-200 w-full h-40 rounded-lg relative" onClick={handleImageClick}>
-          <ImageSwiper images={checkpoint.images} className="h-full w-full" />
-        </div>
+        {checkpoint.images.length > 0 ? (
+          <ImageSwiper images={checkpoint.images} className="w-full h-[80%]" />
+        ) : (
+          <div
+            className=" w-full h-40 rounded-lg relative"
+            style={{
+              backgroundColor: lightenColor(eventData.primaryColor, 10),
+            }}
+            onClick={handleImageClick}
+          ></div>
+        )}
+
         <div className="p-4">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold">{checkpoint.name}</h2>

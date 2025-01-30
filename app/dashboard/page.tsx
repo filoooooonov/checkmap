@@ -26,7 +26,7 @@ export default function Page() {
   const [userId, setUserId] = useState<string>("");
   const [base64Image, setBase64Image] = useState<string>("");
 
-  const { data, refetch, isLoading, isPending } = useGetListOfEvents(userId);
+  const { data, refetch, isLoading } = useGetListOfEvents(userId);
 
   useEffect(() => {
     if (session?.user?.id) {
@@ -85,7 +85,9 @@ export default function Page() {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="ml-4">
-            <h2 className="text-xl font-bold">{session.user.name}</h2>
+            <h2 className="text-xl font-bold">
+              {session.user.name} / {isLoading}
+            </h2>
             <p className="text-neutral-500">{session.user.email}</p>
           </div>
           <input
@@ -117,7 +119,13 @@ export default function Page() {
       {/* Event data */}
       <div className="p-4 pt-6">
         <h2 className="text-xl font-bold">Your events</h2>
-        {data && !isLoading && !isPending && (
+        {isLoading && (
+          <div className="text-center mt-80 flex items-center gap-2 justify-center ">
+            <Loader2 className="size-6 animate-spin" />
+            Loading...
+          </div>
+        )}
+        {data && !isLoading && (
           <ul className="space-y-4 mt-4">
             {data.map((event: any) => (
               <li
@@ -165,7 +173,7 @@ export default function Page() {
           </ul>
         )}
 
-        {!isLoading && !isPending && !data && (
+        {!isLoading && !data && (
           <p className="text-neutral-500 mt-40 text-center">
             You haven't created any events yet.
           </p>
