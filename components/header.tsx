@@ -44,7 +44,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
         {eventData && (
           <div className="hidden md:flex items-center gap-2">
             <h2
-              className="text-lg font-medium"
+              className="text-lg font-semibold"
               style={{ color: eventData.fontColor }}
             >
               {eventData.name}
