@@ -38,15 +38,17 @@ export function Header({ eventData }: { eventData?: IEvent }) {
       <Toaster position="bottom-center" />
       <header
         style={eventData ? { backgroundColor: bgColor } : {}}
-        className="flex items-center justify-between p-2 max-h-16 px-8 gap-2"
+        className="flex items-center justify-between p-2 max-h-16 px-4 lg:px-8 gap-2"
       >
         <Logo fontColor={eventData?.fontColor || "#000000"} />
         {eventData && (
-          <h2
-            className="text-lg font-medium flex items-center gap-2 "
-            style={{ color: eventData.fontColor }}
-          >
-            {eventData.name}
+          <div className="hidden md:flex items-center gap-2">
+            <h2
+              className="text-lg font-medium"
+              style={{ color: eventData.fontColor }}
+            >
+              {eventData.name}
+            </h2>
             {session?.user?.id === eventData.creatorId.toString() && (
               <Dialog open={editNameDialog} onOpenChange={setEditNameDialog}>
                 <DialogTrigger>
@@ -83,7 +85,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
                 </DialogContent>
               </Dialog>
             )}
-          </h2>
+          </div>
         )}
 
         <div className="flex items-center gap-4">

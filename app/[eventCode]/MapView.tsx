@@ -72,7 +72,7 @@ export default function MapView({
       ) : (
         <div>Loading checkpoints...</div>
       )}
-      <div className="absolute top-4 right-4 z-10 flex gap-6">
+      <div className="absolute top-4 right-2 lg:right-4 z-10 flex gap-6">
         {!showRightSidebar && (
           <Button
             className=" shadow-neutral-300 bg-white border-2 border-neutral-200 hover:bg-neutral-100 duration-300 rounded-full aspect-square p-2"
