@@ -86,9 +86,7 @@ export default function Page() {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="ml-4">
-            <h2 className="text-xl font-bold">
-              {session.user.name} / {isLoading}
-            </h2>
+            <h2 className="text-xl font-bold">{session.user.name}</h2>
             <p className="text-neutral-500">{session.user.email}</p>
           </div>
           <input

@@ -39,11 +39,8 @@ export default function EditEventForm({
   return (
     <div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
-        <Input
-          placeholder="New event name"
-          className="max-w-[60%] mx-auto"
-        ></Input>
-        <Button type="submit" className="w-max mx-auto">
+        <Input placeholder="New event name" className="mx-auto"></Input>
+        <Button type="submit" className="w-full">
           Save
         </Button>
 

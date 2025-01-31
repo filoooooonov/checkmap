@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -54,7 +54,7 @@ const generateTimeOptions = () => {
 const timeOptions = generateTimeOptions();
 
 export default function AddEventForm({ setOpen }: AddEventFormProps) {
-  const router = useRouter()
+  const router = useRouter();
   const [color, setColor] = useColor("#ffffff");
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -135,7 +135,7 @@ export default function AddEventForm({ setOpen }: AddEventFormProps) {
   };
 
   return (
-    <div className="max-w-[60%] mx-auto">
+    <div className=" mx-auto">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
         <Input
           id="name"
@@ -190,7 +190,7 @@ export default function AddEventForm({ setOpen }: AddEventFormProps) {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Button type="submit" className="w-max mx-auto" disabled={loading}>
+        <Button type="submit" className="w-full mx-auto" disabled={loading}>
           {loading ? "Saving..." : "Save"}
         </Button>
       </form>

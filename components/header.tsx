@@ -71,7 +71,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
                     }}
                   />
                 </DialogTrigger>
-                <DialogContent className="w-full max-w-sm">
+                <DialogContent className="w-max">
                   <DialogHeader>
                     <DialogTitle>Edit event name</DialogTitle>
                     <EditEventForm
@@ -121,7 +121,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
                     Create event
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="w-full max-w-lg">
+                <DialogContent className="w-auto">
                   <DialogHeader>
                     <DialogTitle>Create new event</DialogTitle>
                   </DialogHeader>
