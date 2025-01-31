@@ -38,7 +38,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
       <Toaster position="bottom-center" />
       <header
         style={eventData ? { backgroundColor: bgColor } : {}}
-        className="flex items-center justify-between p-2 max-h-16 px-4 lg:px-8 gap-2"
+        className="flex items-center justify-between p-2 h-[5vh] px-4 lg:px-8 gap-2"
       >
         <Logo fontColor={eventData?.fontColor || "#000000"} />
         {eventData && (
