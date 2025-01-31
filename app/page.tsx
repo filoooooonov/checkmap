@@ -25,7 +25,7 @@ export default function Home() {
           </div>
           <div className="flex-1">
             <Image
-              src="/placeholder.svg?height=400&width=400"
+              src="/map.png"
               alt="Checkmap App Mockup"
               width={400}
               height={400}

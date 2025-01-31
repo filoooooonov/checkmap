@@ -4,10 +4,10 @@
 import Checkpoint from "@/models/checkpoint";
 import { connectMongoDB } from "@/utils/mongo";
 
-export async function getCheckpoints(eventId: string) {
+export async function getCheckpoints(eventCode: string) {
     await connectMongoDB();
-    if (eventId === "") return []; //TODO: FIX
-    const checkpoints = await Checkpoint.find({ event: eventId });
+    if (eventCode === "") return []; //TODO: FIX
+    const checkpoints = await Checkpoint.find({ event: eventCode });
 
     if (!checkpoints || checkpoints.length === 0) return [];
     else {

@@ -10,7 +10,7 @@ import Link from "next/link";
 import { getCheckpoints } from "@/actions/getCheckpoints";
 
 export interface Checkpoint {
-  id: number;
+  _id: string;
   name: string;
   description?: string;
   location: {
