@@ -9,6 +9,9 @@ export async function deleteCheckpoint(checkpointId: string) {
     // Connect to the database
     await connectMongoDB();
 
+    // Log the checkpointId for debugging
+    console.log("Deleting checkpoint with ID:", checkpointId);
+
     // Find the checkpoint to get the event reference
     const checkpoint = await Checkpoint.findById(checkpointId);
     if (!checkpoint) {
@@ -18,7 +21,8 @@ export async function deleteCheckpoint(checkpointId: string) {
     // Remove the checkpoint reference from the event
     await Event.findOneAndUpdate(
       { eventCode: checkpoint.event },
-      { $pull: { checkpoints: checkpointId } }
+      { $pull: { checkpoints: checkpointId } },
+      { new: true }
     );
 
     // Delete the checkpoint

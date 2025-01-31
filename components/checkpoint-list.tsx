@@ -10,8 +10,6 @@ import { lightenColor } from "@/utils/utils";
 import { TbTrash } from "react-icons/tb";
 import { deleteCheckpoint } from "@/actions/deleteCheckpoint";
 import { useState } from "react";
-import { format } from "date-fns";
-import { MdCalendarMonth } from "react-icons/md";
 
 interface CheckpointListProps {
   eventData: IEvent;
@@ -32,14 +30,14 @@ export function CheckpointList({
   const handleDelete = async (id: string) => {
     try {
       await deleteCheckpoint(id);
-      setCheckpoints(checkpoints.filter((checkpoint) => checkpoint.id !== id));
+      setCheckpoints(checkpoints.filter((checkpoint) => checkpoint._id !== id));
     } catch (error) {
       console.error("Error deleting checkpoint:", error);
     }
   };
 
   return (
-    <div className="p-2">
+    <div className="space-y-4 p-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <ChevronRight
@@ -58,20 +56,11 @@ export function CheckpointList({
             }}
             onClick={onClose}
           />
-          <h2 className="text-2xl font-bold">{eventData.name}</h2>
+          <h2 className="text-2xl font-bold">All checkpoints</h2>
         </div>
-        <span
-          className="px-4 font-semibold py-1 rounded-lg flex items-center gap-2"
-          style={{ backgroundColor: lightenColor(eventData.primaryColor, 10) }}
-        >
-          <MdCalendarMonth />
-          {format(new Date(eventData.startDate), "MMM d, HH:mm")}
-        </span>
       </div>
-      <p className="mt-4 mb-12">{eventData.description}</p>
-      <h3 className="text-xl font-semibold">All checkpoints</h3>
       {session && session.user.id === eventData.creatorId.toString() && (
-        <div className="flex mt-4 mb-4">
+        <div className="flex mt-8">
           <Button onClick={setShowForm} className="flex items-center gap-2">
             <Plus />
             New checkpoint
@@ -80,31 +69,37 @@ export function CheckpointList({
       )}
 
       <div className="space-y-2">
-        {checkpoints.map((checkpoint) => (
-          <div key={checkpoint.id} className="flex items-center gap-2">
-            <Button
-              style={{ color: eventData.fontColor }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = lightenColor(
-                  eventData.primaryColor,
-                  5
-                );
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-              }}
-              className="bg-transparent w-full justify-start gap-2 shadow-none duration-300"
-            >
-              <MapPin className="h-4 w-4" />
-              {checkpoint.name}
-            </Button>
-              <TbTrash
-                onClick={() => handleDelete(checkpoint.id.toString())}
-                className="cursor-pointer"
-              />
-          </div>
-        ))}
+        {checkpoints.map((checkpoint) => {
+          console.log("Checkpoint:", checkpoint); // Log the checkpoint object
+          return (
+            <div key={checkpoint._id} className="flex items-center gap-2">
+              <Button
+                style={{ color: eventData.fontColor }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = lightenColor(
+                    eventData.primaryColor,
+                    5
+                  );
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                }}
+                className="bg-transparent w-full justify-start gap-2 shadow-none duration-300"
+              >
+                <MapPin className="h-4 w-4" />
+                {checkpoint.name}
+              </Button>
+              {checkpoint._id && (
+                <TbTrash
+                  onClick={() => handleDelete(checkpoint._id.toString())}
+                  className="cursor-pointer text-red-500"
+                />
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 }
+
