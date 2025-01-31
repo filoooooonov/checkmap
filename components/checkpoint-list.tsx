@@ -7,6 +7,8 @@ import { ChevronRight } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { IEvent } from "@/models/event";
 import { lightenColor } from "@/utils/utils";
+import { format } from "date-fns";
+import { MdCalendarMonth } from "react-icons/md";
 
 interface CheckpointListProps {
   eventData: IEvent;
@@ -23,7 +25,7 @@ export function CheckpointList({
 }: CheckpointListProps) {
   const { data: session } = useSession();
   return (
-    <div className="space-y-4 p-2">
+    <div className="p-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <ChevronRight
@@ -42,11 +44,20 @@ export function CheckpointList({
             }}
             onClick={onClose}
           />
-          <h2 className="text-2xl font-bold">All checkpoints</h2>
+          <h2 className="text-2xl font-bold">{eventData.name}</h2>
         </div>
+        <span
+          className="px-4 font-semibold py-1 rounded-lg flex items-center gap-2"
+          style={{ backgroundColor: lightenColor(eventData.primaryColor, 10) }}
+        >
+          <MdCalendarMonth />
+          {format(new Date(eventData.startDate), "MMM d, HH:mm")}
+        </span>
       </div>
+      <p className="mt-4 mb-12">{eventData.description}</p>
+      <h3 className="text-xl font-semibold">All checkpoints</h3>
       {session && session.user.id === eventData.creatorId.toString() && (
-        <div className="flex mt-8">
+        <div className="flex mt-4 mb-4">
           <Button onClick={setShowForm} className="flex items-center gap-2">
             <Plus />
             New checkpoint
