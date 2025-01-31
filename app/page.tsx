@@ -33,7 +33,7 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <div key={index} className="bg-white p-6 rounded-xl shadow-md">
               <feature.icon className="w-12 h-12 text-blue-600 mb-4" />
@@ -41,7 +41,7 @@ export default function Home() {
               <p className="text-gray-600">{feature.description}</p>
             </div>
           ))}
-        </div>
+        </div> */}
       </main>
     </div>
   );
