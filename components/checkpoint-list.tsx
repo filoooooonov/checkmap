@@ -61,7 +61,7 @@ export function CheckpointList({
           <h2 className="text-2xl font-bold">{eventData.name}</h2>
         </div>
         <span
-          className="hidden px-4 font-semibold py-1 rounded-lg lg:flex items-center gap-2"
+          className="hidden px-4 font-semibold py-1 rounded-lg md:flex items-center gap-2"
           style={{ backgroundColor: lightenColor(eventData.primaryColor, 10) }}
         >
           <MdCalendarMonth />
@@ -69,7 +69,7 @@ export function CheckpointList({
         </span>
       </div>
       <span
-        className="flex px-4 font-semibold py-1 rounded-lg lg:hidden items-center gap-2"
+        className="flex px-4 font-semibold py-1 rounded-lg md:hidden items-center gap-2 w-max"
         style={{ backgroundColor: lightenColor(eventData.primaryColor, 10) }}
       >
         <MdCalendarMonth />
@@ -107,12 +107,13 @@ export function CheckpointList({
                 <MapPin className="h-4 w-4" />
                 {checkpoint.name}
               </Button>
-              {checkpoint._id && session?.user.id  === eventData.creatorId.toString() && (
-                <TbTrash
-                  onClick={() => handleDelete(checkpoint._id.toString())}
-                  className="cursor-pointer text-red-500"
-                />
-              )}
+              {checkpoint._id &&
+                session?.user.id === eventData.creatorId.toString() && (
+                  <TbTrash
+                    onClick={() => handleDelete(checkpoint._id.toString())}
+                    className="cursor-pointer text-red-500"
+                  />
+                )}
             </div>
           );
         })}
