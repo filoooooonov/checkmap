@@ -61,13 +61,20 @@ export function CheckpointList({
           <h2 className="text-2xl font-bold">{eventData.name}</h2>
         </div>
         <span
-          className="px-4 font-semibold py-1 rounded-lg flex items-center gap-2"
+          className="hidden px-4 font-semibold py-1 rounded-lg lg:flex items-center gap-2"
           style={{ backgroundColor: lightenColor(eventData.primaryColor, 10) }}
         >
           <MdCalendarMonth />
           {formatDate(new Date(eventData.startDate), "MMM d, HH:mm")}
         </span>
       </div>
+      <span
+        className="flex px-4 font-semibold py-1 rounded-lg lg:hidden items-center gap-2"
+        style={{ backgroundColor: lightenColor(eventData.primaryColor, 10) }}
+      >
+        <MdCalendarMonth />
+        {formatDate(new Date(eventData.startDate), "MMM d, HH:mm")}
+      </span>
       <p className="mt-4 mb-12">{eventData.description}</p>
       <h3 className="text-xl font-semibold">All checkpoints</h3>
       {session && session.user.id === eventData.creatorId.toString() && (
