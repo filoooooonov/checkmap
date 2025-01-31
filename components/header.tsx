@@ -142,7 +142,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
               >
                 Login
               </Link>
-              <Link href="\register">
+              <Link href="\demo_register">
                 <Button className="block px-4 py-2 duration-300 font-medium text-sm rounded-xl cursor-pointer">
                   Register
                 </Button>
