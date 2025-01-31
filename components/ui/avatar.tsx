@@ -55,7 +55,6 @@ const AvatarWithDropdown = () => {
   const dropdownRef = React.useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
   const [base64Image, setBase64Image] = useState<string>("");
-  const [userId, setUserId] = useState<string>("");
   // Close dropdown when clicking outside
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -96,9 +95,9 @@ const AvatarWithDropdown = () => {
         className="cursor-pointer"
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <Avatar>
+        <Avatar className="size-8">
           <AvatarImage
-            src={base64Image || (typeof img === "string" ? img : img?.src)}
+            src={localStorage.getItem("profileImgData") || base64Image}
             alt="User Avatar"
             className="object-cover"
           />
@@ -112,13 +111,32 @@ const AvatarWithDropdown = () => {
       {isOpen && (
         <div
           ref={dropdownRef}
-          className="absolute top-0 right-0 z-[1000] p-1 mt-10 w-48 bg-white border-2 border-neutral-100 rounded-lg shadow-lg"
+          className="absolute top-0 right-0 z-[1000] p-1 mt-10 w-auto bg-white border-2 border-neutral-100 rounded-xl shadow-lg"
         >
           {session && (
             <>
               <Link
+                href="/dashboard"
+                className="flex items-center p-4 hover:bg-neutral-50 rounded-md duration-300"
+              >
+                <Avatar className="size-8 cursor-pointer ">
+                  <AvatarImage
+                    src={localStorage.getItem("profileImgData") || base64Image}
+                    className="size-8 rounded-full object-cover"
+                    alt="User"
+                  />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <div className="ml-4">
+                  <h2 className="text-sm font-bold">{session.user.name}</h2>
+                  <p className="text-neutral-500 text-sm">
+                    {session.user.email}
+                  </p>
+                </div>
+              </Link>
+              <Link
                 href="\dashboard"
-                className="block px-4 py-2 hover:bg-gray-100 duration-300 font-medium text-sm text-black rounded-md cursor-pointer"
+                className="block px-4 py-2 mt-2 hover:bg-neutral-50 duration-300 font-medium text-sm text-black rounded-md cursor-pointer"
               >
                 Dashboard
               </Link>
@@ -127,7 +145,7 @@ const AvatarWithDropdown = () => {
                   localStorage.clear();
                   signOut({ callbackUrl: "/" });
                 }}
-                className="w-full text-left block px-4 py-2 hover:bg-gray-100 duration-300 font-medium text-sm text-black rounded-md cursor-pointer"
+                className="w-full text-left block px-4 py-2 hover:bg-neutral-50 duration-300 font-medium text-sm text-black rounded-md cursor-pointer"
               >
                 Sign out
               </button>
