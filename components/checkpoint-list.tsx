@@ -100,7 +100,7 @@ export function CheckpointList({
                 <MapPin className="h-4 w-4" />
                 {checkpoint.name}
               </Button>
-              {checkpoint._id && (
+              {checkpoint._id && session?.user.id  === eventData.creatorId.toString() && (
                 <TbTrash
                   onClick={() => handleDelete(checkpoint._id.toString())}
                   className="cursor-pointer text-red-500"
