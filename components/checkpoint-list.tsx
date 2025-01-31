@@ -7,6 +7,9 @@ import { ChevronRight } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { IEvent } from "@/models/event";
 import { lightenColor } from "@/utils/utils";
+import { TbTrash } from "react-icons/tb";
+import { deleteCheckpoint } from "@/actions/deleteCheckpoint";
+import { useState } from "react";
 
 interface CheckpointListProps {
   eventData: IEvent;
@@ -18,10 +21,21 @@ interface CheckpointListProps {
 export function CheckpointList({
   eventData,
   onClose,
-  checkpoints,
+  checkpoints: initialCheckpoints,
   setShowForm,
 }: CheckpointListProps) {
   const { data: session } = useSession();
+  const [checkpoints, setCheckpoints] = useState(initialCheckpoints);
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteCheckpoint(id);
+      setCheckpoints(checkpoints.filter((checkpoint) => checkpoint.id !== id));
+    } catch (error) {
+      console.error("Error deleting checkpoint:", error);
+    }
+  };
+
   return (
     <div className="space-y-4 p-2">
       <div className="flex items-center justify-between">
@@ -56,23 +70,28 @@ export function CheckpointList({
 
       <div className="space-y-2">
         {checkpoints.map((checkpoint) => (
-          <Button
-            key={checkpoint.id}
-            style={{ color: eventData.fontColor }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = lightenColor(
-                eventData.primaryColor,
-                5
-              );
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-            }}
-            className="bg-transparent w-full justify-start gap-2 shadow-none duration-300"
-          >
-            <MapPin className="h-4 w-4" />
-            {checkpoint.name}
-          </Button>
+          <div key={checkpoint.id} className="flex items-center gap-2">
+            <Button
+              style={{ color: eventData.fontColor }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = lightenColor(
+                  eventData.primaryColor,
+                  5
+                );
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
+              }}
+              className="bg-transparent w-full justify-start gap-2 shadow-none duration-300"
+            >
+              <MapPin className="h-4 w-4" />
+              {checkpoint.name}
+            </Button>
+              <TbTrash
+                onClick={() => handleDelete(checkpoint.id.toString())}
+                className="cursor-pointer"
+              />
+          </div>
         ))}
       </div>
     </div>
