@@ -71,7 +71,7 @@ export default function Page() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto pt-20">
       {/* Account info */}
       {session && (
         <div className="flex items-center p-4 pb-6 border-b">
@@ -131,7 +131,7 @@ export default function Page() {
             {data.map((event: any) => (
               <li
                 key={event._id}
-                className="bg-neutral-50 cursor-pointer duration-300 hover:bg-neutral-100 rounded-xl p-4 relative flex justify-between items-center"
+                className="bg-primary/5 cursor-pointer duration-300 hover:bg-primary/10 rounded-xl p-4 relative flex justify-between items-center"
               >
                 <Link
                   href={`/${event.eventCode}`}

@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getCheckpoints } from "@/actions/getCheckpoints";
+import RootLayout from "../layout";
 
 export interface Checkpoint {
   _id: string;
@@ -32,9 +33,8 @@ export default async function Page({
   const fetchedCheckpoints = await getCheckpoints(eventData.eventCode);
 
   return (
-    <>
+    <RootLayout eventData={eventData}>
       <div className="max-h-screen">
-        <Header eventData={eventData} />
         <div>
           {eventData ? (
             <MapView eventData={eventData} checkpoints={fetchedCheckpoints} />
@@ -53,6 +53,6 @@ export default async function Page({
           )}
         </div>
       </div>
-    </>
+    </RootLayout>
   );
 }

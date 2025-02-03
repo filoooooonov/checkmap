@@ -31,15 +31,13 @@ export function Header({ eventData }: { eventData?: IEvent }) {
     toast.success("Link copied to clipboard");
   }
 
-  const bgColor = eventData?.primaryColor || "#ffffff";
+  // const bgColor = eventData?.primaryColor || "#fefff2";
+  const bgColor = "#fefff2";
 
   return (
     <>
       <Toaster position="bottom-center" />
-      <header
-        style={eventData ? { backgroundColor: bgColor } : {}}
-        className="flex items-center justify-between p-2 h-[5vh] px-4 lg:px-8 gap-2"
-      >
+      <header className="absolute top-0 left-0 z-50 w-full flex items-center justify-between p-2 h-[6vh] px-4 lg:px-8 gap-2 bg-background bg-opacity-70 backdrop-blur-md">
         <Logo fontColor={eventData?.fontColor || "#000000"} />
         {eventData && (
           <div className="hidden md:flex items-center gap-2">
@@ -138,7 +136,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
             <>
               <Link
                 href="\login"
-                className="block px-4 py-2 bg-neutral-100 hover:bg-neutral-200 duration-300 font-medium text-sm rounded-xl cursor-pointer"
+                className="block px-4 py-2 bg-primary/5 hover:bg-primary/10 duration-300 font-medium text-sm rounded-xl cursor-pointer"
               >
                 Login
               </Link>

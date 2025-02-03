@@ -10,7 +10,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
+        background: "#fefff2",
+        primary: "#495144",
+        primary_light: "#697760",
         foreground: "var(--foreground)",
       },
       borderRadius: {

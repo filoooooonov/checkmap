@@ -42,7 +42,7 @@ const MapLoaderScreen = () => {
   }, [rows, columns]);
 
   return (
-    <div className="fixed inset-0 bg-white">
+    <div className="fixed inset-0 bg-background">
       {dots.map(({ x, y, index, delay, duration, maxScale }) => (
         <motion.div
           key={index}
