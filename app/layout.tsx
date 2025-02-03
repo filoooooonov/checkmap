@@ -22,7 +22,7 @@ export default function RootLayout({
   eventData,
 }: Readonly<{
   children: React.ReactNode;
-  eventData: IEvent;
+  eventData?: IEvent;
 }>) {
   return (
     <SessionWrapper>
