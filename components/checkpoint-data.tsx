@@ -48,9 +48,8 @@ export default function CheckpointData({
       exit={{ x: "-100%" }}
       transition={{ duration: 0.3 }}
       ref={ref}
-      className="absolute top-0 left-0 w-3/4 lg:w-[25%] h-full shadow-lg z-10 m-2 rounded-2xl p-2"
+      className="absolute top-0 left-0 w-3/4 lg:w-[25%] mt-16 h-full shadow-lg z-10 m-2 rounded-2xl p-2  backdrop-blur bg-background/90"
       style={{
-        backgroundColor: lightenColor(eventData.primaryColor, 50),
         color: eventData.fontColor,
         border: `2px solid ${lightenColor(eventData.primaryColor, 55)}`,
       }}

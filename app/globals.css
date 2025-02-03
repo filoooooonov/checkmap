@@ -59,3 +59,7 @@ body {
   width: 100%;
   height: 100%;
 }
+
+.map-navigation-control {
+  margin-top: 60px !important; /* Adjust the padding value as needed */
+}

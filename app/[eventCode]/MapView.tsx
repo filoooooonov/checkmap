@@ -72,17 +72,17 @@ export default function MapView({
       ) : (
         <div>Loading checkpoints...</div>
       )}
-      <div className="absolute top-4 right-2 lg:right-4 z-10 flex gap-6">
+      <div className="absolute top-20 right-2 lg:right-4 z-10 flex gap-6">
         {!showRightSidebar && (
-          <Button
+          <button
             className=" shadow-neutral-300 bg-white border-2 border-neutral-200 hover:bg-neutral-100 duration-300 rounded-full aspect-square p-2"
             onClick={() => {
               setShowRightSidebar(true);
               setShowList(true);
             }}
           >
-            <Menu size={24} className="text-black" />
-          </Button>
+            <Menu size={16} className="text-black" />
+          </button>
         )}
       </div>
       <AnimatePresence>
@@ -93,10 +93,9 @@ export default function MapView({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.2 }}
-            className="absolute top-0 right-0 h-full w-3/4 lg:w-1/4 shadow-lg z-20 p-4 m-2 rounded-xl"
+            className="absolute top-0 right-0 h-full w-3/4 lg:w-1/4 shadow-lg z-20 p-4 m-2 mt-16 rounded-xl bg-background bg-opacity-90 backdrop-blur-md"
             style={{
               color: eventData.fontColor,
-              backgroundColor: eventData.primaryColor,
               border: `2px solid ${lightenColor(eventData.primaryColor, 20)}`,
             }}
           >

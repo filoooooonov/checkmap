@@ -48,9 +48,16 @@ const Map = ({ center, checkpoints, primaryColor, eventData }: MapProps) => {
         style: maptilersdk.MapStyle.STREETS,
         center: [center[1], center[0]],
         zoom: zoom,
-        navigationControl: "top-left",
-        geolocateControl: "top-left",
+        // navigationControl: "bottom-left",
+        // geolocateControl: "left",
       });
+
+      const navigationControlContainer = document.querySelector(
+        ".maptiler-ctrl-top-left"
+      );
+      if (navigationControlContainer) {
+        navigationControlContainer.classList.add("map-navigation-control");
+      }
 
       map.current.on("click", (e) => {
         const { lng, lat } = e.lngLat;
@@ -59,7 +66,9 @@ const Map = ({ center, checkpoints, primaryColor, eventData }: MapProps) => {
 
       if (map.current) {
         checkpoints.forEach((checkpoint: Checkpoint) => {
-          const marker = new maptilersdk.Marker({ color: checkpoint.isInside ? "#FFFFFF" : "#000000" })
+          const marker = new maptilersdk.Marker({
+            color: checkpoint.isInside ? "#FFFFFF" : "#000000",
+          })
             .setLngLat([
               checkpoint.location.coordinates[1],
               checkpoint.location.coordinates[0],
@@ -111,7 +120,7 @@ const Map = ({ center, checkpoints, primaryColor, eventData }: MapProps) => {
 
       <AnimatePresence>
         {selectedCheckpoint && (
-          <div>
+          <div className="bg-background">
             <CheckpointData
               checkpoint={selectedCheckpoint}
               onClose={() => setSelectedCheckpoint(null)}
