@@ -48,8 +48,8 @@ const Map = ({ center, checkpoints, primaryColor, eventData }: MapProps) => {
         style: maptilersdk.MapStyle.STREETS,
         center: [center[1], center[0]],
         zoom: zoom,
-        // navigationControl: "bottom-left",
-        // geolocateControl: "left",
+        navigationControl: "bottom-left",
+        geolocateControl: "bottom-left",
       });
 
       const navigationControlContainer = document.querySelector(

@@ -6,19 +6,24 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { User2 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
-import img from "@/public/placeholder-user.png";
 import { useState, useEffect } from "react";
 import { getUserData } from "@/actions/getUserData";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
 >(({ className, ...props }, ref) => (
   <AvatarPrimitive.Root
     ref={ref}
-    className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
-      className
-    )}
+    className={cn("relative flex  overflow-hidden rounded-full", className)}
     {...props}
   />
 ));
@@ -89,35 +94,31 @@ const AvatarWithDropdown = () => {
     }
   }, [session]);
   return (
-    <div className="relative inline-block">
-      {/* Avatar */}
-      <div
-        className="cursor-pointer"
-        onClick={() => setIsOpen((prev) => !prev)}
-      >
-        <Avatar className="size-8">
-          <AvatarImage
-            src={localStorage.getItem("profileImgData") || base64Image}
-            alt="User Avatar"
-            className="object-cover"
-          />
-          <AvatarFallback>
-            <User2 className="h-4 w-4" />
-          </AvatarFallback>
-        </Avatar>
-      </div>
-
-      {/* Dropdown */}
-      {isOpen && (
-        <div
-          ref={dropdownRef}
-          className="absolute top-0 right-0 z-[1000] p-1 mt-10 w-auto bg-white border-2 border-neutral-100 rounded-xl shadow-lg"
-        >
-          {session && (
-            <>
+    <div className="relative flex">
+      {session && (
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <div
+              className="cursor-pointer"
+              onClick={() => setIsOpen((prev) => !prev)}
+            >
+              <Avatar className="size-8">
+                <AvatarImage
+                  src={localStorage.getItem("profileImgData") || base64Image}
+                  alt="User Avatar"
+                  className="object-cover"
+                />
+                <AvatarFallback>
+                  <User2 className="h-4 w-4" />
+                </AvatarFallback>
+              </Avatar>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>
               <Link
                 href="/dashboard"
-                className="flex items-center p-4 hover:bg-neutral-50 rounded-md duration-300"
+                className="flex items-center p-4 rounded-md duration-300"
               >
                 <Avatar className="size-8 cursor-pointer ">
                   <AvatarImage
@@ -125,7 +126,7 @@ const AvatarWithDropdown = () => {
                     className="size-8 rounded-full object-cover"
                     alt="User"
                   />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarFallback></AvatarFallback>
                 </Avatar>
                 <div className="ml-4">
                   <h2 className="text-sm font-bold">{session.user.name}</h2>
@@ -134,24 +135,33 @@ const AvatarWithDropdown = () => {
                   </p>
                 </div>
               </Link>
-              <Link
-                href="\dashboard"
-                className="block px-4 py-2 mt-2 hover:bg-neutral-50 duration-300 font-medium text-sm text-black rounded-md cursor-pointer"
-              >
-                Dashboard
-              </Link>
-              <button
-                onClick={() => {
-                  localStorage.clear();
-                  signOut({ callbackUrl: "/" });
-                }}
-                className="w-full text-left block px-4 py-2 hover:bg-neutral-50 duration-300 font-medium text-sm text-black rounded-md cursor-pointer"
-              >
-                Sign out
-              </button>
-            </>
-          )}
-        </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {session && (
+              <>
+                <DropdownMenuItem>
+                  <Link
+                    href="\dashboard"
+                    className="w-full py-2 px-4 text-left block font-medium text-black rounded-md cursor-pointer"
+                  >
+                    Dashboard
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <button
+                    onClick={() => {
+                      localStorage.clear();
+                      signOut({ callbackUrl: "/" });
+                    }}
+                    className="w-full py-2 px-4 text-left block font-medium text-black rounded-md cursor-pointer"
+                  >
+                    Sign out
+                  </button>
+                </DropdownMenuItem>
+              </>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
       )}
     </div>
   );

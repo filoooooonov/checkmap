@@ -37,7 +37,7 @@
     "maplibre-gl": "4.7.1",
     "mongodb": "^6.12.0",
     "mongoose": "^8.9.5",
-    "motion": "^12.0.3",
+    "motion": "^12.0.11",
     "next": "15.1.4",
     "next-auth": "^4.24.11",
     "pmtiles": "^4.2.1",

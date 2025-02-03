@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 const MapLoaderScreen = () => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const baseDotSize = 4;
-  const dotColor = "#E5E7EB"; // Tailwind's gray-200
+  const dotColor = "#697760"; // Tailwind's gray-200
   const gap = 36; // Space between dots
 
   useEffect(() => {
