@@ -5,13 +5,10 @@ import dynamic from "next/dynamic";
 import { LatLngExpression, LatLngTuple } from "leaflet";
 import { Checkpoint } from "@/app/[eventCode]/page";
 import { IEvent } from "@/models/event";
+import MapLoaderScreen from "./MapLoaderScreen";
 
 const Map = dynamic(() => import("./mapTiler"), {
-  loading: () => (
-    <div className="w-full h-screen flex items-center justify-center">
-      <Loader2 className="animate-spin" />
-    </div>
-  ),
+  loading: () => <MapLoaderScreen />,
   ssr: false,
 });
 
