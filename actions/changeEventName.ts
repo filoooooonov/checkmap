@@ -5,6 +5,9 @@ import { connectMongoDB } from "@/utils/mongo";
 
 export async function changeEventName(newName: string, eventCode: string) {
   try {
+    if (!newName || typeof newName !== "string") {
+      throw new Error("Invalid event name");
+    }
     await connectMongoDB();
 
     const event = await Event.findOneAndUpdate(
@@ -14,10 +17,6 @@ export async function changeEventName(newName: string, eventCode: string) {
     );
     if (!event) {
       throw new Error("Event not found");
-    }
-
-    if (!newName || typeof newName !== "string") {
-      throw new Error("Invalid event name");
     }
 
     return { success: true, message: "Event name updated successfully" };

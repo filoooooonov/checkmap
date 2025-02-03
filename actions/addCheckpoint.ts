@@ -3,6 +3,7 @@
 import Checkpoint from "@/models/checkpoint";
 import Event from "@/models/event";
 import { connectMongoDB } from "@/utils/mongo";
+import { revalidatePath } from "next/cache";
 
 export async function addCheckpoint(checkpointData: {
   name: string;
@@ -22,11 +23,14 @@ export async function addCheckpoint(checkpointData: {
     if (!newCheckpoint) {
       throw new Error("Failed to create the checkpoint");
     }
-    
+
     // Add the checkpoint to the event
-    await Event.findOneAndUpdate({eventCode: checkpointData.event}, {
-      $push: { checkpoints: newCheckpoint._id },
-    });
+    await Event.findOneAndUpdate(
+      { eventCode: checkpointData.event },
+      {
+        $push: { checkpoints: newCheckpoint._id },
+      }
+    );
 
     // Convert the checkpoint to a plain object and serialize `_id`
     const serializedCheckpoint = JSON.parse(

@@ -13,7 +13,8 @@ import { IoSearchSharp } from "react-icons/io5";
 import { revalidatePath } from "next/cache";
 import { IEvent } from "@/models/event";
 import { lightenColor } from "@/utils/utils";
-import { Check } from 'lucide-react'
+import { Check } from "lucide-react";
+import { useRouter } from "next/navigation";
 interface CheckpointFormProps {
   onBack: () => void;
   eventCode: string;
@@ -39,6 +40,7 @@ export function CheckpointForm({
   const mapRef = useRef<L.Map | null>(null);
   const [images, setImages] = useState<string[]>([]);
   const [isInside, setIsInside] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (!mapRef.current) {
@@ -64,9 +66,7 @@ export function CheckpointForm({
     if (address.length > 3) {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
-          
           address
-        
         )}&format=json&addressdetails=1`
       );
       const data = await response.json();
@@ -116,8 +116,8 @@ export function CheckpointForm({
         description,
         location: {
           type: "Point",
-          coordinates: [pinCoordinates.lat, pinCoordinates.lon] as [       
-            number,   
+          coordinates: [pinCoordinates.lat, pinCoordinates.lon] as [
+            number,
             number
           ],
         },
@@ -127,6 +127,7 @@ export function CheckpointForm({
       };
 
       await addCheckpoint(checkpointData);
+      router.refresh();
       toast.success("Checkpoint added successfully!");
       onBack();
     } catch (error) {

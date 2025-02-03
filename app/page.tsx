@@ -16,12 +16,7 @@ export default function Home() {
               Checkmap helps you design, manage, and share interactive
               checkpoint maps for any purpose.
             </p>
-            <Button
-              size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              Get Started for Free
-            </Button>
+            <Button size="lg">Get Started for Free</Button>
           </div>
           <div className="flex-1">
             <Image

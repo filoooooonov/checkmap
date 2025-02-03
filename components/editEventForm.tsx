@@ -45,7 +45,7 @@ export default function EditEventForm({
         </Button>
 
         {error && (
-          <p className="text-red-500 text-center font-medium flex items-center gap-2 mx-auto">
+          <p className="text-red-500 text-center font-medium text-sm flex items-center gap-2 mx-auto">
             <MdErrorOutline />
             {error}
           </p>
