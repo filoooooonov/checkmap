@@ -21,6 +21,7 @@ import { EllipsisVertical, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { changeProfilePicture } from "@/actions/changeProfilePicture";
 import { getUserData } from "@/actions/getUserData";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Page() {
   const { data: session, status } = useSession();
@@ -83,10 +84,11 @@ export default function Page() {
               className="size-50 rounded-full object-cover"
               alt="User"
             />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarFallback></AvatarFallback>
           </Avatar>
           <div className="ml-4">
             <h2 className="text-xl font-bold">{session.user.name}</h2>
+
             <p className="text-neutral-500">{session.user.email}</p>
           </div>
           <input
@@ -119,9 +121,9 @@ export default function Page() {
       <div className="p-4 pt-6">
         <h2 className="text-xl font-bold">Your events</h2>
         {isLoading && (
-          <div className="text-center mt-80 flex items-center gap-2 justify-center ">
-            <Loader2 className="size-6 animate-spin" />
-            Loading...
+          <div className="space-y-4 mt-4">
+            <Skeleton className="w-full h-24 rounded-xl" />
+            <Skeleton className="w-full h-24 rounded-xl" />
           </div>
         )}
         {data && !isLoading && (
