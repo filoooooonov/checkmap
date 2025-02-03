@@ -86,12 +86,12 @@ export function CheckpointList({
         </div>
       )}
 
-      <div className="space-y-2">
+      <div>
         {checkpoints.map((checkpoint) => {
           console.log("Checkpoint:", checkpoint); // Log the checkpoint object
           return (
             <div key={checkpoint._id} className="flex items-center gap-2">
-              <Button
+              <button
                 style={{ color: eventData.fontColor }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = lightenColor(
@@ -102,16 +102,16 @@ export function CheckpointList({
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = "transparent";
                 }}
-                className="bg-transparent w-full justify-start gap-2 shadow-none duration-300"
+                className="bg-transparent w-full justify-start gap-2 shadow-none duration-300 flex items-center p-2 rounded-xl"
               >
                 <MapPin className="h-4 w-4" />
                 {checkpoint.name}
-              </Button>
+              </button>
               {checkpoint._id &&
                 session?.user.id === eventData.creatorId.toString() && (
                   <TbTrash
                     onClick={() => handleDelete(checkpoint._id.toString())}
-                    className="cursor-pointer text-red-500"
+                    className="cursor-pointer text-neutral-700 hover:text-red-500 duration-300"
                   />
                 )}
             </div>

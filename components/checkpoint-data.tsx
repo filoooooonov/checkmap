@@ -50,9 +50,9 @@ export default function CheckpointData({
       ref={ref}
       className="absolute top-0 left-0 w-3/4 lg:w-[25%] h-full shadow-lg z-10 m-2 rounded-2xl p-2"
       style={{
-        backgroundColor: eventData.primaryColor,
+        backgroundColor: lightenColor(eventData.primaryColor, 50),
         color: eventData.fontColor,
-        border: `2px solid ${lightenColor(eventData.primaryColor, 20)}`,
+        border: `2px solid ${lightenColor(eventData.primaryColor, 55)}`,
       }}
     >
       <div className="flex flex-col">
@@ -89,7 +89,7 @@ export default function CheckpointData({
               <ChevronLeft size={20} />
             </button>
           </div>
-          <p>{checkpoint.description}</p>
+          <p className="text-sm">{checkpoint.description}</p>
         </div>
       </div>
     </motion.aside>

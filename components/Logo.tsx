@@ -4,7 +4,6 @@ import logo from "@/public/icon.svg";
 import Image from "next/image";
 
 export default function Logo({ fontColor }: { fontColor: string }) {
-  console.log("FONT", fontColor);
   return (
     <div>
       <Link href="/" className="flex items-center gap-2">
