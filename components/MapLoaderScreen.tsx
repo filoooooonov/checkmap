@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 
 const MapLoaderScreen = () => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const baseDotSize = 6;
+  const baseDotSize = 4;
   const dotColor = "#E5E7EB"; // Tailwind's gray-200
   const gap = 36; // Space between dots
 
@@ -26,15 +26,24 @@ const MapLoaderScreen = () => {
   const columns = Math.floor(dimensions.width / gap);
   const rows = Math.floor(dimensions.height / gap);
 
-  const dots = Array.from({ length: rows * columns }).map((_, index) => {
-    const row = Math.floor(index / columns);
-    const col = index % columns;
-    return { x: col * gap, y: row * gap, index };
-  });
+  const dots = useMemo(() => {
+    return Array.from({ length: rows * columns }).map((_, index) => {
+      const row = Math.floor(index / columns);
+      const col = index % columns;
+      return {
+        x: col * gap,
+        y: row * gap,
+        index,
+        delay: Math.random() * 2, // Random delay between 0 and 2 seconds
+        duration: 1.5 + Math.random(), // Random duration between 1.5 and 2.5 seconds
+        maxScale: 1.5 + Math.random() * 0.5, // Random max scale between 1.5 and 2
+      };
+    });
+  }, [rows, columns]);
 
   return (
     <div className="fixed inset-0 bg-white">
-      {dots.map(({ x, y, index }) => (
+      {dots.map(({ x, y, index, delay, duration, maxScale }) => (
         <motion.div
           key={index}
           className="absolute rounded-full"
@@ -46,12 +55,12 @@ const MapLoaderScreen = () => {
           initial={{ opacity: 0.2, scale: 1 }}
           animate={{
             opacity: [0.2, 1, 0.2],
-            scale: [1, 1.75, 1],
+            scale: [1, maxScale, 1],
           }}
           transition={{
             repeat: Number.POSITIVE_INFINITY,
-            duration: 2,
-            delay: (index % 7) * 0.2, // Create a more complex wave effect
+            duration: duration,
+            delay: delay,
             ease: "easeInOut",
           }}
         >
