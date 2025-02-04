@@ -7,11 +7,11 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background relative px-4 lg:px-0">
-      <Header transparent={true} />
+    <div className="h-screen bg-background relative overflow-hidden px-4 lg:px-0">
+      <Header transparent={true} links={true} />
       <main className="h-full flex  flex-col items-center gap-12">
         <div className="flex flex-col justify-center mt-[30vh] md:mt-[40vh]">
-          <h1 className="font-mono text-center text-5xl font-medium tracking-tighter text-primary dark:text-white mb-12">
+          <h1 className="font-mono text-center text-5xl md:text-6xl font-semibold tracking-tighter text-primary dark:text-white mb-12">
             Create Maps with Checkpoints
           </h1>
           <p className="text-lg text-center text-primary_light mb-12 max-w-2xl mx-auto">
