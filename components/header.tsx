@@ -103,7 +103,7 @@ export function Header({
             </div>
           )}
           {links && !eventData && (
-            <div className="flex gap-2">
+            <div className="hidden md:flex gap-2">
               <Link
                 href="/"
                 className="text-primary font-medium font-mono hover:bg-primary/10 duration-300 rounded-xl px-4 py-2"
