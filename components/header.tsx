@@ -22,7 +22,13 @@ import Logo from "./Logo";
 import { lightenColor } from "@/utils/utils";
 import { LuCopy } from "react-icons/lu";
 
-export function Header({ eventData }: { eventData?: IEvent }) {
+export function Header({
+  eventData,
+  transparent = false,
+}: {
+  eventData?: IEvent;
+  transparent?: boolean;
+}) {
   const { data: session } = useSession();
   const [editNameDialog, setEditNameDialog] = useState(false);
   const [createEvenetDialog, setCreateEvenetDialog] = useState(false);
@@ -37,12 +43,16 @@ export function Header({ eventData }: { eventData?: IEvent }) {
   return (
     <>
       <Toaster position="bottom-center" />
-      <header className="absolute top-0 left-0 z-50 w-full flex items-center justify-between p-2 h-[6vh] px-4 lg:px-8 gap-2 bg-background bg-opacity-70 backdrop-blur-md">
+      <header
+        className={`absolute top-0 left-0 z-50 w-full flex items-center justify-between p-2 h-[6vh] px-4 lg:px-8 gap-2 ${
+          !transparent && "bg-background bg-opacity-70 backdrop-blur-md"
+        } `}
+      >
         <Logo fontColor={eventData?.fontColor || "#000000"} />
         {eventData && (
           <div className="hidden md:flex items-center gap-2">
             <h2
-              className="text-lg font-semibold"
+              className="text-lg font-mono font-semibold"
               style={{ color: eventData.fontColor }}
             >
               {eventData.name}
@@ -140,7 +150,7 @@ export function Header({ eventData }: { eventData?: IEvent }) {
               >
                 Login
               </Link>
-              <Link href="\demo_register">
+              <Link href="\register">
                 <Button className="block px-4 py-2 duration-300 font-medium text-sm rounded-xl cursor-pointer">
                   Register
                 </Button>
