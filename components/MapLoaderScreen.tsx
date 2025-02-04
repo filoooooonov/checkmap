@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 const MapLoaderScreen = () => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const baseDotSize = 4;
+  const baseDotSize = 3;
   const dotColor = "#697760"; // Tailwind's gray-200
   const gap = 36; // Space between dots
 
@@ -35,7 +35,7 @@ const MapLoaderScreen = () => {
         y: row * gap,
         index,
         delay: Math.random() * 2, // Random delay between 0 and 2 seconds
-        duration: 1.5 + Math.random(), // Random duration between 1.5 and 2.5 seconds
+        duration: 4 + Math.random(), // Random duration between 1.5 and 2.5 seconds
         maxScale: 1.5 + Math.random() * 0.5, // Random max scale between 1.5 and 2
       };
     });

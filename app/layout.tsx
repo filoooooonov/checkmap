@@ -19,10 +19,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  eventData,
-}: Readonly<{
+}: // eventData,
+Readonly<{
   children: React.ReactNode;
-  eventData?: IEvent;
+  // eventData?: IEvent;
 }>) {
   return (
     <SessionWrapper>
@@ -36,7 +36,7 @@ export default function RootLayout({
         </head>
         <body className={`${inter.className} antialiased bg-background`}>
           <QueryProvider>
-            <Header eventData={eventData} />
+            {/* <Header /> */}
             {children}
           </QueryProvider>
         </body>

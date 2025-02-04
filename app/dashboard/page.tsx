@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { changeProfilePicture } from "@/actions/changeProfilePicture";
 import { getUserData } from "@/actions/getUserData";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Header } from "@/components/header";
 
 export default function Page() {
   const { data: session, status } = useSession();
@@ -72,6 +73,7 @@ export default function Page() {
 
   return (
     <div className="max-w-2xl mx-auto pt-20">
+      <Header />
       {/* Account info */}
       {session && (
         <div className="flex items-center p-4 pb-6 border-b">
@@ -131,7 +133,7 @@ export default function Page() {
             {data.map((event: any) => (
               <li
                 key={event._id}
-                className="bg-primary/5 cursor-pointer duration-300 hover:bg-primary/10 rounded-xl p-4 relative flex justify-between items-center"
+                className="bg-primary/5 border border-primary/10 shadow-lg shadow-primary/5 cursor-pointer duration-300 hover:bg-primary/10 rounded-xl p-4 relative flex justify-between items-center"
               >
                 <Link
                   href={`/${event.eventCode}`}

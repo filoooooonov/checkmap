@@ -46,7 +46,7 @@ export default function CheckpointData({
       initial={{ x: "-100%" }}
       animate={{ x: 0 }}
       exit={{ x: "-100%" }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.4 }}
       ref={ref}
       className="absolute top-0 left-0 w-3/4 lg:w-[25%] mt-16 h-full shadow-lg z-10 m-2 rounded-2xl p-2  backdrop-blur bg-background/90"
       style={{

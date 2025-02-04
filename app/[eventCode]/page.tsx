@@ -33,26 +33,25 @@ export default async function Page({
   const fetchedCheckpoints = await getCheckpoints(eventData.eventCode);
 
   return (
-    <RootLayout eventData={eventData}>
-      <div className="max-h-screen">
-        <div>
-          {eventData ? (
-            <MapView eventData={eventData} checkpoints={fetchedCheckpoints} />
-          ) : (
-            <div className="flex w-full h-[80vh] items-center justify-center">
-              <div className="flex flex-col gap-4">
-                <h2 className="text-8xl font-bold text-center">404</h2>
-                <span className=" font-medium">
-                  Looks like we couldn't find the event you're looking for.
-                </span>
-                <Link href="/" className="mx-auto mt-4">
-                  <Button className="w-max">Go home</Button>
-                </Link>
-              </div>
+    <div className="max-h-screen">
+      <Header eventData={eventData} />
+      <div>
+        {eventData ? (
+          <MapView eventData={eventData} checkpoints={fetchedCheckpoints} />
+        ) : (
+          <div className="flex w-full h-[80vh] items-center justify-center">
+            <div className="flex flex-col gap-4">
+              <h2 className="text-8xl font-bold text-center">404</h2>
+              <span className=" font-medium">
+                Looks like we couldn't find the event you're looking for.
+              </span>
+              <Link href="/" className="mx-auto mt-4">
+                <Button className="w-max">Go home</Button>
+              </Link>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-    </RootLayout>
+    </div>
   );
 }
