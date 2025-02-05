@@ -45,7 +45,7 @@ const Map = ({ center, checkpoints, primaryColor, eventData }: MapProps) => {
     if (mapContainer.current) {
       map.current = new maptilersdk.Map({
         container: mapContainer.current,
-        style: maptilersdk.MapStyle.STREETS,
+        style: "34b0313e-b825-4741-a611-ea16e1bd58f2",
         center: [center[1], center[0]],
         zoom: zoom,
         navigationControl: "bottom-left",

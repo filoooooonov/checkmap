@@ -77,14 +77,6 @@ export function CheckpointList({
       </span>
       <p className="mt-4 mb-12">{eventData.description}</p>
       <h3 className="text-xl font-semibold">All checkpoints</h3>
-      {session && session.user.id === eventData.creatorId.toString() && (
-        <div className="flex mt-2 mb-4">
-          <Button onClick={setShowForm} className="flex items-center gap-2">
-            <Plus />
-            New checkpoint
-          </Button>
-        </div>
-      )}
 
       <div>
         {checkpoints.map((checkpoint) => {
@@ -117,6 +109,18 @@ export function CheckpointList({
             </div>
           );
         })}
+        {session && session.user.id === eventData.creatorId.toString() && (
+          <div className="flex mt-2 mb-4">
+            <Button
+              variant="outline"
+              onClick={setShowForm}
+              className="flex items-center gap-2"
+            >
+              <Plus />
+              New checkpoint
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
