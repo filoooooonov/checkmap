@@ -140,7 +140,7 @@ export function CheckpointForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="overflow-y-auto">
+    <form onSubmit={handleSubmit}>
       <div className="flex items-center gap-2">
         <button onClick={onBack}>
           <ChevronRight

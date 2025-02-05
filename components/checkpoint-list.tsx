@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, Plus } from "lucide-react";
+import { MapPin, Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkpoint } from "@/app/[eventCode]/page";
 import { ChevronRight } from "lucide-react";
@@ -12,6 +12,7 @@ import { deleteCheckpoint } from "@/actions/deleteCheckpoint";
 import { useState } from "react";
 import { MdCalendarMonth } from "react-icons/md";
 import { formatDate } from "date-fns";
+import { Input } from "./ui/input";
 
 interface CheckpointListProps {
   eventData: IEvent;
@@ -76,28 +77,32 @@ export function CheckpointList({
         {formatDate(new Date(eventData.startDate), "MMM d, HH:mm")}
       </span>
       <p className="mt-4 mb-12">{eventData.description}</p>
-      <h3 className="text-xl font-semibold">All checkpoints</h3>
 
       <div>
+        <h3 className="text-base pl-2 font-semibold text-primary/50 mb-2">
+          All checkpoints
+        </h3>
+
+        <div className="relative flex items-center w-full mt-2 mb-6">
+          <Input
+            type="text"
+            autoComplete="off"
+            placeholder="Search checkpoints"
+            className="pl-10"
+          />
+          <Search className="absolute left-3 size-4 text-neutral-500" />
+        </div>
+
         {checkpoints.map((checkpoint) => {
           console.log("Checkpoint:", checkpoint); // Log the checkpoint object
           return (
             <div key={checkpoint._id} className="flex items-center gap-2">
-              <button
-                style={{ color: eventData.fontColor }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = lightenColor(
-                    eventData.primaryColor,
-                    5
-                  );
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "transparent";
-                }}
-                className="bg-transparent w-full justify-start gap-2 shadow-none duration-300 flex items-center p-2 rounded-xl"
-              >
-                <MapPin className="h-4 w-4" />
-                {checkpoint.name}
+              <button className="bg-transparent text-primary hover:bg-primary/5 w-full justify-start gap-2 shadow-none duration-300 flex items-center p-2 px-4 rounded-xl">
+                <MapPin className="size-4" />
+                <div className="flex flex-col text-left">
+                  {checkpoint.name}
+                  <span className="text-primary/50 text-sm">400 m</span>
+                </div>
               </button>
               {checkpoint._id &&
                 session?.user.id === eventData.creatorId.toString() && (
@@ -114,7 +119,7 @@ export function CheckpointList({
             <Button
               variant="outline"
               onClick={setShowForm}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 w-full"
             >
               <Plus />
               New checkpoint
