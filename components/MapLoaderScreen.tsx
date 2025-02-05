@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 
 const MapLoaderScreen = () => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const baseDotSize = 3;
+  const baseDotSize = 2;
   const dotColor = "#697760"; // Tailwind's gray-200
-  const gap = 36; // Space between dots
+  const gap = 24; // Space between dots
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -42,7 +42,7 @@ const MapLoaderScreen = () => {
   }, [rows, columns]);
 
   return (
-    <div className="fixed inset-0 bg-background">
+    <div className="fixed inset-0 bg-background h-screen">
       {dots.map(({ x, y, index, delay, duration, maxScale }) => (
         <motion.div
           key={index}

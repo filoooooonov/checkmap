@@ -39,7 +39,7 @@ export function CheckpointList({
   };
 
   return (
-    <div className=" p-2">
+    <div className="">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <ChevronRight

@@ -15,13 +15,12 @@ export default function Home() {
             Create Maps with Checkpoints
           </h1>
           <p className="text-lg text-center text-primary_light mb-12 max-w-2xl mx-auto">
-            Checkmap allows you to create custom maps with checkpoints for any
-            purpose. Perfect for students, associations, tourism, and personal
-            use.
+            Create custom maps with checkpoints for any purpose. Perfect for
+            tourism, students, associations, and personal use.
           </p>
           <Link href="/register" className="z-10 mx-auto mb-2">
             <Button className="bg-primary cursor-pointer text-background hover:bg-primary_light">
-              Try Now for Free
+              Start Now for Free
             </Button>
           </Link>
           <p className="text-center text-sm">[Social proof]</p>

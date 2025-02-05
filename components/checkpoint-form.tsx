@@ -4,17 +4,18 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Image } from "lucide-react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { addCheckpoint } from "@/actions/addCheckpoint";
 import { toast, Toaster } from "sonner";
 import { IoSearchSharp } from "react-icons/io5";
-import { revalidatePath } from "next/cache";
 import { IEvent } from "@/models/event";
 import { lightenColor } from "@/utils/utils";
-import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { FaBuilding } from "react-icons/fa";
+import { MdForest } from "react-icons/md";
+
 interface CheckpointFormProps {
   onBack: () => void;
   eventCode: string;
@@ -42,6 +43,7 @@ export function CheckpointForm({
   const [isInside, setIsInside] = useState(false);
   const router = useRouter();
 
+  // Show the map
   useEffect(() => {
     if (!mapRef.current) {
       mapRef.current = L.map("map").setView([60.1879057, 24.8224665], 13);
@@ -56,6 +58,7 @@ export function CheckpointForm({
     }
   }, []);
 
+  // Setting coordinates
   useEffect(() => {
     if (coordinates && mapRef.current) {
       mapRef.current.setView([coordinates.lat, coordinates.lon], 13);
@@ -137,7 +140,7 @@ export function CheckpointForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-2 space-y-10">
+    <form onSubmit={handleSubmit} className="overflow-y-auto">
       <div className="flex items-center gap-2">
         <button onClick={onBack}>
           <ChevronRight
@@ -158,15 +161,34 @@ export function CheckpointForm({
         </button>
         <h2 className="text-2xl font-bold">New checkpoint</h2>
       </div>
-      <div className="space-y-2">
+      <div className="space-y-4 mt-4 mb-8">
+        <div>
+          <div className="rounded-2xl bg-primary/5 border  p-2">
+            {images.map((imgSrc, index) => (
+              <img
+                key={index}
+                src={imgSrc}
+                alt={`Preview ${index}`}
+                className="rounded-lg mb-4"
+              />
+            ))}
+            <Input
+              id="provideImage"
+              placeholder="Select Images"
+              multiple
+              type="file"
+              className="cursor-pointer"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+          </div>
+        </div>
         <Input
           id="name"
           placeholder="Checkpoint name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-      </div>
-      <div className="space-y-2">
         <Textarea
           id="description"
           placeholder="Description"
@@ -175,7 +197,8 @@ export function CheckpointForm({
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
-      <div className="space-y-2">
+      <div className="space-y-4">
+        <p>Location</p>
         <div className="flex items-center gap-2">
           <Input
             id="address"
@@ -192,12 +215,7 @@ export function CheckpointForm({
             Search
           </Button>
         </div>
-        {/* {coordinates && (
-          <div>
-            <p>Latitude: {coordinates.lat}</p>
-            <p>Longitude: {coordinates.lon}</p>
-          </div>
-        )} */}
+
         <div
           id="map"
           style={{
@@ -226,30 +244,35 @@ export function CheckpointForm({
             ></div>
           </div>
         </div>
-        <div id="imageinput">
-          <Input
-            id="provideImage"
-            placeholder="Select Images"
-            multiple
-            type="file"
-            className="cursor-pointer bg-hover:bg-gray-100"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
+      </div>
+      <div className="space-y-2 my-8">
+        <div className="flex gap-4">
+          <div
+            className={`flex flex-col gap-2 items-center text-center cursor-pointer shadow-lg shadow-primary/10 p-4 w-full rounded-lg ${
+              isInside
+                ? "bg-primary/5 border border-primary/40"
+                : "bg-primary/10 border border-primary/10"
+            }`}
+            onClick={() => setIsInside(true)}
+          >
+            <FaBuilding className="text-primary size-8" />
+            Indoor
+          </div>
+          <div
+            className={`flex flex-col gap-2 items-center text-center cursor-pointer p-4 w-full rounded-lg ${
+              !isInside
+                ? "bg-primary/5 border border-primary/60"
+                : "bg-primary/10 border border-primary/10"
+            }`}
+            onClick={() => setIsInside(false)}
+          >
+            <MdForest className="text-primary size-8" />
+            Outdoor
+          </div>
         </div>
       </div>
-      <div className="space-y-2">
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={isInside}
-            onChange={(e) => setIsInside(e.target.checked)}
-          />
-          Is the checkpoint inside?
-        </label>
-      </div>
-      <Button type="submit" className="w-full">
-        Save checkpoint
+      <Button type="submit" className="w-full mb-12">
+        Add checkpoint
       </Button>
     </form>
   );
