@@ -23,7 +23,7 @@ export default function Home() {
               Start Now for Free
             </Button>
           </Link>
-          <p className="text-center text-sm">[Social proof]</p>
+          {/* <p className="text-center text-sm">[Social proof]</p> */}
         </div>
 
         <MapBackground
