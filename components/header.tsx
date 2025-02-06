@@ -47,7 +47,8 @@ export function Header({
       <Toaster position="bottom-center" />
       <header
         className={`absolute top-0 left-0 z-50 w-full flex items-center justify-between p-2 h-[6vh] px-4 gap-2 ${
-          !transparent && "bg-background bg-opacity-70 backdrop-blur-md"
+          !transparent &&
+          "bg-background bg-opacity-70 backdrop-blur-md border-b border-background"
         } `}
       >
         {/* Left side */}

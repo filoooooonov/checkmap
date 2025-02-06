@@ -19,7 +19,7 @@ body {
 }
 
 .icon-btn {
-  @apply hover:bg-neutral-100 duration-300 cursor-pointer text-neutral-500 size-10 p-2 rounded-full flex items-center justify-center aspect-square;
+  @apply hover:bg-primary/10 duration-300 cursor-pointer text-primary size-8 p-2 rounded-xl flex items-center justify-center aspect-square;
 }
 
 .custom-div-icon .icon-wrapper {
@@ -62,4 +62,8 @@ body {
 
 .map-navigation-control {
   margin-top: 60px !important; /* Adjust the padding value as needed */
+}
+
+.sidebar-heading {
+  @apply text-base font-semibold text-primary/50 mb-2;
 }

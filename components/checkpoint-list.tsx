@@ -43,22 +43,7 @@ export function CheckpointList({
     <div className="">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <ChevronRight
-            size={10}
-            className="icon-btn"
-            style={{ color: eventData.fontColor }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = eventData.fontColor;
-              e.currentTarget.style.backgroundColor = lightenColor(
-                eventData.primaryColor,
-                10
-              );
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-            }}
-            onClick={onClose}
-          />
+          <ChevronRight size={8} className="icon-btn" onClick={onClose} />
           <h2 className="text-2xl font-bold">{eventData.name}</h2>
         </div>
         <span
@@ -79,9 +64,7 @@ export function CheckpointList({
       <p className="mt-4 mb-12">{eventData.description}</p>
 
       <div>
-        <h3 className="text-base pl-2 font-semibold text-primary/50 mb-2">
-          All checkpoints
-        </h3>
+        <h3 className="sidebar-heading pl-2">All checkpoints</h3>
 
         <div className="relative flex items-center w-full mt-2 mb-6">
           <Input

@@ -4,17 +4,17 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ChevronRight, Image } from "lucide-react";
+import { ChevronRight, Image, Search } from "lucide-react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { addCheckpoint } from "@/actions/addCheckpoint";
 import { toast, Toaster } from "sonner";
 import { IoSearchSharp } from "react-icons/io5";
 import { IEvent } from "@/models/event";
-import { lightenColor } from "@/utils/utils";
 import { useRouter } from "next/navigation";
-import { FaBuilding } from "react-icons/fa";
+import { FaBuilding, FaTimes } from "react-icons/fa";
 import { MdForest } from "react-icons/md";
+import { MdOutlineFileUpload } from "react-icons/md";
 
 interface CheckpointFormProps {
   onBack: () => void;
@@ -139,45 +139,57 @@ export function CheckpointForm({
     }
   };
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleDivClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="pb-20">
       <div className="flex items-center gap-2">
         <button onClick={onBack}>
-          <ChevronRight
-            size={10}
-            className="icon-btn"
-            style={{ color: eventData.fontColor }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = eventData.fontColor;
-              e.currentTarget.style.backgroundColor = lightenColor(
-                eventData.primaryColor,
-                10
-              );
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-            }}
-          />
+          <ChevronRight className="icon-btn" />
         </button>
         <h2 className="text-2xl font-bold">New checkpoint</h2>
       </div>
       <div className="space-y-4 mt-4 mb-8">
         <div>
-          <div className="rounded-2xl bg-primary/5 border  p-2">
-            {images.map((imgSrc, index) => (
-              <img
-                key={index}
-                src={imgSrc}
-                alt={`Preview ${index}`}
-                className="rounded-lg mb-4"
-              />
-            ))}
+          <div className="rounded-2xl bg-primary/5 p-2">
+            <div
+              className={`grid gap-4 ${images.length > 1 ? "grid-cols-2" : ""}`}
+            >
+              {images.map((imgSrc, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={imgSrc}
+                    alt={`Preview ${index}`}
+                    className="rounded-lg mb-4 w-full h-auto"
+                  />
+                  <FaTimes
+                    className="absolute top-2 right-2 text-red-500 cursor-pointer"
+                    onClick={() => {
+                      setImages(images.filter((_, i) => i !== index));
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+            <div
+              className="cursor-pointer h-32 flex flex-col gap-4 items-center justify-center border-dashed border-2 border-primary/30 rounded-lg"
+              onClick={handleDivClick}
+            >
+              <MdOutlineFileUpload size={30} />
+              <span className="text-gray-500">Click to select images</span>
+            </div>
             <Input
               id="provideImage"
-              placeholder="Select Images"
+              ref={fileInputRef}
               multiple
               type="file"
-              className="cursor-pointer"
+              className="hidden"
               accept="image/*"
               onChange={handleImageChange}
             />
@@ -198,14 +210,19 @@ export function CheckpointForm({
         />
       </div>
       <div className="space-y-4">
-        <p>Location</p>
+        <p className="sidebar-heading">Location</p>
         <div className="flex items-center gap-2">
-          <Input
-            id="address"
-            placeholder="Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
+          <div className="relative flex items-center justify-between w-full">
+            <Input
+              type="address"
+              autoComplete="off"
+              placeholder="Search address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className="pl-10"
+            />
+            <Search className="absolute left-3 size-4 text-neutral-500" />
+          </div>
           <Button
             type="button"
             onClick={handleSearch}
@@ -271,7 +288,7 @@ export function CheckpointForm({
           </div>
         </div>
       </div>
-      <Button type="submit" className="w-full mb-12">
+      <Button type="submit" className="w-full">
         Add checkpoint
       </Button>
     </form>

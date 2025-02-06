@@ -8,7 +8,7 @@ import { IEvent } from "@/models/event";
 import MapLoaderScreen from "./MapLoaderScreen";
 
 const Map = dynamic(() => import("./mapTiler"), {
-  loading: () => <MapLoaderScreen />,
+  loading: () => <div></div>,
   ssr: false,
 });
 

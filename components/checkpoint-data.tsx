@@ -46,12 +46,11 @@ export default function CheckpointData({
       initial={{ x: "-100%" }}
       animate={{ x: 0 }}
       exit={{ x: "-100%" }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.2 }}
       ref={ref}
-      className="absolute top-0 left-0 w-3/4 lg:w-[25%] mt-16 h-full shadow-lg z-10 m-2 rounded-2xl p-2 backdrop-blur bg-background/90"
+      className="absolute top-0 left-0 w-3/4 lg:w-[25%] mt-16 h-full shadow-lg z-10 m-2 rounded-2xl p-2 backdrop-blur bg-background/90 border border-background"
       style={{
         color: eventData.fontColor,
-        border: `2px solid ${lightenColor(eventData.primaryColor, 55)}`,
       }}
     >
       <div className="flex flex-col">
@@ -70,21 +69,7 @@ export default function CheckpointData({
         <div className="p-4">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold">{checkpoint.name}</h2>
-            <button
-              style={{ color: eventData.fontColor }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = eventData.fontColor;
-                e.currentTarget.style.backgroundColor = lightenColor(
-                  eventData.primaryColor,
-                  10
-                );
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-              }}
-              onClick={onClose}
-              className="icon-btn"
-            >
+            <button onClick={onClose} className="icon-btn">
               <ChevronLeft size={20} />
             </button>
           </div>

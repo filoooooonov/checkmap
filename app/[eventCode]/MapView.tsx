@@ -92,12 +92,11 @@ export default function MapView({
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ duration: 0.4 }}
-            className="overflow-y-auto absolute top-0 right-0 min-h-full w-3/4 lg:w-1/4 shadow-lg z-20 p-4 m-2 mt-16 rounded-xl bg-background bg-opacity-90 backdrop-blur-md"
+            transition={{ duration: 0.2 }}
+            className="absolute top-0 right-0 h-full overflow-y-auto w-3/4 lg:w-1/4 shadow-lg z-20 p-4 m-2 mt-16 rounded-xl bg-background bg-opacity-70 backdrop-blur-md text-primary border border-background"
             style={{
-              color: eventData.fontColor,
-              msOverflowStyle: "none", // for Internet Explorer
-              border: `2px solid ${lightenColor(eventData.primaryColor, 20)}`,
+              scrollbarWidth: "none", // For Firefox
+              msOverflowStyle: "none", // For Internet Explorer and Edge
             }}
           >
             {showForm && (
