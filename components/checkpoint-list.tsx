@@ -40,14 +40,14 @@ export function CheckpointList({
   };
 
   return (
-    <div className="">
+    <div>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <ChevronRight size={8} className="icon-btn" onClick={onClose} />
           <h2 className="text-2xl font-bold">{eventData.name}</h2>
         </div>
         <span
-          className="hidden px-4 font-semibold py-1 rounded-lg md:flex items-center gap-2"
+          className="text-xs hidden px-2 py-1 rounded-lg md:flex items-center gap-2"
           style={{ backgroundColor: lightenColor(eventData.primaryColor, 10) }}
         >
           <MdCalendarMonth />

@@ -25,20 +25,20 @@ export default function MapView({
   const ref = useRef<HTMLDivElement>(null);
 
   // To close sidebars on click outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setShowRightSidebar(false);
-        setShowForm(false);
-        setShowList(false);
-      }
-    }
+  // useEffect(() => {
+  //   function handleClickOutside(event: MouseEvent) {
+  //     if (ref.current && !ref.current.contains(event.target as Node)) {
+  //       setShowRightSidebar(false);
+  //       setShowForm(false);
+  //       setShowList(false);
+  //     }
+  //   }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [setShowForm, setShowList]);
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [setShowForm, setShowList]);
 
   useEffect(() => {
     if (navigator.geolocation) {

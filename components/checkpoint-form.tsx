@@ -9,12 +9,14 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { addCheckpoint } from "@/actions/addCheckpoint";
 import { toast, Toaster } from "sonner";
-import { IoSearchSharp } from "react-icons/io5";
+import { IoChevronUp, IoSearchSharp } from "react-icons/io5";
 import { IEvent } from "@/models/event";
 import { useRouter } from "next/navigation";
 import { FaBuilding, FaTimes } from "react-icons/fa";
 import { MdForest } from "react-icons/md";
 import { MdOutlineFileUpload } from "react-icons/md";
+import { IoChevronDown } from "react-icons/io5";
+import { FaCheck } from "react-icons/fa6";
 
 interface CheckpointFormProps {
   onBack: () => void;
@@ -27,9 +29,7 @@ export function CheckpointForm({
   eventCode,
   eventData,
 }: CheckpointFormProps) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [address, setAddress] = useState("");
+  // Map config
   const [coordinates, setCoordinates] = useState<{ lat: number; lon: number }>({
     lat: 60.1879057,
     lon: 24.8224665,
@@ -39,8 +39,17 @@ export function CheckpointForm({
     lon: number;
   }>({ lat: 60.1879057, lon: 24.8224665 });
   const mapRef = useRef<L.Map | null>(null);
+
+  // Checkpoint data
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [address, setAddress] = useState("");
   const [images, setImages] = useState<string[]>([]);
   const [isInside, setIsInside] = useState(false);
+
+  // Managing the form
+  const [isMapVisible, setIsMapVisible] = useState(false);
+
   const router = useRouter();
 
   // Show the map
@@ -155,6 +164,7 @@ export function CheckpointForm({
         </button>
         <h2 className="text-2xl font-bold">New checkpoint</h2>
       </div>
+      {/* Choose image */}
       <div className="space-y-4 mt-4 mb-8">
         <div>
           <div className="rounded-2xl bg-primary/5 p-2">
@@ -195,12 +205,16 @@ export function CheckpointForm({
             />
           </div>
         </div>
+
+        {/* NAME */}
         <Input
           id="name"
           placeholder="Checkpoint name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+
+        {/* DESCRIPTION */}
         <Textarea
           id="description"
           placeholder="Description"
@@ -209,6 +223,8 @@ export function CheckpointForm({
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
+
+      {/* CHOOSE LOCATION */}
       <div className="space-y-4">
         <p className="sidebar-heading">Location</p>
         <div className="flex items-center gap-2">
@@ -233,58 +249,80 @@ export function CheckpointForm({
           </Button>
         </div>
 
-        <div
-          id="map"
-          style={{
-            height: "200px",
-            position: "relative",
-            borderRadius: "16px",
-          }}
-        >
+        <div className="bg-primary/5 rounded-xl p-4 flex flex-col w-full cursor-pointer">
+          <div onClick={() => setIsMapVisible(!isMapVisible)}>
+            {!isMapVisible ? (
+              <span className="flex items-center gap-2">
+                <IoChevronDown />
+                Choose on a map
+              </span>
+            ) : (
+              <span className="flex items-center gap-2 mb-4">
+                <IoChevronUp />
+                Hide map
+              </span>
+            )}
+          </div>
           <div
+            id="map"
+            className={`transition-height duration-500 ease-in-out`}
             style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              zIndex: 1000,
-              pointerEvents: "none",
+              height: isMapVisible ? "300px" : "0",
+              borderRadius: "8px",
+              overflow: "hidden",
+              position: "relative",
             }}
           >
             <div
               style={{
-                backgroundColor: "red",
-                width: "12px",
-                height: "12px",
-                borderRadius: "50%",
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                zIndex: 1000,
+                pointerEvents: "none",
               }}
-            ></div>
+            >
+              <div
+                style={{
+                  backgroundColor: "red",
+                  width: "12px",
+                  height: "12px",
+                  borderRadius: "50%",
+                }}
+              ></div>
+            </div>
           </div>
         </div>
       </div>
-      <div className="space-y-2 my-8">
-        <div className="flex gap-4">
+
+      {/* CHECKPOINT TYPE */}
+      <div className="my-8">
+        <p className="sidebar-heading">Checkpoint type</p>
+        <div className="flex flex-row gap-2">
           <div
-            className={`flex flex-col gap-2 items-center text-center cursor-pointer shadow-lg shadow-primary/10 p-4 w-full rounded-lg ${
+            className={`transition-all duration-300 text-sm flex flex-row gap-2 items-center text-center cursor-pointer p-4 w-full rounded-xl ${
               isInside
                 ? "bg-primary/5 border border-primary/40"
                 : "bg-primary/10 border border-primary/10"
             }`}
             onClick={() => setIsInside(true)}
           >
-            <FaBuilding className="text-primary size-8" />
+            <FaBuilding className="text-primary size-4" />
             Indoor
+            {isInside && <FaCheck className="ml-auto" />}
           </div>
           <div
-            className={`flex flex-col gap-2 items-center text-center cursor-pointer p-4 w-full rounded-lg ${
+            className={`transition-all duration-300 text-sm flex flex-row gap-2 items-center text-center cursor-pointer p-4 w-full rounded-xl ${
               !isInside
                 ? "bg-primary/5 border border-primary/60"
                 : "bg-primary/10 border border-primary/10"
             }`}
             onClick={() => setIsInside(false)}
           >
-            <MdForest className="text-primary size-8" />
+            <MdForest className="text-primary size-4" />
             Outdoor
+            {!isInside && <FaCheck className="ml-auto" />}
           </div>
         </div>
       </div>
