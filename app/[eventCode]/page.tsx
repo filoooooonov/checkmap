@@ -1,14 +1,9 @@
-import { LatLngTuple } from "leaflet";
 import { Header } from "@/components/header";
 import MapView from "./MapView";
-import { connectMongoDB } from "@/utils/mongo";
-import Event from "@/models/event";
 import { getEventData } from "@/actions/getEventData";
-import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getCheckpoints } from "@/actions/getCheckpoints";
-import RootLayout from "../layout";
 
 export interface Checkpoint {
   _id: string;
@@ -37,7 +32,10 @@ export default async function Page({
       <Header eventData={eventData} />
       <div>
         {eventData ? (
-          <MapView eventData={eventData} checkpoints={fetchedCheckpoints} />
+          <MapView
+            eventData={eventData}
+            fetchedCheckpoints={fetchedCheckpoints}
+          />
         ) : (
           <div className="flex w-full h-[80vh] items-center justify-center">
             <div className="flex flex-col gap-4">

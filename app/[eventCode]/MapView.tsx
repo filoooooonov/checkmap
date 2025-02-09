@@ -14,14 +14,17 @@ import { getCheckpoints } from "@/actions/getCheckpoints";
 
 export default function MapView({
   eventData,
-  checkpoints,
+  fetchedCheckpoints,
 }: {
   eventData: IEvent;
-  checkpoints: Checkpoint[];
+  fetchedCheckpoints: Checkpoint[];
 }) {
   const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(false);
   const [showRightSidebar, setShowRightSidebar] = useState(false);
+  const [checkpoints, setCheckpoints] =
+    useState<Checkpoint[]>(fetchedCheckpoints);
+
   const ref = useRef<HTMLDivElement>(null);
 
   // To close sidebars on click outside
@@ -118,6 +121,7 @@ export default function MapView({
                   setShowList(false);
                 }}
                 checkpoints={checkpoints}
+                setCheckpoints={setCheckpoints}
               />
             )}
           </motion.aside>

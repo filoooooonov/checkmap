@@ -19,21 +19,24 @@ interface CheckpointListProps {
   onClose?: () => void;
   checkpoints: Checkpoint[];
   setShowForm: () => void;
+  setCheckpoints: (checkpoints: Checkpoint[]) => void;
 }
 
 export function CheckpointList({
   eventData,
   onClose,
-  checkpoints: initialCheckpoints,
+  checkpoints,
   setShowForm,
+  setCheckpoints,
 }: CheckpointListProps) {
   const { data: session } = useSession();
-  const [checkpoints, setCheckpoints] = useState(initialCheckpoints);
 
   const handleDelete = async (id: string) => {
     try {
       await deleteCheckpoint(id);
-      setCheckpoints(checkpoints.filter((checkpoint) => checkpoint._id !== id));
+      setCheckpoints([
+        ...checkpoints.filter((checkpoint) => checkpoint._id !== id),
+      ]);
     } catch (error) {
       console.error("Error deleting checkpoint:", error);
     }
