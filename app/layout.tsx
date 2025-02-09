@@ -6,6 +6,7 @@ import SessionWrapper from "@/components/SessionWrapper";
 import QueryProvider from "@/components/QueryProvider";
 import { Header } from "@/components/header";
 import { IEvent } from "@/models/event";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,6 +39,7 @@ Readonly<{
           <QueryProvider>
             {/* <Header /> */}
             {children}
+            <Analytics />
           </QueryProvider>
         </body>
       </html>
